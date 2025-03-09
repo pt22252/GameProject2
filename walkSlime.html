@@ -15,9 +15,13 @@
             background = new Sprite(game, "FieldsTilesetDemo.png", 991, 991);
             background.setSpeed(0,0);
             background.setPosition(400, 300);
+
+            //character = new Sprite(game, "Sword_Run_full.png", 780, 520);
+            //character.loadAnimation(780, 520, 130, 130); // 6 คอลัมน์ 4 แถว
             character = new Sprite(game, "Slime1_Walk_body.png", 512, 256); //ภาพและขนาดของตัวละคร
             character.loadAnimation(512, 256, 64, 64); //ขนาดของภาพและขนาดของแต่ละเฟรม
             character.generateAnimationCycles(); //สร้างวงจรการเล่นเฟรม
+            //character.renameCycles(["down", "left", "right", "up"]);
             character.renameCycles(new Array("down", "up", "left", "right")); //ชื่อของแต่ละฟรม
             character.setAnimationSpeed(500); //ความเร็วในการเล่นเฟรม
 

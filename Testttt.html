@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>Berry Knight</title>
+
+    <script type="text/javascript" src="simpleGame.js"></script>
+
+    <script type="text/javascript">
+        var game;
+        var background;
+        var knight;
+
+        function init() {
+            game = new Scene();
+            background = new Sprite(game, "FieldsTilesetDemo.png", 991, 991);
+            background.setSpeed(0,0);
+            background.setPosition(400, 300);
+
+            //game.setBG("green"); // เปลี่ยนสีพื้นหลังเป็นสีขาว
+            //game.setSize(800, 600); // กำหนดขนาดของ canvas
+
+            //background = new Sprite(game, "FieldsTilesetDemo.png", 800, 600);
+            //background.setSpeed(0, 0);
+            //background.setPosition(400, 300);
+
+            knight = new Sprite(game, "Sword_Run_full.png", 780, 520);
+            knight.loadAnimation(780, 520, 130, 130); // 6 คอลัมน์ 4 แถว
+            knight.generateAnimationCycles();
+            knight.renameCycles(new Array("down", "up", "left", "right"));
+            knight.setAnimationSpeed(500);
+            
+            //start paused
+            knight.setPosition(400, 300);
+            knight.setSpeed(0);
+            knight.pauseAnimation();
+            knight.setCurrentCycle("down");
+
+            game.start();
+        }
+
+        function update() {
+            game.clear();
+            checkKeys();
+
+            background.update();
+            knight.update();
+        }
+
+        function checkKeys(){ //เช็คปุ่มที่กด
+            
+            if (keysDown[K_LEFT]){
+                knight.setSpeed(5);
+                knight.playAnimation()
+                knight.setMoveAngle(180);
+                knight.setCurrentCycle("left");
+            }
+            if (keysDown[K_RIGHT]){
+                knight.setSpeed(5);
+                knight.playAnimation()
+                knight.setMoveAngle(0);
+                knight.setCurrentCycle("right");
+            }                
+            if (keysDown[K_UP]){
+                knight.setSpeed(5);
+                knight.playAnimation()
+                knight.setMoveAngle(270);
+                knight.setCurrentCycle("up");
+            }                
+            if (keysDown[K_DOWN]){
+                knight.setSpeed(5);
+                knight.playAnimation()
+                knight.setMoveAngle(90);
+                knight.setCurrentCycle("down");
+            }                
+            
+            if (keysDown[K_SPACE]){
+                knight.setSpeed(0);
+                knight.pauseAnimation();
+                knight.setCurrentCycle("down");
+            }
+        }
+
+
+    </script>
+</head>
+<body onload="init()">
+</body>
+</html>
