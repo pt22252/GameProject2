@@ -1,27 +1,31 @@
 <!DOCTYPE HTML>
 <html lang="en-US">
+
 <head>
     <meta charset="UTF-8">
     <title>walk.html</title>
     <script type="text/javascript" src="simpleGame.js"></script>
+    <script type="text/javascript" src="map.js"></script>
     <style>
-        /* ปรับ canvas ให้เต็มหน้าจอ */
-        body, html {
+        body,
+        html {
             margin: 0;
             padding: 0;
-            overflow: hidden; /* ป้องกันการเลื่อนหน้าจอ */
-            background-color: black; /* สีพื้นหลังเมื่อโหลด */
+            overflow: hidden;
+            background-color: black;
         }
+
         canvas {
-            display: block; /* ป้องกัน scroll bar */
+            display: block;
         }
     </style>
     <script type="text/javascript">
         var game;
         var background;
         var character;
+        var wallBushes = []; // เก็บ Sprite ของพุ่มไม้ทั้งหมด
 
-        function init(){
+        function init() {
             let screenWidth = window.innerWidth;
             let screenHeight = window.innerHeight;
 
@@ -43,50 +47,59 @@
             character.pauseAnimation();
             character.setCurrentCycle("down");
 
+            // 🔥 เรียกฟังก์ชันสร้างพุ่มไม้
+            createMaze();
+
             game.start();
         }
 
-        function update(){
+
+
+        function update() {
             game.clear();
             checkKeys();
-            background.update();
-            character.update();
+
+            background.update(); // อัปเดตพื้นหลัง
+            character.update();  // อัปเดตตัวละคร
+
+            // 🔥 ทำให้พุ่มไม้คงที่ ไม่ขยับ
+            for (let bush of wallBushes) {
+                bush.update();
+                bush.setSpeed(0); // ป้องกันการเคลื่อนที่
+            }
         }
 
-        function checkKeys(){
-            if (keysDown[K_LEFT]){
+        function checkKeys() {
+            if (keysDown[K_LEFT]) {
                 character.setSpeed(5);
                 character.playAnimation();
                 character.setMoveAngle(270);
                 character.setCurrentCycle("left");
-            }
-            if (keysDown[K_RIGHT]){
+            } else if (keysDown[K_RIGHT]) {
                 character.setSpeed(5);
                 character.playAnimation();
                 character.setMoveAngle(90);
                 character.setCurrentCycle("right");
-            }                
-            if (keysDown[K_UP]){
+            } else if (keysDown[K_UP]) {
                 character.setSpeed(5);
                 character.playAnimation();
                 character.setMoveAngle(0);
                 character.setCurrentCycle("up");
-            }                
-            if (keysDown[K_DOWN]){
+            } else if (keysDown[K_DOWN]) {
                 character.setSpeed(5);
                 character.playAnimation();
                 character.setMoveAngle(180);
                 character.setCurrentCycle("down");
-            }                
-            if (keysDown[K_SPACE]){
+            } else if (keysDown[K_SPACE]) {
                 character.setSpeed(0);
                 character.pauseAnimation();
                 character.setCurrentCycle("down");
+            } else {
+                character.setSpeed(0);
             }
         }
 
-        // อัพเดตขนาดหน้าจอเมื่อมีการปรับขนาด
-        window.onresize = function() {
+        window.onresize = function () {
             let newWidth = window.innerWidth;
             let newHeight = window.innerHeight;
             game.setSize(newWidth, newHeight);
@@ -96,6 +109,8 @@
 
     </script>
 </head>
+
 <body onload="init()">
 </body>
+
 </html>
