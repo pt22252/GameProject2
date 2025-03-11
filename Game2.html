@@ -20,6 +20,7 @@
         var background;
         var character;
         var wallBushes = []; // Array สำหรับพุ่มไม้หลายอัน
+        
 
         function init(){
             let screenWidth = window.innerWidth;
@@ -37,7 +38,7 @@
             character.generateAnimationCycles();
             character.renameCycles(["down", "up", "left", "right"]);
             character.setAnimationSpeed(500);
-            character.setPosition(screenWidth / 2, screenHeight / 2);
+            character.setPosition(screenWidth / 2, 15);
             character.setSpeed(0);
             character.pauseAnimation();
             character.setCurrentCycle("down");
@@ -53,27 +54,6 @@
             let bushHeight = 153; // ขนาดแต่ละพุ่มไม้ (สูง)
             let cols = Math.ceil(1632 / bushWidth); // จำนวนคอลัมน์ตามความกว้าง
             let rows = Math.ceil(966 / bushHeight); // จำนวนแถวตามความสูง
-
-            // 🔹 สร้างพุ่มไม้บน-ล่าง
-            for (let i = 0; i < cols; i++) {
-                let x = i * bushWidth + (bushWidth / 2);
-
-                let topBush = new Sprite(game, "SpriteWallBush.png", 979, 153);
-                topBush.loadAnimation(979, 153, 163, 153);
-                topBush.generateAnimationCycles(SINGLE_ROW, 6);
-                topBush.setAnimationSpeed(700);
-                topBush.setPosition(x, bushHeight / 2);
-                topBush.playAnimation();
-                wallBushes.push(topBush);
-
-                let bottomBush = new Sprite(game, "SpriteWallBush.png", 979, 153);
-                bottomBush.loadAnimation(979, 153, 163, 153);
-                bottomBush.generateAnimationCycles(SINGLE_ROW, 6);
-                bottomBush.setAnimationSpeed(700);
-                bottomBush.setPosition(x, 966 - (bushHeight / 2));
-                bottomBush.playAnimation();
-                wallBushes.push(bottomBush);
-            }
 
             // 🔹 สร้างพุ่มไม้ซ้าย-ขวา
             for (let i = 0; i < rows; i++) {
@@ -139,13 +119,13 @@
             }
         }
 
-        window.onresize = function() {
+        /* window.onresize = function() {
             let newWidth = window.innerWidth;
             let newHeight = window.innerHeight;
             game.setSize(newWidth, newHeight);
             background.setPosition(newWidth / 2, newHeight / 2);
             character.setPosition(newWidth / 2, newHeight / 2);
-        };
+        }; */
 
     </script>
 </head>
