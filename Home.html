@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column; /* เปลี่ยนเป็น column เพื่อวางซ้อนบน-ล่าง */
+      align-items: center;
+      background-image: url('HOME.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .logo {
+      margin-top: 16%; /* ระยะห่างจากขอบบน */    
+      width: 800px; /* ปรับขนาดได้ตามต้องการ */
+      max-width: 80%; /* ให้รองรับหน้าจอเล็ก */
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end; /* ให้ปุ่มไปด้านล่าง */
+      flex-grow: 1; /* ดัน container ให้เต็มพื้นที่ */
+      margin-bottom: 140px; /* เว้นขอบด้านล่าง */
+    }
+
+    .start-button {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .start-button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- โลโก้เกมด้านบน -->
+  <img src="MazeRunner1.png" alt="Maze Runner Logo" class="logo">
+
+  <!-- ปุ่มเริ่มเกมด้านล่าง -->
+  <div class="container">
+    <a href="FirstGame.html">
+      <img src="start.png" alt="Start Button" class="start-button">
+    </a>
+  </div>
+
+</body>
+
+</html>
