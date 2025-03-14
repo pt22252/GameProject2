@@ -1,0 +1,183 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <title>TEST.html</title>
+    <script type="text/javascript" src="simpleGame.js"></script>
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: black;
+        }
+
+        canvas {
+            display: block;
+        }
+    </style>
+    <script type="text/javascript">
+        var game;
+var background;
+var character;
+var wallBushes = [];
+var berryBush;
+var timer;
+var timeLeft = 20;
+var timerDisplay;
+
+
+
+
+function init() {
+    game = new Scene();
+    game.setSize(1000, 700);
+
+    background = new Sprite(game, "grass.png", 1000, 700);
+    background.setSpeed(0, 0);
+    background.setPosition(500, 350);
+
+    character = new Sprite(game, "Slime1_Walk_body.png", 64, 64);
+    character.loadAnimation(512, 256, 64, 64);
+    character.generateAnimationCycles();
+    character.renameCycles(["down", "up", "left", "right"]);
+    character.setAnimationSpeed(500);
+    character.setPosition(500, 50);
+    character.setSpeed(0);
+    character.pauseAnimation();
+    character.setCurrentCycle("down");
+
+    createWallBushes();
+    createBerryBush();
+    createTimerDisplay();
+    startTimer();
+    game.start();
+}
+
+function createTimerDisplay() {
+    timerDisplay = document.createElement("div");
+    timerDisplay.style = "position:absolute; top:10px; left:10px; padding:10px; background:white; font-size:20px; font-weight:bold;";
+    document.body.appendChild(timerDisplay);
+    updateTimerDisplay();
+}
+
+
+function startTimer() {
+    timer = setInterval(() => {
+        timeLeft--;
+        updateTimerDisplay();
+        if (timeLeft <= 0) {
+            gameOver("Time's up! Try again?");
+        }
+    }, 1000);
+}
+
+function updateTimerDisplay() {
+    timerDisplay.innerText = `Time: ${timeLeft}s`;
+}
+
+function checkCollision() {
+    for (let bush of wallBushes) {
+        if (character.collidesWith(bush) && bush.visible) {
+            gameOver("You hit a bush! Try again?");
+        }
+    }
+    if (berryBush && character.collidesWith(berryBush)) {
+        gameWin();
+    }
+    if (berryBush.visible && character.collidesWith(berryBush)) {
+        gameWin();
+    }
+}
+
+function gameOver(message) {
+    clearInterval(timer);
+    if (confirm(message)) {
+        location.reload();
+    }
+}
+
+function gameWin() {
+    clearInterval(timer);
+    if (confirm("You win! Play again?")) {
+        location.reload();
+    }
+}
+function createBerryBush() {
+    berryBush = new Sprite(game, "SpriteBerryBush.png", 163, 153);
+    berryBush.setSpeed(0);
+    berryBush.setPosition(500, 500);
+    berryBush.visible = true;
+}
+
+function createWallBushes() {
+    let positions = [
+        [200, 300], [400, 300], [600, 300], [800, 300],
+        [250, 450], [750, 450]
+    ];
+    for (let pos of positions) {
+        let bush = new Sprite(game, "SpriteWallBush.png", 163, 153);
+        bush.setSpeed(0);
+        bush.setPosition(pos[0], pos[1]);
+        bush.visible = true;
+        wallBushes.push(bush);
+    }
+}
+
+        function update() {
+            game.clear();
+            checkKeys();
+            background.update();
+            character.update();
+            checkCollision();
+
+            for (let bush of wallBushes) {
+                bush.update();
+            }
+            if (berryBush) {
+                berryBush.update();
+            }
+        }
+
+
+        function checkKeys() {
+    if (keysDown[K_LEFT]) {
+        character.setSpeed(10);
+        character.playAnimation();
+        character.setMoveAngle(270);
+        character.setCurrentCycle("left");
+    } else if (keysDown[K_RIGHT]) {
+        character.setSpeed(10);
+        character.playAnimation();
+        character.setMoveAngle(90);
+        character.setCurrentCycle("right");
+    } else if (keysDown[K_UP]) {
+        character.setSpeed(10);
+        character.playAnimation();
+        character.setMoveAngle(0);
+        character.setCurrentCycle("up");
+    } else if (keysDown[K_DOWN]) {
+        character.setSpeed(10);
+        character.playAnimation();
+        character.setMoveAngle(180);
+        character.setCurrentCycle("down");
+    } else {
+        character.setSpeed(0);
+        character.pauseAnimation();
+    }
+}
+
+window.onresize = function () {
+    game.setSize(window.innerWidth, window.innerHeight);
+    background.setPosition(window.innerWidth / 2, window.innerHeight / 2);
+};
+
+    </script>
+</head>
+
+<body onload="init()">
+</body>
+
+</html>
