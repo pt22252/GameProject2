@@ -8,27 +8,139 @@
       margin: 0;
       height: 100vh;
       display: flex;
-      flex-direction: column; /* เปลี่ยนเป็น column เพื่อวางซ้อนบน-ล่าง */
+      flex-direction: column;
       align-items: center;
-      background-image: url('HOME.png');
+      background-image: url('Home_BG.png');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
+      position: relative;
+      overflow: hidden;
     }
 
+    /* โลโก้ */
     .logo {
-      margin-top: 16%; /* ระยะห่างจากขอบบน */    
-      width: 800px; /* ปรับขนาดได้ตามต้องการ */
-      max-width: 80%; /* ให้รองรับหน้าจอเล็ก */
+      margin-top: 16%;
+      width: 800px;
+      max-width: 80%;
+      z-index: 2;
+      position: relative;
+      animation: float 2s ease-in-out infinite;
     }
 
+    /* ต้นไม้หลังโลโก้ฝั่งขวา */
+    .tree-back {
+      position: absolute;
+      top: 10%;
+      right: 10%;
+      width: 200px;
+      max-width: 20%;
+      z-index: 1;
+      animation: float 2s ease-in-out infinite;
+    }
+
+    /* ต้นไม้หลังโลโก้ฝั่งซ้าย */
+    .tree-back-left {
+      position: absolute;
+      top: 20%;
+      left: 4%;
+      width: 250px;
+      max-width: 20%;
+      z-index: 1;
+      animation: float 2s ease-in-out infinite;
+    }
+
+    /* ต้นไม้ซ้ายบน */
+    .tree-left {
+      position: absolute;
+      top: -2%;
+      left: -2%;
+      width: 120px;
+      max-width: 20%;
+      z-index: 1;
+      animation: float 2s ease-in-out infinite;
+    }
+
+    /* ต้นไม้ขวาบน */
+    .tree-right {
+      position: absolute;
+      top: 7%;
+      right: -3%;
+      width: 140px;
+      max-width: 20%;
+      z-index: 1;
+      animation: float 2s ease-in-out infinite;
+    }
+
+    /* ต้นไม้หลังโลโก้ฝั่งขวาล่าง */
+    .tree-bottom-right-new {
+      position: absolute;
+      bottom: 40%;
+      right: 27%;
+      width: 100px;
+      max-width: 25%;
+      z-index: 1;
+      animation: float 2s ease-in-out infinite;
+    }
+
+    /* ต้นไม้มุมขวาล่าง */
+    .tree-bottom-right {
+      position: absolute;
+      bottom: -6%;
+      right: -10%;
+      width: 300px;
+      max-width: 50%;
+      z-index: 1;
+      animation: float 2s ease-in-out infinite;
+    }
+
+    /* ต้นไม้มุมซ้ายล่าง */
+    .tree-bottom-left {
+      position: absolute;
+      bottom: -20%;
+      left: -8%;
+      width: 500px;
+      max-width: 50%;
+      z-index: 1;
+      animation: float 2s ease-in-out infinite;
+    }
+
+    /* รูปใหม่ Tree7 ไว้ล่างสุดของ BG (ด้านหน้าทุกต้นไม้) */
+    .foreground-bushes {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: auto;
+      z-index: 4; /* ด้านหน้าสุด */
+    }
+
+    /* ขยับขึ้นลง */
+    @keyframes float {
+      0% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+
+      100% {
+        transform: translateY(0);
+      }
+    }
+
+    /* ปุ่มเริ่มเกม */
     .container {
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-end; /* ให้ปุ่มไปด้านล่าง */
-      flex-grow: 1; /* ดัน container ให้เต็มพื้นที่ */
-      margin-bottom: 140px; /* เว้นขอบด้านล่าง */
+      justify-content: flex-end;
+      flex-grow: 1;
+      margin-bottom: 140px;
+      z-index: 5;
+      position: relative;
+      animation: float 2s ease-in-out infinite;
     }
 
     .start-button {
@@ -48,10 +160,34 @@
 
 <body>
 
-  <!-- โลโก้เกมด้านบน -->
+  <!-- ต้นไม้หลังโลโก้ฝั่งขวา -->
+  <img src="Tree1.png" alt="Tree Behind Logo" class="tree-back">
+
+  <!-- ต้นไม้หลังโลโก้ฝั่งซ้าย (ใหม่) -->
+  <img src="Tree2.png" alt="Tree Behind Logo Left" class="tree-back-left">
+
+  <!-- โลโก้ -->
   <img src="MazeRunner1.png" alt="Maze Runner Logo" class="logo">
 
-  <!-- ปุ่มเริ่มเกมด้านล่าง -->
+  <!-- ต้นไม้ซ้ายบน -->
+  <img src="Tree3.png" alt="Tree Left" class="tree-left">
+
+  <!-- ต้นไม้ขวาบน -->
+  <img src="Tree4.png" alt="Tree Right" class="tree-right">
+
+  <!-- ต้นไม้หลังโลโก้ฝั่งขวาล่าง -->
+  <img src="Tree4.png" alt="Tree Bottom Right New" class="tree-bottom-right-new">
+
+  <!-- ต้นไม้มุมขวาล่าง -->
+  <img src="Tree6.png" alt="Tree Bottom Right" class="tree-bottom-right">
+
+  <!-- ต้นไม้มุมซ้ายล่าง -->
+  <img src="Tree5.png" alt="Tree Bottom Left" class="tree-bottom-left">
+
+  <!-- รูปใหม่ Tree7 ล่างสุด BG ด้านหน้า -->
+  <img src="Tree7.png" alt="Foreground Bushes" class="foreground-bushes">
+
+  <!-- ปุ่มเริ่มเกม -->
   <div class="container">
     <a href="FirstGame.html">
       <img src="start.png" alt="Start Button" class="start-button">
@@ -59,5 +195,4 @@
   </div>
 
 </body>
-
 </html>
