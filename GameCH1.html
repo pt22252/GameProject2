@@ -31,116 +31,168 @@
 
 
         function init() {
-    game = new Scene();
-    game.setSize(1000, 700);
+            game = new Scene();
+            game.setSize(1000, 700);
 
-    background = new Sprite(game, "grass.png", 1000, 700);
-    background.setSpeed(0, 0);
-    background.setPosition(500, 350);
+            background = new Sprite(game, "grass.png", 1000, 700);
+            background.setSpeed(0, 0);
+            background.setPosition(500, 350);
 
-    character = new Sprite(game, "Slime1_Walk_body.png", 64, 64);
-    character.loadAnimation(512, 256, 64, 64);
-    character.generateAnimationCycles();
-    character.renameCycles(["down", "up", "left", "right"]);
-    character.setAnimationSpeed(500);
-    character.setPosition(500, 50);
-    character.setSpeed(0);
-    character.pauseAnimation();
-    character.setCurrentCycle("down");
+            character = new Sprite(game, "Slime1_Walk_body.png", 64, 64);
+            character.loadAnimation(512, 256, 64, 64);
+            character.generateAnimationCycles();
+            character.renameCycles(["down", "up", "left", "right"]);
+            character.setAnimationSpeed(500);
+            character.setPosition(500, 50);
+            character.setSpeed(0);
+            character.pauseAnimation();
+            character.setCurrentCycle("down");
+            character.setBoundAction(STOP);
 
-    createWallBushes();
-    createBerryBush();
-    createTimerDisplay();
-    startTimer();
-    game.start();
-}
-
-function createTimerDisplay() {
-    timerDisplay = document.createElement("div");
-    timerDisplay.style = "position:absolute; top:10px; left:10px; padding:10px; background:white; font-size:20px; font-weight:bold;";
-    document.body.appendChild(timerDisplay);
-    updateTimerDisplay();
-}
-
-
-function startTimer() {
-    timer = setInterval(() => {
-        timeLeft--;
-        updateTimerDisplay();
-        if (timeLeft <= 0) {
-            gameOver("Time's up! Try again?");
+            createWallBushes();
+            createBerryBush();
+            createTimerDisplay();
+            startTimer();
+            game.start();
         }
-    }, 1000);
-}
-function updateTimerDisplay() {
-    timerDisplay.innerText = `Time: ${timeLeft}s`;
-}
 
-function checkCollision() {
-    let charLeft = character.x - character.width / 2;
-    let charRight = character.x + character.width / 2;
-    let charTop = character.y - character.height / 2;
-    let charBottom = character.y + character.height / 2;
-
-    // ตรวจจับการชนกับพุ่มไม้
-    for (let bush of wallBushes) {
-        let bushLeft = bush.x - bush.width / 2;
-        let bushRight = bush.x + bush.width / 2;
-        let bushTop = bush.y - bush.height / 2;
-        let bushBottom = bush.y + bush.height / 2;
-
-        let buffer = 30; // ลดขนาดขอบเขต hitbox ของพุ่มไม้ลงเล็กน้อย
-
-        if (
-            character.x + character.width - buffer > bush.x + buffer &&
-            character.x + buffer < bush.x + bush.width - buffer &&
-            character.y + character.height - buffer > bush.y + buffer &&
-            character.y + buffer < bush.y + bush.height - buffer
-        ) {
-            console.log("💥 Collision detected with bush!");
-            gameOver("You hit a bush! Try again?");
+        function createTimerDisplay() {
+            timerDisplay = document.createElement("div");
+            timerDisplay.style = "position:absolute; top:10px; left:10px; padding:10px; background:white; font-size:20px; font-weight:bold;";
+            document.body.appendChild(timerDisplay);
+            updateTimerDisplay();
         }
-    }
 
-    // ตรวจจับการชนกับ BerryBush (ใช้ hitbox เดียวกับ wallBush)
-    if (berryBush) {
-        let berryBushLeft = berryBush.x - berryBush.width / 2;
-        let berryBushRight = berryBush.x + berryBush.width / 2;
-        let berryBushTop = berryBush.y - berryBush.height / 2;
-        let berryBushBottom = berryBush.y + berryBush.height / 2;
 
-        let buffer = 40; // ลดขนาดขอบเขต hitbox ของ berryBush ลงเล็กน้อย
-
-        if (
-            charRight - buffer > berryBushLeft + buffer &&
-            charLeft + buffer < berryBushRight - buffer &&
-            charBottom - buffer > berryBushTop + buffer &&
-            charTop + buffer < berryBushBottom - buffer
-        ) {
-            console.log("🍇 You won! Collision with Berry Bush!");
-            gameWin();
+        function startTimer() {
+            timer = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                if (timeLeft <= 0) {
+                    gameOver("Time's up! Try again?");
+                }
+            }, 1000);
         }
-    }
-}
+        function updateTimerDisplay() {
+            timerDisplay.innerText = `Time: ${timeLeft}s`;
+        }
+
+        function createCard(title, buttons) {
+            // ลบการ์ดเก่าถ้ามี
+            let oldCard = document.getElementById("gameCard");
+            if (oldCard) oldCard.remove();
+
+            // สร้างการ์ดใหม่
+            let card = document.createElement("div");
+            card.id = "gameCard";
+            card.style = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 300px;
+        padding: 20px;
+        background: white;
+        text-align: center;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+        z-index: 1000;
+    `;
+
+            let titleText = document.createElement("h2");
+            titleText.innerText = title;
+            card.appendChild(titleText);
+
+            // สร้างปุ่มต่าง ๆ
+            buttons.forEach(btnData => {
+                let button = document.createElement("button");
+                button.innerText = btnData.text;
+                button.onclick = btnData.onClick;
+                button.style = `
+            margin: 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            background: ${btnData.color};
+            color: white;
+        `;
+                card.appendChild(button);
+            });
+
+            document.body.appendChild(card);
+        }
+
+        function checkCollision() {
+            let charLeft = character.x - character.width / 2;
+            let charRight = character.x + character.width / 2;
+            let charTop = character.y - character.height / 2;
+            let charBottom = character.y + character.height / 2;
+
+            // ตรวจจับการชนกับพุ่มไม้
+            for (let bush of wallBushes) {
+                let bushLeft = bush.x - bush.width / 2;
+                let bushRight = bush.x + bush.width / 2;
+                let bushTop = bush.y - bush.height / 2;
+                let bushBottom = bush.y + bush.height / 2;
+
+                let buffer = 30; // ลดขนาดขอบเขต hitbox ของพุ่มไม้ลงเล็กน้อย
+
+                if (
+                    character.x + character.width - buffer > bush.x + buffer &&
+                    character.x + buffer < bush.x + bush.width - buffer &&
+                    character.y + character.height - buffer > bush.y + buffer &&
+                    character.y + buffer < bush.y + bush.height - buffer
+                ) {
+                    console.log("💥 Collision detected with bush!");
+                    gameOver("You hit a bush! Try again?");
+                }
+            }
+
+            // ตรวจจับการชนกับ BerryBush (ใช้ hitbox เดียวกับ wallBush)
+            if (berryBush) {
+                let berryBushLeft = berryBush.x - berryBush.width / 2;
+                let berryBushRight = berryBush.x + berryBush.width / 2;
+                let berryBushTop = berryBush.y - berryBush.height / 2;
+                let berryBushBottom = berryBush.y + berryBush.height / 2;
+
+                let buffer = 40; // ลดขนาดขอบเขต hitbox ของ berryBush ลงเล็กน้อย
+
+                if (
+                    charRight - buffer > berryBushLeft + buffer &&
+                    charLeft + buffer < berryBushRight - buffer &&
+                    charBottom - buffer > berryBushTop + buffer &&
+                    charTop + buffer < berryBushBottom - buffer
+                ) {
+                    console.log("🍇 You won! Collision with Berry Bush!");
+                    gameWin();
+                }
+            }
+
+            /* if (charLeft < 0 || charRight > game.width || charTop < 0 || charBottom > game.height) {
+                console.log("🚧 Out of bounds!");
+                gameOver("You hit the screen boundary! Try again?");
+            } */
+        }
 
 
 
 
-function gameOver(message) {
-    clearInterval(timer);
-    alert(message);
-    location.reload();
-}
+        function gameOver() {
+            clearInterval(timer);
+            createCard("คุณแพ้แล้ว!", [
+                { text: "Restart", color: "red", onClick: () => location.reload() }
+            ]);
+        }
 
-function gameWin() {
-    clearInterval(timer);
-    let winPopup = confirm("You win! Play again or continue to the next chapter?");
-    if (winPopup) {
-        location.reload(); // เล่นใหม่
-    } else {
-        alert("Next chapter coming soon!"); // แจ้งเตือนบทถัดไป
-    }
-}
+        function gameWin() {
+            clearInterval(timer);
+            createCard("คุณชนะแล้ว!", [
+                { text: "Restart", color: "green", onClick: () => location.reload() },
+                { text: "Next Stage", color: "blue", onClick: () => alert("Next stage coming soon!") }
+            ]);
+        }
 
         function createBerryBush() {
             let bushWidth = 163;
@@ -174,26 +226,26 @@ function gameWin() {
         }
 
         function createWallBushes() {
-    let bushWidth = 163;
-    let bushHeight = 153;
+            let bushWidth = 163;
+            let bushHeight = 153;
 
-    // ตำแหน่งของพุ่มไม้ที่ต้องการ (แทนเมทริกซ์)
-    let bushPositions = [
-        { x: 0, y: 153 }, { x: 163, y: 153 }, { x: 326, y: 153 }, // Row 1
-        { x: 815, y: 306 }, { x: 978, y: 306 }, // Row 2
-        { x: 489, y: 459 }, { x: 652, y: 459 }, { x: 815, y: 459 }, { x: 978, y: 459 } // Row 3
-    ];
+            // ตำแหน่งของพุ่มไม้ที่ต้องการ (แทนเมทริกซ์)
+            let bushPositions = [
+                { x: 0, y: 153 }, { x: 163, y: 153 }, { x: 326, y: 153 }, // Row 1
+                { x: 815, y: 306 }, { x: 978, y: 306 }, // Row 2
+                { x: 489, y: 459 }, { x: 652, y: 459 }, { x: 815, y: 459 }, { x: 978, y: 459 } // Row 3
+            ];
 
-    for (let pos of bushPositions) {
-    let bush = new Sprite(game, "SpriteWallBush.png", 163, 153); // ✅ ใช้ขนาดที่ตรงกับ animation frame
-    bush.loadAnimation(979, 153, 163, 153);
-    bush.generateAnimationCycles(SINGLE_ROW, 6);
-    bush.setAnimationSpeed(700);
-    bush.setPosition(pos.x, pos.y);
-    bush.playAnimation();
-    wallBushes.push(bush);
-}
-}
+            for (let pos of bushPositions) {
+                let bush = new Sprite(game, "SpriteWallBush.png", 163, 153); // ✅ ใช้ขนาดที่ตรงกับ animation frame
+                bush.loadAnimation(979, 153, 163, 153);
+                bush.generateAnimationCycles(SINGLE_ROW, 6);
+                bush.setAnimationSpeed(700);
+                bush.setPosition(pos.x, pos.y);
+                bush.playAnimation();
+                wallBushes.push(bush);
+            }
+        }
 
         function update() {
             game.clear();
