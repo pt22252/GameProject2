@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Game</title>
+    <script src="simpleGame.js"></script>
+    <style>
+        canvas {
+            background: url('BG3.png');
+            display: block;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+    <script>
+        const game = new SimpleGame("gameCanvas");
+
+        // โหลดตัวละครหลัก (sprite1)
+        const character = game.createSprite("Slime1_Walk_body.png", 50, 50, 64, 64);
+        character.enableMovement(3); // กำหนดความเร็ว
+
+        // กำหนด sprite5 (กำแพง) ตามภาพ
+        const walls = [
+            { x: 100, y: 50 }, { x: 100, y: 100 }, { x: 100, y: 150 },
+            { x: 200, y: 200 }, { x: 250, y: 200 }, { x: 300, y: 200 },
+            { x: 400, y: 300 }, { x: 450, y: 300 }, { x: 500, y: 300 }
+        ];
+
+        walls.forEach(pos => {
+            game.createSprite("sprite5.png", pos.x, pos.y, 32, 32); // สร้างกำแพง
+        });
+
+        game.start();
+    </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Adventure Slime - Step 1</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: black; /* พื้นหลังรอบนอก */
+        }
+
+        canvas {
+            display: block;
+            background-color: #222; /* สีพื้นหลังของ canvas (สำรองกรณีไม่มีรูปภาพ) */
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="gameCanvas"></canvas>
+
+<script>
+    // ✅ เริ่มต้นเมื่อหน้าเว็บโหลดเสร็จ
+    window.onload = function() {
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+
+        // ✅ ปรับขนาด canvas ให้เต็มหน้าจอ
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // ✅ โหลดภาพพื้นหลัง
+        const bgImage = new Image();
+        bgImage.src = "assets/grass.png"; // 👉 เปลี่ยน path ตามไฟล์ที่มี
+
+        // ✅ วาดภาพเมื่อโหลดเสร็จ
+        bgImage.onload = function() {
+            ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
+        };
+
+        // ✅ ขยาย canvas ตามขนาดหน้าจอเมื่อเปลี่ยนขนาด
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
+        });
+    }
+
+    function createWall(x, y) {
+    let wall = new Sprite(game, 'assets/wall_bush.png', 64, 64);
+    wall.setPosition(x, y);
+    game.addSprite(wall);
+    return wall;
+    }
+
+    
+
+
+    
+</script>
+
+</body>
+</html>

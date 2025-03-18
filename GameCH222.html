@@ -1,0 +1,197 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>SlimeCH1</title>
+    <script type="text/javascript" src="simpleGame.js"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: black;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+    <script type="text/javascript">
+        var game;
+        var background;
+        var character;
+        var wallBushes = [];
+        var berryBush;
+
+        function init() {
+            game = new Scene();
+            game.setSize(window.innerWidth, window.innerHeight);
+
+            // พื้นหลัง
+            background = new Sprite(game, "BG2.png", window.innerWidth, window.innerHeight);
+            background.setSpeed(0, 0);
+            background.setPosition(window.innerWidth / 2, window.innerHeight / 2);
+
+            // ตัวละคร
+            character = new Sprite(game, "Sprite_Slime_Big.png", 79, 79);
+            character.loadAnimation(634, 317, 79, 79);
+            character.generateAnimationCycles();
+            character.renameCycles(["down", "up", "left", "right"]);
+            character.setAnimationSpeed(500);
+            character.setPosition(80, 80);
+            character.setSpeed(0);
+            character.pauseAnimation();
+            character.setCurrentCycle("down");
+
+            // สร้างพุ่มไม้
+            createWallBushes();
+            game.start();
+
+            // สร้างพุ่มไม้
+            createBerryBushes();
+            game.start();
+        }
+
+        function createWallBushes() {
+            let bushWidth = 45;
+            let bushHeight = 45;
+
+            // ตำแหน่งของพุ่มไม้
+            let bushPositions = [
+                { x: 20, y: 20 }, { x: 60, y: 20 }, { x: 100, y: 20 }, { x: 140, y: 20 }, { x: 180, y: 20 }, { x: 220, y: 20 }, { x: 260, y: 20 }, { x: 300, y: 20 }, { x: 340, y: 20 }, { x: 380, y: 20 }, { x: 420, y: 20 }, { x: 460, y: 20 }, { x: 500, y: 20 }, { x: 540, y: 20 }, { x: 580, y: 20 }, { x: 620, y: 20 }, { x: 660, y: 20 }, { x: 700, y: 20 }, { x: 740, y: 20 }, { x: 780, y: 20 }, { x: 820, y: 20 }, { x: 860, y: 20 }, { x: 900, y: 20 }, { x: 940, y: 20 }, { x: 980, y: 20 }, { x: 1020, y: 20 }, { x: 1060, y: 20 }, { x: 1100, y: 20 }, { x: 1120, y: 20 }, // กรอบบน
+                { x: 20, y: 60 }, { x: 20, y: 100 }, { x: 20, y: 140 }, { x: 20, y: 180 }, { x: 20, y: 220 }, { x: 20, y: 260 }, { x: 20, y: 300 }, { x:20, y: 340 }, { x: 20, y: 380 }, { x: 20, y: 420 }, { x: 20, y: 460 }, { x: 20, y: 500 }, { x: 20, y: 540 }, { x: 20, y: 580 }, // กรอบซ้าย
+                { x: 1120, y: 60 }, { x: 1120, y: 100 }, { x: 1120, y: 140 }, { x: 1120, y: 180 }, { x: 1120, y: 220 }, { x: 1120, y: 260 }, { x: 1120, y: 300 }, { x: 1120, y: 340 }, { x: 1120, y: 380 }, { x: 1120, y: 420 }, { x: 1120, y: 460 }, { x: 1120, y: 500 }, { x: 1120, y: 540 }, { x: 1120, y: 580 }, // กรอบขวา
+                { x: 20, y: 620 }, { x: 60, y: 620 }, { x: 100, y: 620 }, { x: 140, y: 620 }, { x: 180, y: 620 }, { x: 220, y: 620 }, { x: 260, y: 620 }, { x: 300, y: 620 }, { x: 340, y: 620 }, { x: 380, y: 620 }, { x: 420, y: 620 }, { x: 460, y: 620 }, { x: 500, y: 620 }, { x: 540, y: 620 }, { x: 580, y: 620 }, { x: 620, y: 620 }, { x: 660, y: 620 }, { x: 700, y: 620 }, { x: 740, y: 620 }, { x: 780, y: 620 }, { x: 820, y: 620 }, { x: 860, y: 620 }, { x: 900, y: 620 }, { x: 940, y: 620 }, { x: 980, y: 620 }, { x: 1020, y: 620 }, { x: 1060, y: 620 }, { x: 1100, y: 620 }, { x: 1120, y: 620 }, // กรอบล่าง
+                { x: 60, y: 140 }, { x: 100, y: 140 }, { x: 140, y: 140 }, { x: 180, y: 140 }, { x: 220, y: 140 }, { x: 260, y: 140 }, { x: 300, y: 140 }, //บนซ้ายสุด
+                { x: 150, y: 300 }, { x: 190, y: 300 }, { x: 230, y: 300 }, { x: 270, y: 300 }, { x: 310, y: 300 },  //บนซ้ายสอง
+                { x: 310, y: 340 }, { x: 310, y: 380 }, { x: 310, y: 420 }, { x: 310, y: 460 }, { x: 310, y: 500 }, { x: 310, y: 540 }, { x: 310, y: 580 }, { x: 310, y: 620 }, //ต่อจากบนซ้ายสอง
+                { x: 60, y: 460 }, { x: 100, y: 460 }, { x: 140, y: 460 }, { x: 180, y: 460 }, //ช้ายล่าง
+               // { x: 410, y: 20 }, { x: 410, y: 60 }, { x: 410, y: 100 }, { x: 410, y: 140 }, { x: 410, y: 180 }, { x: 410, y: 220 }, { x: 410, y: 260 }, //ขีดตั้งกลาง
+                { x: 450, y: 260 }, { x: 490, y: 260 }, { x: 530, y: 260 }, { x: 570, y: 260 }, { x: 610, y: 260 }, { x: 650, y: 260 }, { x: 690, y: 260 }, { x: 730, y: 260 }, { x: 770, y: 260 },
+                { x: 770, y: 300 }, { x: 770, y: 340 }, { x: 770, y: 380 }, 
+              //  { x: 730, y: 380 }, { x: 690, y: 380 }, { x: 650, y: 380 }, { x: 610, y: 380 }, { x: 570, y: 380 }, { x: 530, y: 380 }, 
+              //  { x: 530, y: 420 }, { x: 530, y: 460 }, { x: 530, y: 500 }, 
+                { x: 530, y: 380 }, { x: 530, y: 420 }, { x: 530, y: 460 }, { x: 530, y: 500 }, 
+                { x: 690, y: 500 }, { x: 690, y: 540 }, { x: 690, y: 580 }, { x: 690, y: 620 },
+                { x: 550, y: 140 }, { x: 590, y: 140 }, { x: 630, y: 140 }, { x: 670, y: 140 }, { x: 710, y: 140 }, { x: 750, y: 140 }, { x: 790, y: 140 }, { x: 830, y: 140 }, { x: 870, y: 140 }, { x: 910, y: 140 }, { x: 950, y: 140 },
+                { x: 950, y: 180 }, { x: 950, y: 220 }, { x: 950, y: 260 }, { x: 950, y: 300 }, { x: 950, y: 340 }, { x: 950, y: 380 }, { x: 950, y: 420 }, { x: 950, y: 460 }, { x: 950, y: 500 }, { x: 950, y: 540 }, { x: 950, y: 580 }, { x: 950, y: 620 }, 
+            
+            ];
+
+            // สร้างพุ่มไม้ในตำแหน่งที่กำหนด
+            for (let pos of bushPositions) {
+                let bush = new Sprite(game, "Cactus2.png", bushWidth, bushHeight);
+                bush.setSpeed(0);  // 🚫 หยุดพุ่มไม้ไม่ให้ขยับ
+                bush.setPosition(pos.x, pos.y);
+                wallBushes.push(bush);
+            }
+        }
+
+        function checkCollision() {
+            let charLeft = character.x - character.width / 2;
+            let charRight = character.x + character.width / 2;
+            let charTop = character.y - character.height / 2;
+            let charBottom = character.y + character.height / 2;
+
+            for (let bush of wallBushes) {
+                // ลดขนาดของกรอบการชนของพุ่มไม้
+                let bushPadding = 10;  // เพิ่มค่าตรงนี้เพื่อเล็กลงหรือขยายกรอบ
+                let bushLeft = bush.x - bush.width / 2 + bushPadding;
+                let bushRight = bush.x + bush.width / 2 - bushPadding;
+                let bushTop = bush.y - bush.height / 2 + bushPadding;
+                let bushBottom = bush.y + bush.height / 2 - bushPadding;
+
+                if (charRight > bushLeft && charLeft < bushRight && charBottom > bushTop && charTop < bushBottom) {
+                    // ถ้าชน ให้ย้อนกลับไปที่ตำแหน่งก่อนหน้า
+                    character.setPosition(character.lastX, character.lastY);
+                    character.setSpeed(0);
+                    return;
+                }
+            }
+        }
+
+        function createBerryBushes() {
+            let bushWidth = 40;
+            let bushHeight = 40;
+
+            // ตำแหน่งของพุ่มไม้
+            let bushPositions = [
+                { x: 100, y: 550 }, { x: 430, y: 550 }, { x: 430, y: 100 }, { x: 1030, y: 100 }, { x: 1030, y: 5500 }
+            ];
+
+            // สร้างพุ่มไม้ในตำแหน่งที่กำหนด
+            for (let pos of bushPositions) {
+                let bush = new Sprite(game, "berry.png", bushWidth, bushHeight);
+                bush.setSpeed(0);  // 🚫 หยุดพุ่มไม้ไม่ให้ขยับ
+                bush.setPosition(pos.x, pos.y);
+                wallBushes.push(bush);
+            }
+        }
+
+
+        function update() {
+            game.clear();
+            checkKeys();        // รอให้เรากดปุ่มควบคุม
+            background.update();
+            character.update(); // อัปเดตตัวละคร
+            checkCollision();   // ตรวจชนกับพุ่มไม้
+
+            // อัปเดตพุ่มไม้ทั้งหมด
+            for (let bush of wallBushes) {
+                bush.update();
+            }
+        }
+
+        function checkKeys() {
+            // บันทึกตำแหน่งก่อนการเคลื่อนที่ (ใช้สำหรับตรวจชน)
+            character.lastX = character.x;
+            character.lastY = character.y;
+
+            let moving = false; // เช็คว่ากำลังเดินอยู่ไหม
+
+            if (keysDown[K_LEFT]) {
+                character.setSpeed(10);
+                character.setMoveAngle(270); // ไปซ้าย
+                character.setCurrentCycle("left");
+                moving = true;
+            } 
+            if (keysDown[K_RIGHT]) {
+                character.setSpeed(10);
+                character.setMoveAngle(90);  // ไปขวา
+                character.setCurrentCycle("right");
+                moving = true;
+            } 
+            if (keysDown[K_UP]) {
+                character.setSpeed(10);
+                character.setMoveAngle(0);   // ขึ้น
+                character.setCurrentCycle("up");
+                moving = true;
+            } 
+            if (keysDown[K_DOWN]) {
+                character.setSpeed(10);
+                character.setMoveAngle(180); // ลง
+                character.setCurrentCycle("down");
+                moving = true;
+            }
+
+            if (moving) {
+                character.playAnimation(); // กำลังเดินอยู่ เล่นแอนิเมชัน
+            } else {
+                character.setSpeed(0);       // ไม่กดปุ่มอะไร หยุดเดิน
+                character.pauseAnimation();  // หยุดแอนิเมชัน
+            }
+        }
+        
+        window.onresize = function () {
+            let newWidth = window.innerWidth;
+            let newHeight = window.innerHeight;
+            game.setSize(newWidth, newHeight);
+
+            background.setPosition(newWidth / 2, newHeight / 2);
+            // ไม่ยุ่งกับ character อีกต่อไป!
+        };
+
+    </script>
+</head>
+<body onload="init()">
+</body>
+</html>
