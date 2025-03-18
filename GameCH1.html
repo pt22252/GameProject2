@@ -78,14 +78,12 @@
         }
 
         function createCard(title, buttons) {
-            // ลบการ์ดเก่าถ้ามี
-            let oldCard = document.getElementById("gameCard");
-            if (oldCard) oldCard.remove();
+    let oldCard = document.getElementById("gameCard");
+    if (oldCard) oldCard.remove();
 
-            // สร้างการ์ดใหม่
-            let card = document.createElement("div");
-            card.id = "gameCard";
-            card.style = `
+    let card = document.createElement("div");
+    card.id = "gameCard";
+    card.style = `
         position: fixed;
         top: 50%;
         left: 50%;
@@ -99,30 +97,50 @@
         z-index: 1000;
     `;
 
-            let titleText = document.createElement("h2");
-            titleText.innerText = title;
-            card.appendChild(titleText);
+    let titleText = document.createElement("h2");
+    titleText.innerText = title;
+    card.appendChild(titleText);
 
-            // สร้างปุ่มต่าง ๆ
-            buttons.forEach(btnData => {
-                let button = document.createElement("button");
-                button.innerText = btnData.text;
-                button.onclick = btnData.onClick;
-                button.style = `
-            margin: 10px;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            background: ${btnData.color};
-            color: white;
-        `;
-                card.appendChild(button);
-            });
-
-            document.body.appendChild(card);
+    // สร้างปุ่มหรือ <a> ถ้ามีลิงก์
+    buttons.forEach(btnData => {
+        if (btnData.link) {
+            let link = document.createElement("a");
+            link.href = btnData.link;
+            link.innerText = btnData.text;
+            link.style = `
+                display: block;
+                margin: 10px;
+                padding: 10px 20px;
+                text-align: center;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 16px;
+                background: ${btnData.color};
+                color: white;
+                text-decoration: none;
+            `;
+            card.appendChild(link);
+        } else {
+            let button = document.createElement("button");
+            button.innerText = btnData.text;
+            button.onclick = btnData.onClick;
+            button.style = `
+                margin: 10px;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 16px;
+                background: ${btnData.color};
+                color: white;
+            `;
+            card.appendChild(button);
         }
+    });
+
+    document.body.appendChild(card);
+}
+
 
         function checkCollision() {
             let charLeft = character.x - character.width / 2;
@@ -169,11 +187,6 @@
                     gameWin();
                 }
             }
-
-            /* if (charLeft < 0 || charRight > game.width || charTop < 0 || charBottom > game.height) {
-                console.log("🚧 Out of bounds!");
-                gameOver("You hit the screen boundary! Try again?");
-            } */
         }
 
 
@@ -187,12 +200,13 @@
         }
 
         function gameWin() {
-            clearInterval(timer);
-            createCard("คุณชนะแล้ว!", [
-                { text: "Restart", color: "green", onClick: () => location.reload() },
-                { text: "Next Stage", color: "blue", onClick: () => alert("Next stage coming soon!") }
-            ]);
-        }
+    clearInterval(timer);
+    createCard("คุณชนะแล้ว!", [
+        { text: "Restart", color: "green", onClick: () => location.reload() },
+        { text: "Next Stage", color: "blue", link: "GameCH2.html" } // ✅ ใช้ link แทน onClick
+    ]);
+}
+
 
         function createBerryBush() {
             let bushWidth = 163;
