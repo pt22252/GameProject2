@@ -56,9 +56,9 @@
         }
 
         function showInstructions() {
-            createCard("วิธีการเล่น", [
+            createCard("Chapter 2 \nวิธีการเล่น", [
                 { text: "Ready", color: "green", onClick: startGame }
-            ], "- บังคับ Slime ด้วยปุ่มลูกศร\n- หลีกเลี่ยงพุ่มไม้\n- อยู่รอดครบ 30 วินาทีเพื่อให้พุ่มเบอรี่ปรากฏ\n- เก็บพุ่มเบอรี่เพื่อชนะ");
+            ], "- บังคับ Slime ด้วยปุ่มลูกศร\n- หลีกเลี่ยงพุ่มไม้\n- ไปถึงพุ่มเบอรี่ก่อนหมดเวลา\n- เก็บพุ่มเบอรี่เพื่อชนะ");
         }
 
         function createTimerDisplay() {
@@ -261,7 +261,7 @@
 
             // ตำแหน่งของพุ่มไม้ที่ต้องการ
             let bushPositions = [
-                { x: 0, y: 143 },{ x: 163, y: 143 },{ x: 326, y: 143 }, // Row 1
+                { x: 0, y: 143 }, { x: 163, y: 143 }, { x: 326, y: 143 }, // Row 1
                 { x: 815, y: 296 }, { x: 978, y: 296 }, // Row 2
                 { x: 489, y: 449 }, { x: 652, y: 449 }, { x: 815, y: 449 }, { x: 978, y: 449 }, // Row 3
                 { x: 850, y: 570 }, // Row 4
@@ -271,7 +271,7 @@
                 let bush = new Sprite(game, "SpriteWallBush.png", 163, 153);
                 bush.loadAnimation(979, 153, 163, 153);
                 bush.generateAnimationCycles(SINGLE_ROW, 6);
-                bush.setAnimationSpeed(500);
+                bush.setAnimationSpeed(700);
                 bush.setPosition(pos.x, pos.y);
                 bush.playAnimation();
                 wallBushes.push(bush);
