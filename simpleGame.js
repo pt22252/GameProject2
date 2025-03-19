@@ -786,7 +786,7 @@ function Animation(spriteSheet, imgWidth, imgHeight, cellWidth, cellHeight){//fo
 	//currentFrame = Math.floor( (this.totalCycleTime % this.animationLength) / this.frameDelta );
 	elTime = this.totalCycleTime % this.animationLength;
 	currentFrame = Math.floor(elTime / this.frameDelta);
-	console.log(elTime);
+	//console.log(elTime);
 	
 	//document.getElementById("FPS").innerHTML = this.animationLength;//for debugging
 	row = Math.floor( ( this.currentCycle[1] + currentFrame ) / this.framesPerRow );

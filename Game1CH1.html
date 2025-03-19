@@ -168,7 +168,7 @@
                     character.y + character.height - buffer > bush.y + buffer &&
                     character.y + buffer < bush.y + bush.height - buffer
                 ) {
-                    console.log("💥 Collision detected with bush!");
+                    // ลบ console.log ออก
                     gameOver("You hit a bush! Try again?");
                 }
             }
@@ -180,7 +180,7 @@
                 let berryBushTop = berryBush.y - berryBush.height / 2;
                 let berryBushBottom = berryBush.y + berryBush.height / 2;
 
-                let buffer = 40; // ลดขนาดขอบเขต hitbox ของ berryBush ลงเล็กน้อย
+                let buffer = 30; // ลดขนาดขอบเขต hitbox ของ berryBush ลงเล็กน้อย
 
                 if (
                     charRight - buffer > berryBushLeft + buffer &&
@@ -188,7 +188,7 @@
                     charBottom - buffer > berryBushTop + buffer &&
                     charTop + buffer < berryBushBottom - buffer
                 ) {
-                    console.log("🍇 You won! Collision with Berry Bush!");
+                    // ลบ console.log ออก
                     gameWin();
                 }
             }
@@ -204,14 +204,24 @@
             ]);
         }
 
+        var gameWon = false;  // เพิ่มตัวแปรติดตามสถานะชนะ
+
         function gameWin() {
+            if (gameWon) return;  // ถ้าเกมชนะแล้วให้ไม่ทำอะไร
+            gameWon = true;  // ตั้งค่าให้เกมชนะแล้ว
             clearInterval(timer);
-            createCard("คุณชนะแล้ว!", [
-                { text: "Restart", color: "green", onClick: () => location.reload() },
-                { text: "Next Stage", color: "blue", link: "GameCH2.html" } // ✅ ใช้ link แทน onClick
-            ]);
+            setTimeout(() => {
+                createCard("คุณชนะแล้ว!", [
+                    { text: "Restart", color: "red", onClick: restartGame },
+                    { text: "Next Stage", color: "blue", onClick: () => window.location.href = "Game1CH2.html" }
+                ]);
+            }, 50);  // ✅ หน่วงแค่ 50ms ให้แน่ใจว่า DOM ไม่เปลี่ยนระหว่างการสร้างการ์ด
         }
 
+        function restartGame() {
+            console.log("🔄 Restart button clicked! Reloading...");
+            location.reload();  // ใช้ location.reload() ที่นี่
+        }
 
 
         function createBerryBush() {

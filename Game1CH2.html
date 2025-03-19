@@ -168,7 +168,7 @@
                     character.y + character.height - buffer > bush.y + buffer &&
                     character.y + buffer < bush.y + bush.height - buffer
                 ) {
-                    console.log("💥 Collision detected with bush!");
+                    // ลบ console.log ออก
                     gameOver("You hit a bush! Try again?");
                 }
             }
@@ -188,12 +188,11 @@
                     charBottom - buffer > berryBushTop + buffer &&
                     charTop + buffer < berryBushBottom - buffer
                 ) {
-                    console.log("🍇 You won! Collision with Berry Bush!");
+                    // ลบ console.log ออก
                     gameWin();
                 }
             }
         }
-
 
 
 
@@ -204,14 +203,25 @@
             ]);
         }
 
+        var gameWon = false;  // เพิ่มตัวแปรติดตามสถานะชนะ
+
         function gameWin() {
+            if (gameWon) return;  // ถ้าเกมชนะแล้วให้ไม่ทำอะไร
+            gameWon = true;  // ตั้งค่าให้เกมชนะแล้ว
             clearInterval(timer);
-            createCard("คุณชนะแล้ว!", [
-                { text: "Restart", color: "green", onClick: () => location.reload() },
-                { text: "Next Stage", color: "blue", link: "GameCH2.html" } // ✅ ใช้ link แทน onClick
-            ]);
+            setTimeout(() => {
+                createCard("คุณชนะแล้ว!", [
+                    { text: "Restart", color: "red", onClick: restartGame },
+                    { text: "Next Stage", color: "blue", onClick: () => window.location.href = "Game1CH1.html" }
+                ]);
+            }, 50);  // ✅ หน่วงแค่ 50ms ให้แน่ใจว่า DOM ไม่เปลี่ยนระหว่างการสร้างการ์ด
         }
 
+
+        function restartGame() {
+            console.log("🔄 Restart button clicked! Reloading...");
+            location.reload();  // ใช้ location.reload() ที่นี่
+        }
 
 
         function createBerryBush() {
@@ -251,19 +261,17 @@
 
             // ตำแหน่งของพุ่มไม้ที่ต้องการ
             let bushPositions = [
-                { x: 0, y: 153 },
-                { x: 163, y: 153 }, { x: 326, y: 153 }, // Row 1
-                { x: 815, y: 306 }, { x: 978, y: 306 }, // Row 2
-                { x: 489, y: 459 }, { x: 652, y: 459 }, { x: 815, y: 459 }, { x: 978, y: 459 }, // Row 3
-                 { x: 850, y: 600 }, // เพิ่มพุ่มไม้ในแถวที่ 4
-                //{ x: 300, y: 750 }, { x: 650, y: 750 }  // เพิ่มพุ่มไม้ในแถวที่ 5
+                { x: 0, y: 143 },{ x: 163, y: 143 },{ x: 326, y: 143 }, // Row 1
+                { x: 815, y: 296 }, { x: 978, y: 296 }, // Row 2
+                { x: 489, y: 449 }, { x: 652, y: 449 }, { x: 815, y: 449 }, { x: 978, y: 449 }, // Row 3
+                { x: 850, y: 570 }, // Row 4
             ];
 
             for (let pos of bushPositions) {
                 let bush = new Sprite(game, "SpriteWallBush.png", 163, 153);
                 bush.loadAnimation(979, 153, 163, 153);
                 bush.generateAnimationCycles(SINGLE_ROW, 6);
-                bush.setAnimationSpeed(500); // เพิ่มความเร็วของพุ่มไม้
+                bush.setAnimationSpeed(500);
                 bush.setPosition(pos.x, pos.y);
                 bush.playAnimation();
                 wallBushes.push(bush);
