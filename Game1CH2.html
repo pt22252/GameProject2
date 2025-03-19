@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>SlimeCH1</title>
+    <title>SlimeCH2</title>
     <script type="text/javascript" src="simpleGame.js"></script>
     <style>
         body,
@@ -32,6 +32,7 @@
         function init() {
             game = new Scene();
             game.setSize(1000, 700);
+            game.setBG("lightgreen");
 
             background = new Sprite(game, "grass.png", 1000, 700);
             background.setSpeed(0, 0);
@@ -93,24 +94,28 @@
 
             let card = document.createElement("div");
             card.id = "gameCard";
+
+            // คำนวณตำแหน่งกลางของเกม
+            let gameWidth = game.width;  // ขนาดของ canvas (game)
+            let gameHeight = game.height; // ขนาดของ canvas (game)
+
             card.style = `
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                width: 300px;
-                padding: 20px;
-                background: rgba(255, 255, 255, 0.8); /* ✅ เปลี่ยนเป็นโปร่งใส */
-                text-align: center;
-                border-radius: 10px;
-                box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
-                z-index: 1000;
-            `;
+        position: absolute;
+        top: ${gameHeight / 2 - 150}px;  /* กลางตามแนวตั้ง */
+        left: ${gameWidth / 2 - 150}px;  /* กลางตามแนวนอน */
+        width: 300px;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.8);
+        text-align: center;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+        z-index: 1000;  /* ให้อยู่ด้านบนสุด */
+    `;
 
             let titleText = document.createElement("h2");
             titleText.innerText = title;
             card.appendChild(titleText);
-            
+
             if (message) {
                 let msgText = document.createElement("p");
                 msgText.innerText = message;
@@ -125,20 +130,21 @@
                     btnData.onClick();
                 };
                 button.style = `
-                    margin: 10px;
-                    padding: 10px 20px;
-                    border: none;
-                    border-radius: 5px;
-                    cursor: pointer;
-                    font-size: 16px;
-                    background: ${btnData.color};
-                    color: white;
-                `;
+            margin: 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            background: ${btnData.color};
+            color: white;
+        `;
                 card.appendChild(button);
             });
 
             document.body.appendChild(card);
         }
+
 
 
         function checkCollision() {
@@ -174,7 +180,7 @@
                 let berryBushTop = berryBush.y - berryBush.height / 2;
                 let berryBushBottom = berryBush.y + berryBush.height / 2;
 
-                let buffer = 40; // ลดขนาดขอบเขต hitbox ของ berryBush ลงเล็กน้อย
+                let buffer = 30; // ลดขนาดขอบเขต hitbox ของ berryBush ลงเล็กน้อย
 
                 if (
                     charRight - buffer > berryBushLeft + buffer &&
@@ -199,12 +205,13 @@
         }
 
         function gameWin() {
-    clearInterval(timer);
-    createCard("คุณชนะแล้ว!", [
-        { text: "Restart", color: "green", onClick: () => location.reload() },
-        { text: "Next Stage", color: "blue", link: "GameCH2.html" }
-    ]);
-}
+            clearInterval(timer);
+            createCard("คุณชนะแล้ว!", [
+                { text: "Restart", color: "green", onClick: () => location.reload() },
+                { text: "Next Stage", color: "blue", link: "GameCH2.html" } // ✅ ใช้ link แทน onClick
+            ]);
+        }
+
 
 
         function createBerryBush() {
@@ -242,23 +249,27 @@
             let bushWidth = 163;
             let bushHeight = 153;
 
-            // ตำแหน่งของพุ่มไม้ที่ต้องการ (แทนเมทริกซ์)
+            // ตำแหน่งของพุ่มไม้ที่ต้องการ
             let bushPositions = [
-                { x: 0, y: 153 }, { x: 163, y: 153 }, { x: 326, y: 153 }, // Row 1
+                { x: 0, y: 153 },
+                { x: 163, y: 153 }, { x: 326, y: 153 }, // Row 1
                 { x: 815, y: 306 }, { x: 978, y: 306 }, // Row 2
-                { x: 489, y: 459 }, { x: 652, y: 459 }, { x: 815, y: 459 }, { x: 978, y: 459 } // Row 3
+                { x: 489, y: 459 }, { x: 652, y: 459 }, { x: 815, y: 459 }, { x: 978, y: 459 }, // Row 3
+                 { x: 850, y: 600 }, // เพิ่มพุ่มไม้ในแถวที่ 4
+                //{ x: 300, y: 750 }, { x: 650, y: 750 }  // เพิ่มพุ่มไม้ในแถวที่ 5
             ];
 
             for (let pos of bushPositions) {
-                let bush = new Sprite(game, "SpriteWallBush.png", 163, 153); // ✅ ใช้ขนาดที่ตรงกับ animation frame
+                let bush = new Sprite(game, "SpriteWallBush.png", 163, 153);
                 bush.loadAnimation(979, 153, 163, 153);
                 bush.generateAnimationCycles(SINGLE_ROW, 6);
-                bush.setAnimationSpeed(700);
+                bush.setAnimationSpeed(500); // เพิ่มความเร็วของพุ่มไม้
                 bush.setPosition(pos.x, pos.y);
                 bush.playAnimation();
                 wallBushes.push(bush);
             }
         }
+
 
         function update() {
             game.clear();
