@@ -27,8 +27,7 @@
         var timer;
         var timeLeft = 20;
         var timerDisplay;
-
-
+        var gameStarted = false;
 
         function init() {
             game = new Scene();
@@ -52,8 +51,13 @@
             createWallBushes();
             createBerryBush();
             createTimerDisplay();
-            startTimer();
-            game.start();
+            showInstructions();
+        }
+
+        function showInstructions() {
+            createCard("วิธีการเล่น", [
+                { text: "Ready", color: "green", onClick: startGame }
+            ], "- บังคับ Slime ด้วยปุ่มลูกศร\n- หลีกเลี่ยงพุ่มไม้\n- อยู่รอดครบ 30 วินาทีเพื่อให้พุ่มเบอรี่ปรากฏ\n- เก็บพุ่มเบอรี่เพื่อชนะ");
         }
 
         function createTimerDisplay() {
@@ -63,6 +67,11 @@
             updateTimerDisplay();
         }
 
+        function startGame() {
+            gameStarted = true;
+            startTimer();
+            game.start();
+        }
 
         function startTimer() {
             timer = setInterval(() => {
@@ -73,73 +82,63 @@
                 }
             }, 1000);
         }
+
         function updateTimerDisplay() {
             timerDisplay.innerText = `Time: ${timeLeft}s`;
         }
 
-        function createCard(title, buttons) {
-    let oldCard = document.getElementById("gameCard");
-    if (oldCard) oldCard.remove();
+        function createCard(title, buttons, message = "", transparent = false) {
+            let oldCard = document.getElementById("gameCard");
+            if (oldCard) oldCard.remove();
 
-    let card = document.createElement("div");
-    card.id = "gameCard";
-    card.style = `
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 300px;
-        padding: 20px;
-        background: white;
-        text-align: center;
-        border-radius: 10px;
-        box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
-        z-index: 1000;
-    `;
-
-    let titleText = document.createElement("h2");
-    titleText.innerText = title;
-    card.appendChild(titleText);
-
-    // สร้างปุ่มหรือ <a> ถ้ามีลิงก์
-    buttons.forEach(btnData => {
-        if (btnData.link) {
-            let link = document.createElement("a");
-            link.href = btnData.link;
-            link.innerText = btnData.text;
-            link.style = `
-                display: block;
-                margin: 10px;
-                padding: 10px 20px;
+            let card = document.createElement("div");
+            card.id = "gameCard";
+            card.style = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 300px;
+                padding: 20px;
+                background: rgba(255, 255, 255, 0.8); /* ✅ เปลี่ยนเป็นโปร่งใส */
                 text-align: center;
-                border-radius: 5px;
-                cursor: pointer;
-                font-size: 16px;
-                background: ${btnData.color};
-                color: white;
-                text-decoration: none;
+                border-radius: 10px;
+                box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+                z-index: 1000;
             `;
-            card.appendChild(link);
-        } else {
-            let button = document.createElement("button");
-            button.innerText = btnData.text;
-            button.onclick = btnData.onClick;
-            button.style = `
-                margin: 10px;
-                padding: 10px 20px;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-                font-size: 16px;
-                background: ${btnData.color};
-                color: white;
-            `;
-            card.appendChild(button);
-        }
-    });
 
-    document.body.appendChild(card);
-}
+            let titleText = document.createElement("h2");
+            titleText.innerText = title;
+            card.appendChild(titleText);
+            
+            if (message) {
+                let msgText = document.createElement("p");
+                msgText.innerText = message;
+                card.appendChild(msgText);
+            }
+
+            buttons.forEach(btnData => {
+                let button = document.createElement("button");
+                button.innerText = btnData.text;
+                button.onclick = () => {
+                    card.remove();
+                    btnData.onClick();
+                };
+                button.style = `
+                    margin: 10px;
+                    padding: 10px 20px;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    font-size: 16px;
+                    background: ${btnData.color};
+                    color: white;
+                `;
+                card.appendChild(button);
+            });
+
+            document.body.appendChild(card);
+        }
 
 
         function checkCollision() {
@@ -203,7 +202,7 @@
     clearInterval(timer);
     createCard("คุณชนะแล้ว!", [
         { text: "Restart", color: "green", onClick: () => location.reload() },
-        { text: "Next Stage", color: "blue", link: "GameCH2.html" } // ✅ ใช้ link แทน onClick
+        { text: "Next Stage", color: "blue", link: "GameCH2.html" }
     ]);
 }
 

@@ -1,0 +1,179 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>Slime Escape</title>
+    <script type="text/javascript" src="simpleGame.js"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: black;
+        }
+        canvas { display: block; }
+    </style>
+    <script type="text/javascript">
+        var game, background, character, berryBush, timerDisplay;
+        var chaserBushes = [];
+        var timeLeft = 30;
+        var timer;
+        var berryAppeared = false;
+
+        function init() {
+            game = new Scene();
+            game.setSize(1000, 700);
+
+            background = new Sprite(game, "grass.png", 1000, 700);
+            background.setSpeed(0);
+            background.setPosition(500, 350);
+
+            character = new Sprite(game, "Slime1_Walk_body.png", 64, 64);
+            character.loadAnimation(512, 256, 64, 64);
+            character.generateAnimationCycles();
+            character.renameCycles(["down", "up", "left", "right"]);
+            character.setAnimationSpeed(500);
+            character.setPosition(500, 350);
+            character.setSpeed(0);
+            character.pauseAnimation();
+            character.setCurrentCycle("down");
+            character.setBoundAction(STOP);
+
+            createChaserBush();
+            createTimerDisplay();
+            startTimer();
+            game.start();
+        }
+
+        function createTimerDisplay() {
+            timerDisplay = document.createElement("div");
+            timerDisplay.style = "position:absolute; top:10px; left:10px; padding:10px; background:white; font-size:20px; font-weight:bold;";
+            document.body.appendChild(timerDisplay);
+            updateTimerDisplay();
+        }
+
+        function startTimer() {
+            timer = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                if (timeLeft % 10 === 0 && timeLeft > 0) {
+                    createChaserBush();
+                }
+                if (timeLeft <= 0 && !berryAppeared) {
+                    spawnBerryBush();
+                }
+            }, 1000);
+        }
+
+
+        function updateTimerDisplay() {
+            timerDisplay.innerText = `Time: ${timeLeft}s`;
+        }
+
+        function createChaserBush() {
+            let bush = new Sprite(game, "SpriteWallBush.png", 163, 153);
+            bush.loadAnimation(979, 153, 163, 153);
+            bush.generateAnimationCycles(SINGLE_ROW, 6);
+            bush.setAnimationSpeed(700);
+            bush.setPosition(Math.random() * 1000, Math.random() * 700);
+            bush.setSpeed(3); // เพิ่มความเร็วของพุ่มไม้ที่ไล่ตาม
+            bush.playAnimation();
+            chaserBushes.push(bush);
+        }
+
+        function spawnBerryBush() {
+            if (!berryBush) {
+                berryBush = new Sprite(game, "SpriteBerryBush.png", 163, 153);
+                berryBush.loadAnimation(979, 153, 163, 153);
+                berryBush.generateAnimationCycles(SINGLE_ROW, 6);
+                berryBush.setAnimationSpeed(700);
+                berryBush.setPosition(500, 350);
+                berryBush.setSpeed(0);
+                berryBush.playAnimation();
+                berryAppeared = true;
+            }
+        }
+
+        function checkCollision() {
+            for (let bush of chaserBushes) {
+                if (character.collidesWith(bush)) {
+                    gameOver();
+                    return;
+                }
+            }
+            
+            if (berryAppeared && character.collidesWith(berryBush)) {
+                gameWin();
+                return;
+            }
+        }
+
+        function moveChasers() {
+            for (let bush of chaserBushes) {
+                let angle = Math.atan2(character.y - bush.y, character.x - bush.x);
+                bush.setMoveAngle(angle * 180 / Math.PI);
+            }
+        }
+
+        function gameOver() {
+            clearInterval(timer);
+            createCard("คุณแพ้แล้ว!", [
+                { text: "Restart", color: "red", onClick: () => location.reload() }
+            ]);
+        }
+
+        function gameWin() {
+            clearInterval(timer);
+            createCard("คุณชนะแล้ว!", [
+                { text: "Restart", color: "green", onClick: () => location.reload() },
+                { text: "Next Stage", color: "blue", link: "GameCH2.html" }
+            ]);
+        }
+
+        function update() {
+            game.clear();
+            checkKeys();
+            background.update();
+            character.update();
+            moveChasers();
+            checkCollision();
+            
+            for (let bush of chaserBushes) {
+                bush.update();
+            }
+            
+            if (berryAppeared) {
+                berryBush.update();
+            }
+        }
+
+        function checkKeys() {
+            if (keysDown[K_LEFT]) {
+                character.setSpeed(15);
+                character.playAnimation();
+                character.setMoveAngle(270);
+                character.setCurrentCycle("left");
+            } else if (keysDown[K_RIGHT]) {
+                character.setSpeed(15);
+                character.playAnimation();
+                character.setMoveAngle(90);
+                character.setCurrentCycle("right");
+            } else if (keysDown[K_UP]) {
+                character.setSpeed(15);
+                character.playAnimation();
+                character.setMoveAngle(0);
+                character.setCurrentCycle("up");
+            } else if (keysDown[K_DOWN]) {
+                character.setSpeed(15);
+                character.playAnimation();
+                character.setMoveAngle(180);
+                character.setCurrentCycle("down");
+            } else {
+                character.setSpeed(0);
+            }
+        }
+    </script>
+</head>
+<body onload="init()">
+</body>
+</html>
