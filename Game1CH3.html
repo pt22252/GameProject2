@@ -34,7 +34,7 @@
             game.setSize(1000, 700);
             game.setBG("lightgreen");
 
-            background = new Sprite(game, "grass.png", 1000, 700);
+            background = new Sprite(game, "yellowgrass.png", 1000, 700);
             background.setSpeed(0, 0);
             background.setPosition(500, 350);
 
@@ -56,7 +56,7 @@
         }
 
         function showInstructions() {
-            createCard("Chapter 2 \nวิธีการเล่น", [
+            createCard("Chapter 3 \nวิธีการเล่น", [
                 { text: "Ready", color: "green", onClick: startGame }
             ], "- บังคับ Slime ด้วยปุ่มลูกศร\n- หลีกเลี่ยงพุ่มไม้\n- ไปถึงพุ่มเบอรี่ก่อนหมดเวลา\n- เก็บพุ่มเบอรี่เพื่อชนะ");
         }
@@ -160,7 +160,7 @@
                 let bushTop = bush.y - bush.height / 2;
                 let bushBottom = bush.y + bush.height / 2;
 
-                let buffer = 35; // ลดขนาดขอบเขต hitbox ของพุ่มไม้ลงเล็กน้อย
+                let buffer = 30; // ลดขนาดขอบเขต hitbox ของพุ่มไม้ลงเล็กน้อย
 
                 if (
                     character.x + character.width - buffer > bush.x + buffer &&
@@ -212,7 +212,7 @@
             setTimeout(() => {
                 createCard("คุณชนะแล้ว!", [
                     { text: "Restart", color: "red", onClick: restartGame },
-                    { text: "Next Stage", color: "blue", onClick: () => window.location.href = "Game1CH3.html" }
+                    { text: "Next Stage", color: "blue", onClick: () => window.location.href = "Game1CH1.html" }
                 ]);
             }, 50);  // ✅ หน่วงแค่ 50ms ให้แน่ใจว่า DOM ไม่เปลี่ยนระหว่างการสร้างการ์ด
         }
@@ -232,7 +232,7 @@
             let berryBushMatrix = [
                 [0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, , 0],
                 [0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 1, 0, 0, 0]  // พุ่ม Berry อยู่ที่ row 3, col 5
             ];
@@ -261,17 +261,18 @@
 
             // ตำแหน่งของพุ่มไม้ที่ต้องการ
             let bushPositions = [
-            { x: 100, y: 150 }, { x: 300, y: 150 }, { x: 700, y: 150 },
-                { x: 500, y: 300 }, { x: 800, y: 300 },
-                { x: 200, y: 450 }, { x: 600, y: 450 }, { x: 900, y: 450 }
+                { x: 0, y: 143 }, { x: 163, y: 143 }, { x: 326, y: 143 }, // Row 1
+                { x: 815, y: 296 }, { x: 978, y: 296 }, // Row 2
+                { x: 489, y: 449 }, { x: 652, y: 449 }, { x: 815, y: 449 }, { x: 978, y: 449 }, // Row 3
+                { x: 850, y: 570 }, // Row 4
             ];
 
             for (let pos of bushPositions) {
-                let bush = new Sprite(game, "SpriteWallBush.png", 163, 153);
+                let bush = new Sprite(game, "SpriteWallBush2.png", 163, 153);
                 bush.loadAnimation(979, 153, 163, 153);
                 bush.generateAnimationCycles(SINGLE_ROW, 6);
                 bush.setAnimationSpeed(700);
-                bush.setSpeed(10);
+                bush.setSpeed(15);
                 bush.setPosition(pos.x, pos.y);
                 bush.playAnimation();
                 wallBushes.push(bush);
