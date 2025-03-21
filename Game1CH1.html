@@ -34,11 +34,11 @@
             game.setSize(1000, 700);
             game.setBG("lightgreen");
 
-            background = new Sprite(game, "grass.png", 1000, 700);
+            background = new Sprite(game, "BG1.png", 1000, 700);
             background.setSpeed(0, 0);
             background.setPosition(500, 350);
 
-            character = new Sprite(game, "Slime1_Walk_body.png", 64, 64);
+            character = new Sprite(game, "Sprite_Slime_CH1.png", 64, 64);
             character.loadAnimation(512, 256, 64, 64);
             character.generateAnimationCycles();
             character.renameCycles(["down", "up", "left", "right"]);
@@ -243,7 +243,7 @@
                         let x = col * bushWidth + (bushWidth / 2);
                         let y = row * bushHeight + (bushHeight / 2);
 
-                        berryBush = new Sprite(game, "SpriteBerryBush.png", 979, 153);
+                        berryBush = new Sprite(game, "Sprite_Berry_Bush.png", 979, 153);
                         berryBush.loadAnimation(979, 153, 163, 153);
                         berryBush.generateAnimationCycles(SINGLE_ROW, 6);
                         berryBush.setAnimationSpeed(700);
@@ -267,7 +267,7 @@
             ];
 
             for (let pos of bushPositions) {
-                let bush = new Sprite(game, "SpriteWallBush.png", 163, 153); // ✅ ใช้ขนาดที่ตรงกับ animation frame
+                let bush = new Sprite(game, "Sprite_Wall_Bush.png", 163, 153); // ✅ ใช้ขนาดที่ตรงกับ animation frame
                 bush.loadAnimation(979, 153, 163, 153);
                 bush.generateAnimationCycles(SINGLE_ROW, 6);
                 bush.setAnimationSpeed(700);
