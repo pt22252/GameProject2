@@ -35,7 +35,7 @@
             background.setPosition(window.innerWidth / 2, window.innerHeight / 2);
 
             // ตัวละคร
-            character = new Sprite(game, "Sprite_Slime_Big.png", 79, 79);
+            character = new Sprite(game, "Sprite_Slime_CH2.png", 79, 79);
             character.loadAnimation(634, 317, 79, 79);
             character.generateAnimationCycles();
             character.renameCycles(["down", "up", "left", "right"]);
@@ -109,122 +109,99 @@
 
             // สร้างพุ่มไม้ในตำแหน่งที่กำหนด
             for (let pos of bushPositions) {
-                let bush = new Sprite(game, "Cactus2.png", bushWidth, bushHeight);
+                let bush = new Sprite(game, "Sprite_Cactus_CH2.png", bushWidth, bushHeight);
                 bush.setSpeed(0);  // 🚫 หยุดพุ่มไม้ไม่ให้ขยับ
                 bush.setPosition(pos.x, pos.y);
                 wallBushes.push(bush);
             }
         }
 
-        var score = 0; // เริ่มต้นคะแนน
-
-// ฟังก์ชันนี้ใช้สร้างกล่องคะแนน
-function createScoreDisplay() {
-    // สร้าง div สำหรับคะแนน
-    scoreDisplay = document.createElement("div");
-    scoreDisplay.style = "position:absolute; top:10px; right:10px; padding:10px; background-color:rgba(0, 0, 0, 0.7); color:white; font-size:20px; font-weight:bold; border-radius:5px;";
-    document.body.appendChild(scoreDisplay);
-    updateScoreDisplay();  // อัปเดตคะแนนในกล่อง
-}
-
-function createGameCard(title, buttons) {
-    // ลบการ์ดเก่าถ้ามี
-    let existingCard = document.getElementById("gameCard");
-    if (existingCard) existingCard.remove();
-
-    // สร้างการ์ดใหม่
-    let card = document.createElement("div");
-    card.id = "gameCard";
-    card.style = `
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 300px;
-        padding: 20px;
-        background: white;
-        text-align: center;
-        border-radius: 10px;
-        box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
-        z-index: 1000;
-    `;
-
-    let titleText = document.createElement("h2");
-    titleText.innerText = title;
-    card.appendChild(titleText);
-
-    // สร้างปุ่มต่าง ๆ
-    buttons.forEach(btnData => {
-        let button = document.createElement("button");
-        button.innerText = btnData.text;
-        button.onclick = btnData.onClick;
-        button.style = `
-            margin: 10px;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            background: ${btnData.color};
-            color: white;
-        `;
-        card.appendChild(button);
-    });
-
-    document.body.appendChild(card);
-}
-
-// ฟังก์ชันนี้ใช้สำหรับอัปเดตคะแนนในกล่อง
-function updateScoreDisplay() {
-    scoreDisplay.innerText = "Score: " + score;
-}
-
-// ฟังก์ชันนี้ใช้เพิ่มคะแนนเมื่อมีการเก็บเบอร์รี่
-function checkCollision() {
-    let charLeft = character.x - character.width / 2;
-    let charRight = character.x + character.width / 2;
-    let charTop = character.y - character.height / 2;
-    let charBottom = character.y + character.height / 2;
-
-    // ตรวจสอบการชนกับเบอร์รี่
-    for (let i = 0; i < berryBushes.length; i++) {
-        let berry = berryBushes[i];
-        let berryLeft = berry.x - berry.width / 2;
-        let berryRight = berry.x + berry.width / 2;
-        let berryTop = berry.y - berry.height / 2;
-        let berryBottom = berry.y + berry.height / 2;
-
-        if (charRight > berryLeft && charLeft < berryRight && charBottom > berryTop && charTop < berryBottom) {
-            // ถ้าชนเบอร์รี่, ให้ลบเบอร์รี่จาก array
-            berryBushes.splice(i, 1);  // ลบเบอร์รี่ออกจาก array
-            score++;  // เพิ่มแต้ม
-            i--;  // เนื่องจากการลบ item จาก array, ต้องลดค่า i ลง
-            updateScoreDisplay();  // อัปเดตคะแนนหลังจากเก็บเบอร์รี่
-        }
-    }
-}
-
+        
         var score = 0; // แต้มเริ่มต้น
         var berryBushes = []; // เก็บพุ่มเบอร์รี่แยกจาก wallBushes
 
-function createBerryBushes() {
-    let bushWidth = 40;
-    let bushHeight = 40;
+        function createBerryBushes() {
+            let bushWidth = 40;
+            let bushHeight = 40;
 
-    // ตำแหน่งของพุ่มเบอร์รี่
-    let bushPositions = [
-        { x: 100, y: 550 }, { x: 430, y: 550 }, { x: 430, y: 100 }, { x: 1030, y: 100 }, { x: 1030, y: 550 }
-    ];
+            // ตำแหน่งของพุ่มเบอร์รี่
+            let bushPositions = [
+                { x: 100, y: 550 }, { x: 430, y: 550 }, { x: 430, y: 100 }, { x: 1030, y: 100 }, { x: 1030, y: 550 }
+            ];
 
-    // สร้างพุ่มเบอร์รี่ในตำแหน่งที่กำหนด
-    for (let pos of bushPositions) {
-        let bush = new Sprite(game, "berry.png", bushWidth, bushHeight);
-        bush.setSpeed(0);  // 🚫 หยุดพุ่มเบอร์รี่ไม่ให้ขยับ
-        bush.setPosition(pos.x, pos.y);
-        berryBushes.push(bush); // เพิ่มเบอร์รี่ไปยัง array แยกต่างหากจาก wallBushes
-    }
-}
+            // สร้างพุ่มเบอร์รี่ในตำแหน่งที่กำหนด
+            for (let pos of bushPositions) {
+                let bush = new Sprite(game, "Sprite_Berry_CH2.png", bushWidth, bushHeight);
+                bush.setSpeed(0);  // 🚫 หยุดพุ่มเบอร์รี่ไม่ให้ขยับ
+                bush.setPosition(pos.x, pos.y);
+                berryBushes.push(bush); // เพิ่มเบอร์รี่ไปยัง array แยกต่างหากจาก wallBushes
+            }
+        }
 
+        var score = 0; // เริ่มต้นคะแนน
+
+        // ฟังก์ชันนี้ใช้สร้างกล่องคะแนน
+        function createScoreDisplay() {
+            // สร้าง div สำหรับคะแนน
+            scoreDisplay = document.createElement("div");
+            scoreDisplay.style = "position:absolute; top:10px; right:10px; padding:10px; background-color:rgba(0, 0, 0, 0.7); color:white; font-size:20px; font-weight:bold; border-radius:5px;";
+            document.body.appendChild(scoreDisplay);
+            updateScoreDisplay();  // อัปเดตคะแนนในกล่อง
+        }
+
+        function createGameCard(title, buttons) {
+            // ลบการ์ดเก่าถ้ามี
+            let existingCard = document.getElementById("gameCard");
+            if (existingCard) existingCard.remove();
+
+            // สร้างการ์ดใหม่
+            let card = document.createElement("div");
+            card.id = "gameCard";
+            card.style = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 300px;
+                padding: 20px;
+                background: white;
+                text-align: center;
+                border-radius: 10px;
+                box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+                z-index: 1000;
+            `;
+
+            let titleText = document.createElement("h2");
+            titleText.innerText = title;
+            card.appendChild(titleText);
+
+            // สร้างปุ่มต่าง ๆ
+            buttons.forEach(btnData => {
+                let button = document.createElement("button");
+                button.innerText = btnData.text;
+                button.onclick = btnData.onClick;
+                button.style = `
+                    margin: 10px;
+                    padding: 10px 20px;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    font-size: 16px;
+                    background: ${btnData.color};
+                    color: white;
+                `;
+                card.appendChild(button);
+            });
+
+            document.body.appendChild(card);
+        }
+
+        // ฟังก์ชันนี้ใช้สำหรับอัปเดตคะแนนในกล่อง
+        function updateScoreDisplay() {
+            scoreDisplay.innerText = "Score: " + score;
+        }
+
+        // ฟังก์ชันนี้ใช้เพิ่มคะแนนเมื่อมีการเก็บเบอร์รี่
 function checkCollision() {
     let charLeft = character.x - character.width / 2;
     let charRight = character.x + character.width / 2;
@@ -255,56 +232,64 @@ function checkCollision() {
         let berryBottom = berry.y + berry.height / 2;
 
         if (charRight > berryLeft && charLeft < berryRight && charBottom > berryTop && charTop < berryBottom) {
+            // ถ้าชนเบอร์รี่, ให้ลบเบอร์รี่จาก array
             berryBushes.splice(i, 1);  // ลบเบอร์รี่ออกจาก array
             score++;  // เพิ่มแต้ม
-            i--;  
-            updateScoreDisplay();  
-
-            // ✅ ชนะเมื่อเก็บครบ 5 ลูก และเวลาเหลืออยู่
+            i--;  // เนื่องจากการลบ item จาก array, ต้องลดค่า i ลง
+            updateScoreDisplay();  // อัปเดตคะแนนหลังจากเก็บเบอร์รี่
+         // ✅ ชนะเมื่อเก็บครบ 5 ลูก และเวลาเหลืออยู่
             if (score === 5 && timeLeft > 0) {
                 gameWin();
             }
+
+            
+
         }
     }
 }
 
+        function gameOver() {
+            clearInterval(timer);
+            createGameCard("คุณแพ้แล้ว!", [
+                { text: "Restart", color: "red", onClick: () => location.reload() }
+            ]);
+        }
 
+        function gameWin() {
+            clearInterval(timer);
+            createGameCard("คุณชนะแล้ว!", [
+                { text: "Restart", color: "green", onClick: () => location.reload() },
+                //{ text: "Next Stage", color: "blue", onClick: () => alert("Next stage coming soon!") }
+                //{ text: "Next Stage", color: "blue", link: "GameCH3.html" }
+                //{ text: "Next Stage", color: "blue", onClick: () => "GameCH3.html" }
+                { 
+                    text: "Next Stage", 
+                    color: "blue", 
+                    onClick: () => window.location.href = "Game2CH2.html" 
+                }
+            ]);
+        }
 
-function gameOver() {
-    clearInterval(timer);
-    createGameCard("คุณแพ้แล้ว!", [
-        { text: "Restart", color: "red", onClick: () => location.reload() }
-    ]);
-}
+        function update() {
+            game.clear();
+            checkKeys();        // รอให้เรากดปุ่มควบคุม
+            background.update();
+            character.update(); // อัปเดตตัวละคร
+            checkCollision();   // ตรวจชนกับพุ่มเบอร์รี่
 
-function gameWin() {
-    clearInterval(timer);
-    createGameCard("คุณชนะแล้ว!", [
-        { text: "Restart", color: "green", onClick: () => location.reload() },
-        { text: "Next Stage", color: "blue", onClick: () => alert("Next stage coming soon!") }
-    ]);
-}
+            // อัปเดตพุ่มไม้ทั้งหมด (พุ่มไม้ไม่หาย)
+            for (let bush of wallBushes) {
+                bush.update();
+            }
 
-function update() {
-    game.clear();
-    checkKeys();        // รอให้เรากดปุ่มควบคุม
-    background.update();
-    character.update(); // อัปเดตตัวละคร
-    checkCollision();   // ตรวจชนกับพุ่มเบอร์รี่
+            // อัปเดตเบอร์รี่ที่ยังคงอยู่
+            for (let berry of berryBushes) {
+                berry.update();
+            }
 
-    // อัปเดตพุ่มไม้ทั้งหมด (พุ่มไม้ไม่หาย)
-    for (let bush of wallBushes) {
-        bush.update();
-    }
-
-    // อัปเดตเบอร์รี่ที่ยังคงอยู่
-    for (let berry of berryBushes) {
-        berry.update();
-    }
-
-    // แสดงคะแนนที่มุมขวาบน
-    game.drawText("Score: " + score, window.innerWidth - 150, 50, "white", "20px Arial");
-}
+            // แสดงคะแนนที่มุมขวาบน
+            game.drawText("Score: " + score, window.innerWidth - 150, 50, "white", "20px Arial");
+        }
 
 
 function checkKeys() {
