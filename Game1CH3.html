@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>SlimeCH2</title>
     <script type="text/javascript" src="simpleGame.js"></script>
-    <style>
+    <!-- <style>
         body,
         html {
             margin: 0;
@@ -17,7 +17,7 @@
         canvas {
             display: block;
         }
-    </style>
+    </style> -->
     <script type="text/javascript">
         var game;
         var background;
@@ -31,12 +31,15 @@
 
         function init() {
             game = new Scene();
-            game.setSize(1000, 700);
+            let gameWidth = 1000;  // กำหนดขนาดเริ่มต้นของเกม
+            let gameHeight = 700;
+
+            game.setSize(gameWidth, gameHeight);
             game.setBG("lightgreen");
 
-            background = new Sprite(game, "BG5.png", 1000, 700);
+            background = new Sprite(game, "BG5.png", gameWidth, gameHeight);
             background.setSpeed(0, 0);
-            background.setPosition(500, 350);
+            background.setPosition(gameWidth / 2, gameHeight / 2);
 
             character = new Sprite(game, "Sprite_Slime_CH1.png", 64, 64);
             character.loadAnimation(512, 256, 64, 64);
@@ -228,30 +231,19 @@
             let bushWidth = 163;
             let bushHeight = 153;
 
-            // กำหนดเมทริกซ์ตำแหน่งของพุ่ม Berry (มีแค่จุดเดียว)
-            let berryBushMatrix = [
-                [0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, , 0],
-                [0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 1, 0, 0, 0]  // พุ่ม Berry อยู่ที่ row 3, col 5
+            // ตำแหน่งของพุ่มเบอรี่ (แบบเดียวกับพุ่มไม้)
+            let berryBushPositions = [
+                { x: 500, y: 690 } // ตำแหน่งตัวอย่าง สามารถแก้ไขได้ตามต้องการ
             ];
 
-            for (let row = 0; row < berryBushMatrix.length; row++) {
-                for (let col = 0; col < berryBushMatrix[row].length; col++) {
-                    if (berryBushMatrix[row][col] === 1) {
-                        let x = col * bushWidth + (bushWidth / 2);
-                        let y = row * bushHeight + (bushHeight / 2);
-
-                        berryBush = new Sprite(game, "Sprite_Berry_Bush.png", 979, 153);
-                        berryBush.loadAnimation(979, 153, 163, 153);
-                        berryBush.generateAnimationCycles(SINGLE_ROW, 6);
-                        berryBush.setAnimationSpeed(700);
-                        berryBush.setSpeed(0);
-                        berryBush.setPosition(x, y);
-                        berryBush.playAnimation();
-                    }
-                }
+            for (let pos of berryBushPositions) {
+                berryBush = new Sprite(game, "Sprite_Berry_Bush.png", 979, 153);
+                berryBush.loadAnimation(979, 153, 163, 153);
+                berryBush.generateAnimationCycles(SINGLE_ROW, 6);
+                berryBush.setAnimationSpeed(700);
+                berryBush.setSpeed(0);
+                berryBush.setPosition(pos.x, pos.y);
+                berryBush.playAnimation();
             }
         }
 
@@ -326,13 +318,13 @@
             }
         }
 
-        window.onresize = function () {
+        /* window.onresize = function () {
             let newWidth = window.innerWidth;
             let newHeight = window.innerHeight;
             game.setSize(newWidth, newHeight);
             background.setPosition(newWidth / 2, newHeight / 2);
             character.setPosition(newWidth / 2, newHeight / 2);
-        };
+        }; */
 
     </script>
 </head>
