@@ -164,6 +164,8 @@
             let charTop = character.y - character.height / 2;
             let charBottom = character.y + character.height / 2;
 
+            let buffer = 30; // ลดขนาด hitbox ให้ตรวจจับเร็วขึ้น
+
             // ตรวจจับการชนกับพุ่มไม้
             for (let bush of wallBushes) {
                 let bushLeft = bush.x - bush.width / 2;
@@ -171,27 +173,24 @@
                 let bushTop = bush.y - bush.height / 2;
                 let bushBottom = bush.y + bush.height / 2;
 
-                let buffer = 30; // ลดขนาดขอบเขต hitbox ของพุ่มไม้ลงเล็กน้อย
-
                 if (
-                    character.x + character.width - buffer > bush.x + buffer &&
-                    character.x + buffer < bush.x + bush.width - buffer &&
-                    character.y + character.height - buffer > bush.y + buffer &&
-                    character.y + buffer < bush.y + bush.height - buffer
+                    charRight - buffer > bushLeft + buffer &&
+                    charLeft + buffer < bushRight - buffer &&
+                    charBottom - buffer > bushTop + buffer &&
+                    charTop + buffer < bushBottom - buffer
                 ) {
-                    // ลบ console.log ออก
+                    character.setSpeed(0); // หยุดตัวละครทันที
                     gameOver("You hit a bush! Try again?");
+                    return;
                 }
             }
 
-            // ตรวจจับการชนกับ BerryBush (ใช้ hitbox เดียวกับ wallBush)
+            // ตรวจจับการชนกับพุ่มเบอรี่
             if (berryBush) {
                 let berryBushLeft = berryBush.x - berryBush.width / 2;
                 let berryBushRight = berryBush.x + berryBush.width / 2;
                 let berryBushTop = berryBush.y - berryBush.height / 2;
                 let berryBushBottom = berryBush.y + berryBush.height / 2;
-
-                let buffer = 30; // ลดขนาดขอบเขต hitbox ของ berryBush ลงเล็กน้อย
 
                 if (
                     charRight - buffer > berryBushLeft + buffer &&
@@ -199,11 +198,13 @@
                     charBottom - buffer > berryBushTop + buffer &&
                     charTop + buffer < berryBushBottom - buffer
                 ) {
-                    // ลบ console.log ออก
+                    character.setSpeed(0); // หยุดตัวละครทันที
                     gameWin();
+                    return;
                 }
             }
         }
+
 
 
 
@@ -282,9 +283,10 @@
         function update() {
             game.clear();
             checkKeys();
+            checkCollision(); // ✅ เรียกก่อนอัปเดตตัวละคร
+
             background.update();
             character.update();
-            checkCollision();
 
             for (let bush of wallBushes) {
                 bush.update();
@@ -293,6 +295,7 @@
                 berryBush.update();
             }
         }
+
 
 
         function checkKeys() {
