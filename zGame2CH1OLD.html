@@ -120,7 +120,7 @@
 
             // สร้างพุ่มไม้ในตำแหน่งที่กำหนด
             for (let pos of bushPositions) {
-                let bush = new Sprite(game, "Sprite_Cactus_CH2.png", bushWidth, bushHeight);
+                let bush = new Sprite(game, "Sprite_Cactus_CH1.png", bushWidth, bushHeight);
                 bush.setSpeed(0);  // 🚫 หยุดพุ่มไม้ไม่ให้ขยับ
                 bush.setPosition(pos.x, pos.y);
                 wallBushes.push(bush);
@@ -142,7 +142,7 @@
 
             // สร้างพุ่มเบอร์รี่ในตำแหน่งที่กำหนด
             for (let pos of bushPositions) {
-                let bush = new Sprite(game, "Sprite_Berry_CH2.png", bushWidth, bushHeight);
+                let bush = new Sprite(game, "Sprite_Berry_CH1.png", bushWidth, bushHeight);
                 bush.setSpeed(0);  // 🚫 หยุดพุ่มเบอร์รี่ไม่ให้ขยับ
                 bush.setPosition(pos.x, pos.y);
                 berryBushes.push(bush); // เพิ่มเบอร์รี่ไปยัง array แยกต่างหากจาก wallBushes

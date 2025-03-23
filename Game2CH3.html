@@ -333,6 +333,52 @@
             }
         }
 
+        function createGameCard(title, buttons) {
+            // ลบการ์ดเก่าถ้ามี
+            let existingCard = document.getElementById("gameCard");
+            if (existingCard) existingCard.remove();
+
+            // สร้างการ์ดใหม่
+            let card = document.createElement("div");
+            card.id = "gameCard";
+            card.style = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 300px;
+                padding: 20px;
+                background: white;
+                text-align: center;
+                border-radius: 10px;
+                box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+                z-index: 1000;
+            `;
+            let titleText = document.createElement("h2");
+            titleText.innerText = title;
+            card.appendChild(titleText);
+
+            // สร้างปุ่มต่าง ๆ
+            buttons.forEach(btnData => {
+                let button = document.createElement("button");
+                button.innerText = btnData.text;
+                button.onclick = btnData.onClick;
+                button.style = `
+                    margin: 10px;
+                    padding: 10px 20px;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    font-size: 16px;
+                    background: ${btnData.color};
+                    color: white;
+                `;
+                card.appendChild(button);
+            });
+
+            document.body.appendChild(card);
+        }
+
         function gameOver() {
             clearInterval(timer);
             createGameCard("คุณแพ้แล้ว!", [
