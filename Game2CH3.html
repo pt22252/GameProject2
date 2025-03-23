@@ -9,10 +9,17 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: black;
         }
         canvas {
             display: block;
         }
+    </style>
     </style>
     <script type="text/javascript">
         var game;
@@ -136,8 +143,8 @@
         function createTimerDisplay() {
             timerDisplay = document.createElement("div");
             timerDisplay.style = `position:absolute; 
-                                top:10px; 
-                                left:10px; 
+                                top: 20px; 
+                                left: 280px; 
                                 padding:10px; 
                                 background-color:rgba(255, 255, 255, 0.7);
                                 color:black; 
@@ -287,8 +294,8 @@
             // สร้าง div สำหรับคะแนน
             scoreDisplay = document.createElement("div");
             scoreDisplay.style = `position:absolute; 
-                                  top:10px; 
-                                  right:280px; 
+                                  top: 20px; 
+                                  right: 280px; 
                                   padding:10px; 
                                   background-color:rgba(255, 255, 255, 0.7);    /* พื้นหลัง */
                                   color:black; 
