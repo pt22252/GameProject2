@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>SlimeCH1</title>
+    <title>SlimeCH3</title>
     <script type="text/javascript" src="simpleGame.js"></script>
     <style>
         html,
@@ -31,15 +31,9 @@
         var wallBushes = [];
         var berryBush;
         var timer;
-        var timeLeft = 20;
+        var timeLeft = 30;
         var timerDisplay;
         var gameStarted = false;
-        var gameAudio;
-        var eatSound = new Audio("eat.mp3");
-        eatSound.volume = 1.0; // ปรับระดับเสียง (0.0 - 1.0)
-        var hitSound = new Audio("hit.mp3");
-        hitSound.volume = 1.0; // ปรับระดับเสียง (0.0 - 1.0)
-
 
         function init() {
             game = new Scene();
@@ -49,13 +43,9 @@
             game.setSize(gameWidth, gameHeight);
             game.setBG("black");
 
-            background = new Sprite(game, "BG1.png", gameWidth, gameHeight);
+            background = new Sprite(game, "BG7.png", gameWidth, gameHeight);
             background.setSpeed(0, 0);
             background.setPosition(gameWidth / 2, gameHeight / 2);
-
-            gameAudio = new Audio("Game1.mp3"); // โหลดไฟล์เสียง
-            gameAudio.loop = true; // เล่นซ้ำอัตโนมัติ
-            gameAudio.volume = 0.5; // ปรับระดับเสียง (0.0 - 1.0)
 
             character = new Sprite(game, "Sprite_Slime_CH1.png", 64, 64);
             character.loadAnimation(512, 256, 64, 64);
@@ -75,9 +65,9 @@
         }
 
         function showInstructions() {
-            createCard("Chapter 2 \nระวังล่ะคราวนี้สิ่งกีดขวางจะเยอะขึ้น", [
+            createCard("Chapter 1 \nวิธีการเล่น", [
                 { text: "Ready", color: "green", onClick: startGame }
-            ], "วิธีการเล่นเหมือนเดิม\n- แต่จับจังหว่ะดีๆ");
+            ], "- บังคับ Slime ด้วยปุ่มลูกศร\n- หลีกเลี่ยงพุ่มไม้\n- ไปถึงพุ่มเบอรี่ก่อนหมดเวลา\n- เก็บพุ่มเบอรี่เพื่อชนะ");
         }
 
         function updateTimerPosition() {
@@ -116,7 +106,6 @@
 
         function startGame() {
             gameStarted = true;
-            gameAudio.play(); // เริ่มเล่นเสียงเมื่อเกมเริ่ม
             startTimer();
             game.start();
         }
@@ -192,6 +181,9 @@
             document.body.appendChild(card);
         }
 
+
+
+
         function checkCollision() {
             let charLeft = character.x - character.width / 2;
             let charRight = character.x + character.width / 2;
@@ -213,7 +205,6 @@
                     charBottom - buffer > bushTop + buffer &&
                     charTop + buffer < bushBottom - buffer
                 ) {
-                    hitSound.play(); // ✅ เล่นเสียงเมื่อชนพุ่มไม้
                     character.setSpeed(0); // หยุดตัวละครทันที
                     gameOver("You hit a bush! Try again?");
                     return;
@@ -233,17 +224,20 @@
                     charBottom - buffer > berryBushTop + buffer &&
                     charTop + buffer < berryBushBottom - buffer
                 ) {
-                    eatSound.play();  // ✅ เล่นเสียงเมื่อชนพุ่มเบอรี่
-                    character.setSpeed(0);
+                    character.setSpeed(0); // หยุดตัวละครทันที
                     gameWin();
                     return;
                 }
             }
         }
 
+
+
+
+
         function gameOver() {
             clearInterval(timer);
-            createCard("ไม่เป็นไรลองใหม่!", [
+            createCard("เหหหหหไม่เป็นไรอีกรอบ!", [
                 { text: "Restart", color: "red", onClick: () => location.reload() }
             ]);
         }
@@ -295,10 +289,9 @@
 
             // ตำแหน่งของพุ่มไม้ที่ต้องการ (แทนเมทริกซ์)
             let bushPositions = [
-                { x: 100, y: 150 }, { x: 300, y: 150 }, { x: 700, y: 150 },
-                { x: 500, y: 300 }, { x: 800, y: 300 },
-                { x: 200, y: 450 }, { x: 600, y: 450 }, { x: 900, y: 450 },
-                { x: 100, y: 600 }, { x: 400, y: 600 }, { x: 800, y: 600 }
+                { x: 0, y: 153 }, { x: 163, y: 153 }, { x: 326, y: 153 }, // Row 1
+                { x: 815, y: 306 }, { x: 978, y: 306 }, // Row 2
+                { x: 489, y: 459 }, { x: 652, y: 459 }, { x: 815, y: 459 }, { x: 978, y: 459 } // Row 3
             ];
 
             for (let pos of bushPositions) {
