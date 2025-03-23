@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>SlimeCH3</title>
+    <title>SlimeCH1</title>
     <script type="text/javascript" src="simpleGame.js"></script>
     <style>
         html,
@@ -31,9 +31,14 @@
         var wallBushes = [];
         var berryBush;
         var timer;
-        var timeLeft = 30;
+        var timeLeft = 20;
         var timerDisplay;
         var gameStarted = false;
+        var gameAudio;
+        var eatSound = new Audio("eat.mp3");
+        eatSound.volume = 1.0; // ปรับระดับเสียง (0.0 - 1.0)
+        var hitSound = new Audio("hit.mp3");
+        hitSound.volume = 1.0; // ปรับระดับเสียง (0.0 - 1.0)
 
         function init() {
             game = new Scene();
@@ -43,9 +48,13 @@
             game.setSize(gameWidth, gameHeight);
             game.setBG("black");
 
-            background = new Sprite(game, "BG7.png", gameWidth, gameHeight);
+            background = new Sprite(game, "BG1.png", gameWidth, gameHeight);
             background.setSpeed(0, 0);
             background.setPosition(gameWidth / 2, gameHeight / 2);
+
+            gameAudio = new Audio("Game1.mp3"); // โหลดไฟล์เสียง
+            gameAudio.loop = true; // เล่นซ้ำอัตโนมัติ
+            gameAudio.volume = 0.5; // ปรับระดับเสียง (0.0 - 1.0)
 
             character = new Sprite(game, "Sprite_Slime_CH1.png", 64, 64);
             character.loadAnimation(512, 256, 64, 64);
@@ -62,6 +71,8 @@
             createBerryBush();
             createTimerDisplay();
             showInstructions();
+
+
         }
 
         function showInstructions() {
@@ -106,6 +117,7 @@
 
         function startGame() {
             gameStarted = true;
+            gameAudio.play(); // เริ่มเล่นเสียงเมื่อเกมเริ่ม
             startTimer();
             game.start();
         }
@@ -205,6 +217,7 @@
                     charBottom - buffer > bushTop + buffer &&
                     charTop + buffer < bushBottom - buffer
                 ) {
+                    hitSound.play(); // ✅ เล่นเสียงเมื่อชนพุ่มไม้
                     character.setSpeed(0); // หยุดตัวละครทันที
                     gameOver("You hit a bush! Try again?");
                     return;
@@ -224,16 +237,13 @@
                     charBottom - buffer > berryBushTop + buffer &&
                     charTop + buffer < berryBushBottom - buffer
                 ) {
-                    character.setSpeed(0); // หยุดตัวละครทันที
+                    eatSound.play();  // ✅ เล่นเสียงเมื่อชนพุ่มเบอรี่
+                    character.setSpeed(0);
                     gameWin();
                     return;
                 }
             }
         }
-
-
-
-
 
         function gameOver() {
             clearInterval(timer);
