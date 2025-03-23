@@ -18,6 +18,27 @@
       overflow: hidden;
     }
 
+    /* ปุ่มเปิด/ปิดเพลง */
+    .music-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: rgba(0, 0, 0, 0.6);
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      z-index: 10;
+      transition: background 0.3s;
+    }
+
+    .music-button:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+
     /* โลโก้ */
     .logo {
       margin-top: 16%;
@@ -160,6 +181,14 @@
 </head>
 
 <body>
+  <!-- ปุ่มเปิด/ปิดเพลง -->
+  <button class="music-button" onclick="toggleMusic()">🔊 Play</button>
+
+  <!-- เพลงพื้นหลัง -->
+  <audio id="background-music" loop>
+    <source src="Sound2.mp3" type="audio/mp3">
+    Your browser does not support the audio element.
+  </audio>
 
   <!-- ต้นไม้หลังโลโก้ฝั่งขวา -->
   <img src="image\Tree1.png" alt="Tree Behind Logo" class="tree-back">
@@ -194,6 +223,21 @@
       <img src="image\start.png" alt="Start Button" class="start-button">
     </a>
   </div>
+
+  <script>
+    const music = document.getElementById("background-music");
+    const musicButton = document.querySelector(".music-button");
+
+    function toggleMusic() {
+      if (music.paused) {
+        music.play();
+        musicButton.innerHTML = "🔇 Pause";
+      } else {
+        music.pause();
+        musicButton.innerHTML = "🔊 Play";
+      }
+    }
+  </script>
 
 </body>
 

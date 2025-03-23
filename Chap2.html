@@ -124,10 +124,37 @@
             opacity: 0.5;
             color: rgb(200, 200, 200);
         }
+
+        /* ปุ่มเปิด/ปิดเพลง */
+        .music-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            z-index: 10;
+            transition: background 0.3s;
+        }
+
+        .music-button:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
     </style>
 </head>
 
 <body>
+    <!-- ปุ่มเปิด/ปิดเพลง -->
+    <button class="music-button" onclick="toggleMusic()">🔊 Play</button>
+
+    <!-- เพลงพื้นหลัง -->
+    <audio id="background-music" loop>
+        <source src="Sound2.mp3" type="audio/mp3">
+    </audio>
     <table>
         <tr>
             <td colspan="2" class="header-text">Choose Game !!!</td>
@@ -147,6 +174,20 @@
             </td>
         </tr>
     </table>
+    <script>
+        const music = document.getElementById("background-music");
+        const musicButton = document.querySelector(".music-button");
+
+        function toggleMusic() {
+            if (music.paused) {
+                music.play();
+                musicButton.innerHTML = "🔇 Pause";
+            } else {
+                music.pause();
+                musicButton.innerHTML = "🔊 Play";
+            }
+        }
+    </script>
 </body>
 
 </html>

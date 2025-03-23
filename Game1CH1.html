@@ -36,9 +36,9 @@
         var gameStarted = false;
         var gameAudio;
         var eatSound = new Audio("eat.mp3");
-        eatSound.volume = 1.0; // ปรับระดับเสียง (0.0 - 1.0)
+        eatSound.volume = 0.6; // ปรับระดับเสียง (0.0 - 1.0)
         var hitSound = new Audio("hit.mp3");
-        hitSound.volume = 1.0; // ปรับระดับเสียง (0.0 - 1.0)
+        hitSound.volume = 0.6; // ปรับระดับเสียง (0.0 - 1.0)
 
         function init() {
             game = new Scene();
@@ -54,7 +54,7 @@
 
             gameAudio = new Audio("Game1.mp3"); // โหลดไฟล์เสียง
             gameAudio.loop = true; // เล่นซ้ำอัตโนมัติ
-            gameAudio.volume = 0.5; // ปรับระดับเสียง (0.0 - 1.0)
+            gameAudio.volume = 1.0; // ปรับระดับเสียง (0.0 - 1.0)
 
             character = new Sprite(game, "Sprite_Slime_CH1.png", 64, 64);
             character.loadAnimation(512, 256, 64, 64);
