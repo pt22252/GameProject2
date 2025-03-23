@@ -3,21 +3,27 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>SlimeCH2</title>
+    <title>SlimeCH1</title>
     <script type="text/javascript" src="simpleGame.js"></script>
-    <!-- <style>
-        body,
-        html {
+    <style>
+        html,
+        body {
             margin: 0;
             padding: 0;
             overflow: hidden;
+            /* 🚫 ซ่อนแถบ Scrollbar */
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             background-color: black;
         }
 
         canvas {
             display: block;
         }
-    </style> -->
+    </style>
     <script type="text/javascript">
         var game;
         var background;
@@ -59,17 +65,44 @@
         }
 
         function showInstructions() {
-            createCard("Chapter 2 \nวิธีการเล่น", [
+            createCard("Chapter 2 \nระวังล่ะคราวนี้สิ่งกีดขวางจะเยอะขึ้น", [
                 { text: "Ready", color: "green", onClick: startGame }
-            ], "- บังคับ Slime ด้วยปุ่มลูกศร\n- หลีกเลี่ยงพุ่มไม้\n- ไปถึงพุ่มเบอรี่ก่อนหมดเวลา\n- เก็บพุ่มเบอรี่เพื่อชนะ");
+            ], "วิธีการเล่นเหมือนเดิม\n- แต่จับจังหว่ะดีๆ");
         }
 
+        function updateTimerPosition() {
+    let canvasRect = game.canvas.getBoundingClientRect();
+    timerDisplay.style.top = `${canvasRect.top + 10}px`;  // อยู่บนสุดของ Canvas
+    timerDisplay.style.left = `${canvasRect.left + 10}px`; // ชิดซ้ายของ Canvas
+}
+
         function createTimerDisplay() {
-            timerDisplay = document.createElement("div");
-            timerDisplay.style = "position:absolute; top:10px; left:10px; padding:10px; background:white; font-size:20px; font-weight:bold;";
-            document.body.appendChild(timerDisplay);
-            updateTimerDisplay();
-        }
+    timerDisplay = document.createElement("div");
+    timerDisplay.style = `
+        position: absolute;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.8);
+        font-size: 20px;
+        font-weight: bold;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+    `;
+    document.body.appendChild(timerDisplay);
+    updateTimerPosition();  // 📌 กำหนดตำแหน่งเริ่มต้น
+    updateTimerDisplay();
+}
+
+function updateCardPosition() {
+    let card = document.getElementById("gameCard");
+    if (!card) return;
+
+    let canvasRect = game.canvas.getBoundingClientRect();
+    let cardWidth = 300;
+    let cardHeight = 200;
+
+    card.style.top = `${canvasRect.top + (canvasRect.height / 2) - (cardHeight / 2)}px`;
+    card.style.left = `${canvasRect.left + (canvasRect.width / 2) - (cardWidth / 2)}px`;
+}
 
         function startGame() {
             gameStarted = true;
@@ -88,32 +121,31 @@
         }
 
         function updateTimerDisplay() {
-            timerDisplay.innerText = `Time: ${timeLeft}s`;
-        }
-
-        function createCard(title, buttons, message = "", transparent = false) {
+    timerDisplay.innerText = `Time: ${timeLeft}s`;
+}
+function createCard(title, buttons, message = "") {
     let oldCard = document.getElementById("gameCard");
     if (oldCard) oldCard.remove();
 
     let card = document.createElement("div");
     card.id = "gameCard";
 
-    let canvasRect = game.canvas.getBoundingClientRect(); // ✅ ใช้ขนาดและตำแหน่งของ canvas
+    let canvasRect = game.canvas.getBoundingClientRect(); // 📌 ดึงขนาดตำแหน่ง Canvas
 
     let cardWidth = 300;
     let cardHeight = 200;
 
     card.style = `
-        position: fixed;
-        top: ${canvasRect.top + (canvasRect.height / 2) - (cardHeight / 2)}px;  /* กลางตามแนวตั้ง */
-        left: ${canvasRect.left + (canvasRect.width / 2) - (cardWidth / 2)}px;  /* กลางตามแนวนอน */
+        position: absolute;
+        top: ${canvasRect.top + (canvasRect.height / 2) - (cardHeight / 2)}px;  /* กลางแนวตั้ง */
+        left: ${canvasRect.left + (canvasRect.width / 2) - (cardWidth / 2)}px;  /* กลางแนวนอน */
         width: ${cardWidth}px;
         padding: 20px;
         background: rgba(255, 255, 255, 0.8);
         text-align: center;
         border-radius: 10px;
         box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
-        z-index: 1000;  /* ให้อยู่ด้านบนสุด */
+        z-index: 1000;
     `;
 
     let titleText = document.createElement("h2");
@@ -148,6 +180,7 @@
 
     document.body.appendChild(card);
 }
+
 
 
 
@@ -200,6 +233,8 @@
 
 
 
+
+
         function gameOver() {
             clearInterval(timer);
             createCard("คุณแพ้แล้ว!", [
@@ -216,11 +251,10 @@
             setTimeout(() => {
                 createCard("คุณชนะแล้ว!", [
                     { text: "Restart", color: "red", onClick: restartGame },
-                    { text: "Next Stage", color: "blue", onClick: () => window.location.href = "Game1CH3.html" }
+                    { text: "Next Stage", color: "blue", onClick: () => window.location.href = "Game1CH2.html" }
                 ]);
             }, 50);  // ✅ หน่วงแค่ 50ms ให้แน่ใจว่า DOM ไม่เปลี่ยนระหว่างการสร้างการ์ด
         }
-
 
         function restartGame() {
             console.log("🔄 Restart button clicked! Reloading...");
@@ -248,19 +282,21 @@
             }
         }
 
+
         function createWallBushes() {
             let bushWidth = 163;
             let bushHeight = 153;
 
-            // ตำแหน่งของพุ่มไม้ที่ต้องการ
+            // ตำแหน่งของพุ่มไม้ที่ต้องการ (แทนเมทริกซ์)
             let bushPositions = [
             { x: 100, y: 150 }, { x: 300, y: 150 }, { x: 700, y: 150 },
                 { x: 500, y: 300 }, { x: 800, y: 300 },
-                { x: 200, y: 450 }, { x: 600, y: 450 }, { x: 900, y: 450 }
+                { x: 200, y: 450 }, { x: 600, y: 450 }, { x: 900, y: 450 },
+                { x: 100, y: 600 }, { x: 400, y: 600 }, { x: 800, y: 600 }
             ];
 
             for (let pos of bushPositions) {
-                let bush = new Sprite(game, "Sprite_Wall_Bush.png", 163, 153);
+                let bush = new Sprite(game, "Sprite_Wall_Bush.png", 163, 153); // ✅ ใช้ขนาดที่ตรงกับ animation frame
                 bush.loadAnimation(979, 153, 163, 153);
                 bush.generateAnimationCycles(SINGLE_ROW, 6);
                 bush.setAnimationSpeed(700);
@@ -270,7 +306,6 @@
                 wallBushes.push(bush);
             }
         }
-
 
         function update() {
             game.clear();
@@ -287,6 +322,7 @@
                 berryBush.update();
             }
         }
+
 
 
         function checkKeys() {
@@ -319,14 +355,9 @@
             }
         }
 
-        /* window.onresize = function () {
-            let newWidth = window.innerWidth;
-            let newHeight = window.innerHeight;
-            game.setSize(newWidth, newHeight);
-            background.setPosition(newWidth / 2, newHeight / 2);
-            character.setPosition(newWidth / 2, newHeight / 2);
-        }; */
 
+        window.addEventListener("resize", updateTimerPosition);
+        window.addEventListener("resize", updateCardPosition);
     </script>
 </head>
 
