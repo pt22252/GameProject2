@@ -237,7 +237,7 @@ function createCard(title, buttons, message = "") {
 
         function gameOver() {
             clearInterval(timer);
-            createCard("คุณแพ้แล้ว!", [
+            createCard("พยายามเข้า!", [
                 { text: "Restart", color: "red", onClick: () => location.reload() }
             ]);
         }
@@ -251,7 +251,7 @@ function createCard(title, buttons, message = "") {
             setTimeout(() => {
                 createCard("คุณชนะแล้ว!", [
                     { text: "Restart", color: "red", onClick: restartGame },
-                    { text: "Next Stage", color: "blue", onClick: () => window.location.href = "Game1CH2.html" }
+                    { text: "Next Stage", color: "blue", onClick: () => window.location.href = "Game1CH4.html" }
                 ]);
             }, 50);  // ✅ หน่วงแค่ 50ms ให้แน่ใจว่า DOM ไม่เปลี่ยนระหว่างการสร้างการ์ด
         }

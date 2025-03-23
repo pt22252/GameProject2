@@ -43,7 +43,7 @@
             game.setSize(gameWidth, gameHeight);
             game.setBG("lightgreen");
 
-            background = new Sprite(game, "BG1.png", gameWidth, gameHeight);
+            background = new Sprite(game, "BG5.png", gameWidth, gameHeight);
             background.setSpeed(0, 0);
             background.setPosition(gameWidth / 2, gameHeight / 2);
 
@@ -65,9 +65,9 @@
         }
 
         function showInstructions() {
-            createCard("Chapter 1 \nวิธีการเล่น", [
+            createCard("Chapter 4 \nสู้ๆค้าบ", [
                 { text: "Ready", color: "green", onClick: startGame }
-            ], "- บังคับ Slime ด้วยปุ่มลูกศร\n- หลีกเลี่ยงพุ่มไม้\n- ไปถึงพุ่มเบอรี่ก่อนหมดเวลา\n- เก็บพุ่มเบอรี่เพื่อชนะ");
+            ], "วิธีการเล่นเหมือนเดิม\n- แต่เร็วขึ้นนิสหน่อยล่ะนะ");
         }
 
         function updateTimerPosition() {
@@ -232,12 +232,9 @@ function createCard(title, buttons, message = "") {
         }
 
 
-
-
-
         function gameOver() {
             clearInterval(timer);
-            createCard("เหหหหหไม่เป็นไรอีกรอบ!", [
+            createCard("สู้ๆทำได้เชื่อสิ!", [
                 { text: "Restart", color: "red", onClick: () => location.reload() }
             ]);
         }
@@ -251,7 +248,7 @@ function createCard(title, buttons, message = "") {
             setTimeout(() => {
                 createCard("คุณชนะแล้ว!", [
                     { text: "Restart", color: "red", onClick: restartGame },
-                    { text: "Next Stage", color: "blue", onClick: () => window.location.href = "Game1CH2.html" }
+                    { text: "Next Stage", color: "blue", onClick: () => window.location.href = "Game2CH1.html" }
                 ]);
             }, 50);  // ✅ หน่วงแค่ 50ms ให้แน่ใจว่า DOM ไม่เปลี่ยนระหว่างการสร้างการ์ด
         }
@@ -289,17 +286,18 @@ function createCard(title, buttons, message = "") {
 
             // ตำแหน่งของพุ่มไม้ที่ต้องการ (แทนเมทริกซ์)
             let bushPositions = [
-                { x: 0, y: 153 }, { x: 163, y: 153 }, { x: 326, y: 153 }, // Row 1
-                { x: 815, y: 306 }, { x: 978, y: 306 }, // Row 2
-                { x: 489, y: 459 }, { x: 652, y: 459 }, { x: 815, y: 459 }, { x: 978, y: 459 } // Row 3
+            { x: 100, y: 150 }, { x: 300, y: 150 }, { x: 700, y: 150 },
+                { x: 500, y: 300 }, { x: 800, y: 300 },
+                { x: 200, y: 450 }, { x: 600, y: 450 }, { x: 900, y: 450 },
+                { x: 100, y: 600 }, { x: 400, y: 600 }, { x: 800, y: 600 }
             ];
 
             for (let pos of bushPositions) {
-                let bush = new Sprite(game, "Sprite_Wall_Bush.png", 163, 153); // ✅ ใช้ขนาดที่ตรงกับ animation frame
+                let bush = new Sprite(game, "Sprite_Wall_Bush2.png", 163, 153); // ✅ ใช้ขนาดที่ตรงกับ animation frame
                 bush.loadAnimation(979, 153, 163, 153);
                 bush.generateAnimationCycles(SINGLE_ROW, 6);
                 bush.setAnimationSpeed(700);
-                bush.setSpeed(10);
+                bush.setSpeed(15);
                 bush.setPosition(pos.x, pos.y);
                 bush.playAnimation();
                 wallBushes.push(bush);

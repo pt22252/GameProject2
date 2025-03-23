@@ -237,7 +237,7 @@ function createCard(title, buttons, message = "") {
 
         function gameOver() {
             clearInterval(timer);
-            createCard("คุณแพ้แล้ว!", [
+            createCard("ไม่เป็นไรลองใหม่!", [
                 { text: "Restart", color: "red", onClick: () => location.reload() }
             ]);
         }
