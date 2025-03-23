@@ -1,11 +1,13 @@
 <!DOCTYPE HTML>
 <html lang="en-US">
+
 <head>
     <meta charset="UTF-8">
     <title></title>
     <script type="text/javascript" src="simpleGame.js"></script>
     <style>
-        body, html {
+        body,
+        html {
             margin: 0;
             padding: 0;
             overflow: hidden;
@@ -16,6 +18,7 @@
             align-items: center;
             background-color: black;
         }
+
         canvas {
             display: block;
         }
@@ -68,7 +71,7 @@
             character.setCurrentCycle("down");
 
             createWallBushes();// พุ่มไม้
-            createBerryBushes(); 
+            createBerryBushes();
             createTimerDisplay();
             startTimer();
             createScoreDisplay(); // กล่องคะแนน
@@ -177,38 +180,38 @@
 
             // ตำแหน่งของพุ่มไม้
             let bushPositions = [
-                 // กรอบบน
-                 { x: 20, y: 20 }, { x: 60, y: 20 }, { x: 100, y: 20 }, { x: 140, y: 20 }, { x: 180, y: 20 }, { x: 220, y: 20 }, { x: 260, y: 20 }, { x: 300, y: 20 }, { x: 340, y: 20 }, { x: 380, y: 20 }, { x: 420, y: 20 }, { x: 460, y: 20 }, 
-                { x: 500, y: 20 }, { x: 540, y: 20 }, { x: 580, y: 20 }, { x: 620, y: 20 }, { x: 660, y: 20 }, { x: 700, y: 20 }, { x: 740, y: 20 }, { x: 780, y: 20 }, { x: 820, y: 20 }, { x: 860, y: 20 }, { x: 900, y: 20 }, { x: 940, y: 20 }, { x: 980, y: 20 }, 
+                // กรอบบน
+                { x: 20, y: 20 }, { x: 60, y: 20 }, { x: 100, y: 20 }, { x: 140, y: 20 }, { x: 180, y: 20 }, { x: 220, y: 20 }, { x: 260, y: 20 }, { x: 300, y: 20 }, { x: 340, y: 20 }, { x: 380, y: 20 }, { x: 420, y: 20 }, { x: 460, y: 20 },
+                { x: 500, y: 20 }, { x: 540, y: 20 }, { x: 580, y: 20 }, { x: 620, y: 20 }, { x: 660, y: 20 }, { x: 700, y: 20 }, { x: 740, y: 20 }, { x: 780, y: 20 }, { x: 820, y: 20 }, { x: 860, y: 20 }, { x: 900, y: 20 }, { x: 940, y: 20 }, { x: 980, y: 20 },
                 // กรอบซ้าย
-                { x: 20, y: 60 }, { x: 20, y: 100 }, { x: 20, y: 140 }, { x: 20, y: 180 }, { x: 20, y: 220 }, { x: 20, y: 260 }, { x: 20, y: 300 }, { x:20, y: 340 }, { x: 20, y: 380 }, { x: 20, y: 420 }, { x: 20, y: 460 }, { x: 20, y: 500 }, { x: 20, y: 540 }, { x: 20, y: 580 },
+                { x: 20, y: 60 }, { x: 20, y: 100 }, { x: 20, y: 140 }, { x: 20, y: 180 }, { x: 20, y: 220 }, { x: 20, y: 260 }, { x: 20, y: 300 }, { x: 20, y: 340 }, { x: 20, y: 380 }, { x: 20, y: 420 }, { x: 20, y: 460 }, { x: 20, y: 500 }, { x: 20, y: 540 }, { x: 20, y: 580 },
                 // กรอบขวา
-                { x: 980, y: 60 }, { x: 980, y: 100 }, { x: 980, y: 140 }, { x: 980, y: 180 }, { x: 980, y: 220 }, { x: 980, y: 260 }, { x: 980, y: 300 }, { x: 980, y: 340 }, { x: 980, y: 380 }, { x: 980, y: 420 }, { x: 980, y: 460 }, { x: 980, y: 500 }, { x: 980, y: 540 }, { x: 980, y: 580 }, 
+                { x: 980, y: 60 }, { x: 980, y: 100 }, { x: 980, y: 140 }, { x: 980, y: 180 }, { x: 980, y: 220 }, { x: 980, y: 260 }, { x: 980, y: 300 }, { x: 980, y: 340 }, { x: 980, y: 380 }, { x: 980, y: 420 }, { x: 980, y: 460 }, { x: 980, y: 500 }, { x: 980, y: 540 }, { x: 980, y: 580 },
                 // กรอบล่าง
-                { x: 20, y: 620 }, { x: 60, y: 620 }, { x: 100, y: 620 }, { x: 140, y: 620 }, { x: 180, y: 620 }, { x: 220, y: 620 }, { x: 260, y: 620 }, { x: 300, y: 620 }, { x: 340, y: 620 }, { x: 380, y: 620 }, { x: 420, y: 620 }, { x: 460, y: 620 }, 
-                { x: 500, y: 620 }, { x: 540, y: 620 }, { x: 580, y: 620 }, { x: 620, y: 620 }, { x: 660, y: 620 }, { x: 700, y: 620 }, { x: 740, y: 620 }, { x: 780, y: 620 }, { x: 820, y: 620 }, { x: 860, y: 620 }, { x: 900, y: 620 }, { x: 940, y: 620 }, { x: 980, y: 620 }, 
+                { x: 20, y: 620 }, { x: 60, y: 620 }, { x: 100, y: 620 }, { x: 140, y: 620 }, { x: 180, y: 620 }, { x: 220, y: 620 }, { x: 260, y: 620 }, { x: 300, y: 620 }, { x: 340, y: 620 }, { x: 380, y: 620 }, { x: 420, y: 620 }, { x: 460, y: 620 },
+                { x: 500, y: 620 }, { x: 540, y: 620 }, { x: 580, y: 620 }, { x: 620, y: 620 }, { x: 660, y: 620 }, { x: 700, y: 620 }, { x: 740, y: 620 }, { x: 780, y: 620 }, { x: 820, y: 620 }, { x: 860, y: 620 }, { x: 900, y: 620 }, { x: 940, y: 620 }, { x: 980, y: 620 },
                 //บนซ้ายสุด
-                { x: 60, y: 140 }, { x: 100, y: 140 }, { x: 140, y: 140 }, { x: 180, y: 140 }, { x: 220, y: 140 }, { x: 260, y: 140 }, { x: 300, y: 140 }, 
+                { x: 60, y: 140 }, { x: 100, y: 140 }, { x: 140, y: 140 }, { x: 180, y: 140 }, { x: 220, y: 140 }, { x: 260, y: 140 }, { x: 300, y: 140 },
                 //บนซ้ายสอง
-                { x: 140, y: 300 }, { x: 180, y: 300 }, { x: 220, y: 300 }, { x: 260, y: 300 }, { x: 300, y: 300 }, { x: 340, y: 300 },  
+                { x: 140, y: 300 }, { x: 180, y: 300 }, { x: 220, y: 300 }, { x: 260, y: 300 }, { x: 300, y: 300 }, { x: 340, y: 300 },
                 //ต่อจากบนซ้ายสอง
-                { x: 340, y: 340 }, { x: 340, y: 380 }, { x: 340, y: 420 }, { x: 340, y: 460 }, { x: 340, y: 500 }, { x: 340, y: 540 }, { x: 340, y: 580 }, 
+                { x: 340, y: 340 }, { x: 340, y: 380 }, { x: 340, y: 420 }, { x: 340, y: 460 }, { x: 340, y: 500 }, { x: 340, y: 540 }, { x: 340, y: 580 },
                 //ช้ายล่าง
-                { x: 60, y: 460 }, { x: 100, y: 460 }, { x: 140, y: 460 }, { x: 180, y: 460 }, 
+                { x: 60, y: 460 }, { x: 100, y: 460 }, { x: 140, y: 460 }, { x: 180, y: 460 },
                 //ขีดตั้งตรงกลาง
-                { x: 460, y: 60 }, { x: 460, y: 100 }, { x: 460, y: 140 }, { x: 460, y: 180 }, { x: 460, y: 220 }, 
+                { x: 460, y: 60 }, { x: 460, y: 100 }, { x: 460, y: 140 }, { x: 460, y: 180 }, { x: 460, y: 220 },
                 //ขีดนอนต่อจากขีดตั้งตรงกลาง
-                { x: 460, y: 260 }, { x: 500, y: 260 }, { x: 540, y: 260 }, { x: 580, y: 260 }, { x: 620, y: 260 }, { x: 660, y: 260 }, { x: 700, y: 260 }, { x: 740, y: 260 }, { x: 780, y: 260 }, 
+                { x: 460, y: 260 }, { x: 500, y: 260 }, { x: 540, y: 260 }, { x: 580, y: 260 }, { x: 620, y: 260 }, { x: 660, y: 260 }, { x: 700, y: 260 }, { x: 740, y: 260 }, { x: 780, y: 260 },
                 //ขีดตั้งฝั่งขวา
-                { x: 780, y: 300 }, { x: 780, y: 340 }, { x: 780, y: 380 }, 
+                { x: 780, y: 300 }, { x: 780, y: 340 }, { x: 780, y: 380 },
                 //ขีดนอนต่อจากขีดตั้งฝั่งขวา
-                { x: 540, y: 380 }, { x: 580, y: 380 }, { x: 620, y: 380 }, { x: 660, y: 380 }, { x: 700, y: 380 }, { x: 740, y: 380 }, 
+                { x: 540, y: 380 }, { x: 580, y: 380 }, { x: 620, y: 380 }, { x: 660, y: 380 }, { x: 700, y: 380 }, { x: 740, y: 380 },
                 //ขีดตั้งล่าง
-                { x: 540, y: 420 }, { x: 540, y: 460 }, { x: 540, y: 500 }, 
+                { x: 540, y: 420 }, { x: 540, y: 460 }, { x: 540, y: 500 },
                 //ขีดตั้งล่างสุดขวา
-                { x: 700, y: 500 }, { x: 700, y: 540 }, { x: 700, y: 580 }, 
+                { x: 700, y: 500 }, { x: 700, y: 540 }, { x: 700, y: 580 },
                 //ขีดแนวนอนบนขวา
-                { x: 620, y: 140 }, { x: 660, y: 140 }, { x: 700, y: 140 }, { x: 740, y: 140 }, { x: 780, y: 140 }, { x: 820, y: 140 }, { x: 860, y: 140 }, { x: 900, y: 140 }, { x: 940, y: 140 }, 
+                { x: 620, y: 140 }, { x: 660, y: 140 }, { x: 700, y: 140 }, { x: 740, y: 140 }, { x: 780, y: 140 }, { x: 820, y: 140 }, { x: 860, y: 140 }, { x: 900, y: 140 }, { x: 940, y: 140 },
             ];
 
 
@@ -273,10 +276,10 @@
             let bushPositions = [
                 { x: 380, y: 100 },
                 { x: 900, y: 90 },
-                { x: 730, y: 310 }, 
+                { x: 730, y: 310 },
                 { x: 430, y: 550 },
                 { x: 100, y: 550 },
-                { x: 890, y: 550 },   
+                { x: 890, y: 550 },
             ];
 
             // สร้างพุ่มเบอร์รี่ในตำแหน่งที่กำหนด
@@ -286,7 +289,7 @@
                 bush.setPosition(pos.x, pos.y);
                 berryBushes.push(bush); // เพิ่มเบอร์รี่ไปยัง array แยกต่างหากจาก wallBushes
             }
-            
+
         }
 
         // ฟังก์ชันนี้ใช้สร้างกล่องคะแนน
@@ -350,7 +353,7 @@
                     score++;  // เพิ่มแต้ม
                     i--;  // เนื่องจากการลบ item จาก array, ต้องลดค่า i ลง
                     updateScoreDisplay();  // อัปเดตคะแนนหลังจากเก็บเบอร์รี่
-                // ✅ ชนะเมื่อเก็บครบ 6 ลูก และเวลาเหลืออยู่
+                    // ✅ ชนะเมื่อเก็บครบ 6 ลูก และเวลาเหลืออยู่
                     if (score === 6 && timeLeft > 0) {
                         gameWin();
                     }
@@ -418,10 +421,10 @@
                 //{ text: "Next Stage", color: "blue", onClick: () => alert("Next stage coming soon!") }
                 //{ text: "Next Stage", color: "blue", link: "GameCH3.html" }
                 //{ text: "Next Stage", color: "blue", onClick: () => "GameCH3.html" }
-                { 
-                    text: "Next Stage", 
-                    color: "blue", 
-                    onClick: () => window.location.href = "Game2CH2.html" 
+                {
+                    text: "Next Stage",
+                    color: "blue",
+                    onClick: () => window.location.href = "Chap2.html"
                 }
             ]);
         }
@@ -466,53 +469,55 @@
         }
 
         function checkKeys() {
-                    // บันทึกตำแหน่งก่อนการเคลื่อนที่ (ใช้สำหรับตรวจชน)
-                    character.lastX = character.x;
-                    character.lastY = character.y;
+            // บันทึกตำแหน่งก่อนการเคลื่อนที่ (ใช้สำหรับตรวจชน)
+            character.lastX = character.x;
+            character.lastY = character.y;
 
-                    let moving = false; // เช็คว่ากำลังเดินอยู่ไหม
+            let moving = false; // เช็คว่ากำลังเดินอยู่ไหม
 
-                    if (keysDown[K_LEFT]) {
-                        character.setSpeed(10);
-                        character.setMoveAngle(270); // ไปซ้าย
-                        character.setCurrentCycle("left");
-                        moving = true;
-                    } 
-                    if (keysDown[K_RIGHT]) {
-                        character.setSpeed(10);
-                        character.setMoveAngle(90);  // ไปขวา
-                        character.setCurrentCycle("right");
-                        moving = true;
-                    } 
-                    if (keysDown[K_UP]) {
-                        character.setSpeed(10);
-                        character.setMoveAngle(0);   // ขึ้น
-                        character.setCurrentCycle("up");
-                        moving = true;
-                    } 
-                    if (keysDown[K_DOWN]) {
-                        character.setSpeed(10);
-                        character.setMoveAngle(180); // ลง
-                        character.setCurrentCycle("down");
-                        moving = true;
-                    }
+            if (keysDown[K_LEFT]) {
+                character.setSpeed(10);
+                character.setMoveAngle(270); // ไปซ้าย
+                character.setCurrentCycle("left");
+                moving = true;
+            }
+            if (keysDown[K_RIGHT]) {
+                character.setSpeed(10);
+                character.setMoveAngle(90);  // ไปขวา
+                character.setCurrentCycle("right");
+                moving = true;
+            }
+            if (keysDown[K_UP]) {
+                character.setSpeed(10);
+                character.setMoveAngle(0);   // ขึ้น
+                character.setCurrentCycle("up");
+                moving = true;
+            }
+            if (keysDown[K_DOWN]) {
+                character.setSpeed(10);
+                character.setMoveAngle(180); // ลง
+                character.setCurrentCycle("down");
+                moving = true;
+            }
 
-                    if (moving) {
-                        character.playAnimation(); // กำลังเดินอยู่ เล่นแอนิเมชัน
-                    } else {
-                        character.setSpeed(0);       // ไม่กดปุ่มอะไร หยุดเดิน
-                        character.pauseAnimation();  // หยุดแอนิเมชัน
-                    }
-                }
-                
-                window.onresize = function () {
-                    let newWidth = window.innerWidth;
-                    let newHeight = window.innerHeight;
-                    game.setSize(newWidth, newHeight);
-                    background.setPosition(newWidth / 2, newHeight / 2);
-                };
+            if (moving) {
+                character.playAnimation(); // กำลังเดินอยู่ เล่นแอนิเมชัน
+            } else {
+                character.setSpeed(0);       // ไม่กดปุ่มอะไร หยุดเดิน
+                character.pauseAnimation();  // หยุดแอนิเมชัน
+            }
+        }
+
+        window.onresize = function () {
+            let newWidth = window.innerWidth;
+            let newHeight = window.innerHeight;
+            game.setSize(newWidth, newHeight);
+            background.setPosition(newWidth / 2, newHeight / 2);
+        };
     </script>
 </head>
+
 <body onload="init()">
 </body>
+
 </html>
