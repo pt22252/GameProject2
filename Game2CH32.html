@@ -60,6 +60,22 @@
             character.pauseAnimation();
             character.setCurrentCycle("down");
 
+            enemy = new Sprite(game, "Sprite_Monster.png", 64, 64);
+            enemy.loadAnimation(634, 317, 79, 79);
+            enemy.generateAnimationCycles();
+            enemy.setAnimationSpeed(500);
+            enemy.setPosition(420, 120);
+            enemy.setSpeed(0);
+            enemy.playAnimation();
+            enemy.pauseAnimation();
+           
+
+           /* enemy.setAnimationSpeed(5);
+            enemy.setBoundAction(CONTINUE)
+            enemy.setSpeed(0); // หยุดนิ่งเพื่อทดสอบ
+            enemy.playAnimation(); // เล่น animation เลย
+            */
+
             createWallBushes();// พุ่มไม้
             createBerryBushes();
             createTimerDisplay();
@@ -69,6 +85,8 @@
 
             game.start();
         }
+
+        //game.setUpdateFunction(update);
 
         function createTimerDisplay() {
             timerDisplay = document.createElement("div");
@@ -124,7 +142,7 @@
                 //ขีดตั้งบนซ้าย2
                 { x: 260, y: 270 }, { x: 260, y: 240 }, { x: 260, y: 210 }, { x: 260, y: 180 }, { x: 260, y: 150 },
                 //ขีดตั้งบนซ้าย
-                { x: 380, y: 50 }, { x: 380, y: 80 }, { x: 380, y: 110 }, { x: 380, y: 140 }, { x: 380, y: 170 },
+                //{ x: 380, y: 50 }, { x: 380, y: 80 }, { x: 380, y: 110 }, { x: 380, y: 140 }, { x: 380, y: 170 },
                 //ซ้ายบนสุด
                 //{ x: 50, y: 140 }, { x: 80, y: 140 }, { x: 110, y: 140 }, { x: 140, y: 140 }, { x: 170, y: 140 }, { x: 200, y: 140 }, { x: 230, y: 140 }, { x: 260, y: 140 }, { x: 290, y: 140 },
 
@@ -181,6 +199,34 @@
             }
 
         }
+
+        var enemy;
+        var enemyWaypoints = [
+            { x: 420, y: 120 },
+            { x: 420, y: 420 }
+        ];
+        var currentWaypointIndex = 0;
+        var enemySpeed = 2; // ความเร็วการเคลื่อนที่
+
+        function moveEnemy() {
+            if (!enemy) return;
+
+            var target = enemyWaypoints[currentWaypointIndex];
+            
+            var dx = target.x - enemy.x;
+            var dy = target.y - enemy.y;
+            
+            var distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < enemySpeed) {
+                // ถึงเป้าหมายแล้ว ไปจุดถัดไป
+                currentWaypointIndex = (currentWaypointIndex + 1) % enemyWaypoints.length;
+            } else {
+                // เคลื่อนที่ทีละนิด
+                enemy.setPosition(enemy.x + (dx / distance) * enemySpeed, enemy.y + (dy / distance) * enemySpeed);
+            }
+        }
+
 
         // ฟังก์ชันนี้ใช้สร้างกล่องคะแนน
         function createScoreDisplay() {
@@ -332,6 +378,12 @@
             background.update();
             character.update(); // อัปเดตตัวละคร
             checkCollision();   // ตรวจชนกับพุ่มเบอร์รี่
+    
+           // เคลื่อนที่ enemy ตามจุดที่กำหนด
+            moveEnemy();
+
+            // อัปเดตและวาดศัตรู
+            enemy.update();
 
             // อัปเดตพุ่มไม้ทั้งหมด (พุ่มไม้ไม่หาย)
             for (let bush of wallBushes) {
