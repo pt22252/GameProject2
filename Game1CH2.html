@@ -92,21 +92,22 @@
         }
 
         function createCard(title, buttons, message = "", transparent = false) {
-            let oldCard = document.getElementById("gameCard");
-            if (oldCard) oldCard.remove();
+    let oldCard = document.getElementById("gameCard");
+    if (oldCard) oldCard.remove();
 
-            let card = document.createElement("div");
-            card.id = "gameCard";
+    let card = document.createElement("div");
+    card.id = "gameCard";
 
-            // คำนวณตำแหน่งกลางของเกม
-            let gameWidth = game.width;  // ขนาดของ canvas (game)
-            let gameHeight = game.height; // ขนาดของ canvas (game)
+    let canvasRect = game.canvas.getBoundingClientRect(); // ✅ ใช้ขนาดและตำแหน่งของ canvas
 
-            card.style = `
-        position: absolute;
-        top: ${gameHeight / 2 - 150}px;  /* กลางตามแนวตั้ง */
-        left: ${gameWidth / 2 - 150}px;  /* กลางตามแนวนอน */
-        width: 300px;
+    let cardWidth = 300;
+    let cardHeight = 200;
+
+    card.style = `
+        position: fixed;
+        top: ${canvasRect.top + (canvasRect.height / 2) - (cardHeight / 2)}px;  /* กลางตามแนวตั้ง */
+        left: ${canvasRect.left + (canvasRect.width / 2) - (cardWidth / 2)}px;  /* กลางตามแนวนอน */
+        width: ${cardWidth}px;
         padding: 20px;
         background: rgba(255, 255, 255, 0.8);
         text-align: center;
@@ -115,24 +116,24 @@
         z-index: 1000;  /* ให้อยู่ด้านบนสุด */
     `;
 
-            let titleText = document.createElement("h2");
-            titleText.innerText = title;
-            card.appendChild(titleText);
+    let titleText = document.createElement("h2");
+    titleText.innerText = title;
+    card.appendChild(titleText);
 
-            if (message) {
-                let msgText = document.createElement("p");
-                msgText.innerText = message;
-                card.appendChild(msgText);
-            }
+    if (message) {
+        let msgText = document.createElement("p");
+        msgText.innerText = message;
+        card.appendChild(msgText);
+    }
 
-            buttons.forEach(btnData => {
-                let button = document.createElement("button");
-                button.innerText = btnData.text;
-                button.onclick = () => {
-                    card.remove();
-                    btnData.onClick();
-                };
-                button.style = `
+    buttons.forEach(btnData => {
+        let button = document.createElement("button");
+        button.innerText = btnData.text;
+        button.onclick = () => {
+            card.remove();
+            btnData.onClick();
+        };
+        button.style = `
             margin: 10px;
             padding: 10px 20px;
             border: none;
@@ -142,11 +143,11 @@
             background: ${btnData.color};
             color: white;
         `;
-                card.appendChild(button);
-            });
+        card.appendChild(button);
+    });
 
-            document.body.appendChild(card);
-        }
+    document.body.appendChild(card);
+}
 
 
 
