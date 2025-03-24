@@ -38,14 +38,13 @@
         var berrySpeed = 0.2; // ความเร็วในการเคลื่อนไหว
         var gameStarted = false;
 
-
         function init() {
             game = new Scene();
             let gameWidth = 1000;  // กำหนดขนาดเริ่มต้นของเกม
             let gameHeight = 643;
 
             game.setSize(gameWidth, gameHeight);
-            game.setBG("lightgreen");
+            game.setBG("black");
 
             background = new Sprite(game, "BG2.png", gameWidth, gameHeight);
             background.setSpeed(0, 0);
@@ -65,12 +64,96 @@
             createWallBushes();// พุ่มไม้
             createBerryBushes();
             createTimerDisplay();
-            startTimer();
             createScoreDisplay(); // กล่องคะแนน
-            //showInstructions();
+            showInstructions();
+        }
 
+        function startGame() {
+            gameStarted = true;
+            //gameAudio.play(); // เริ่มเล่นเสียงเมื่อเกมเริ่ม
+            startTimer();
             game.start();
         }
+
+        function showInstructions() {
+            createGameCard("Chapter 1 \nวิธีการเล่น", [
+                { text: "Ready", color: "green", onClick: startGame }
+            ], "- บังคับ Slime ด้วยปุ่มลูกศร\n- เก็บพุ่มเบอรี่ทั้งหมดก่อนหมดเวลาเพื่อชนะ");
+        }
+
+        function updateCardPosition() {
+            let card = document.getElementById("gameCard");
+            if (!card) return;
+
+            let canvasRect = game.canvas.getBoundingClientRect();
+            let cardWidth = 300;
+            let cardHeight = 200;
+
+            card.style.top = `${canvasRect.top + (canvasRect.height / 2) - (cardHeight / 2)}px`;
+            card.style.left = `${canvasRect.left + (canvasRect.width / 2) - (cardWidth / 2)}px`;
+        }
+
+        function createGameCard(title, buttons, message = "") {
+            // ลบการ์ดเก่าถ้ามี
+            let oldCard = document.getElementById("gameCard");
+            if (oldCard) oldCard.remove();
+
+            // สร้างการ์ดใหม่
+            let card = document.createElement("div");
+            card.id = "gameCard";
+
+            let canvasRect = game.canvas.getBoundingClientRect(); 
+
+            let cardWidth = 300;
+            let cardHeight = 200;
+
+            card.style = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 300px;
+                padding: 20px;
+                background: white;
+                text-align: center;
+                border-radius: 10px;
+                box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+                z-index: 1000;
+            `;
+            let titleText = document.createElement("h2");
+            titleText.innerText = title;
+            card.appendChild(titleText);
+
+            if (message) {
+                let msgText = document.createElement("p");
+                msgText.innerText = message;
+                card.appendChild(msgText);
+            }
+
+            // สร้างปุ่มต่าง ๆ
+            buttons.forEach(btnData => {
+                let button = document.createElement("button");
+                button.innerText = btnData.text;
+                button.onclick = () => {
+                    card.remove();
+                    btnData.onClick();
+                };
+                button.style = `
+                    margin: 10px;
+                    padding: 10px 20px;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    font-size: 16px;
+                    background: ${btnData.color};
+                    color: white;
+                `;
+                card.appendChild(button);
+            });
+
+            document.body.appendChild(card);
+        } 
+
         function createTimerDisplay() {
             timerDisplay = document.createElement("div");
             timerDisplay.style = `position:absolute; 
@@ -86,7 +169,18 @@
                                 box-shadow: 0 0 20px rgba(0, 0, 0, 0.8); 
                                 `;
             document.body.appendChild(timerDisplay);
+            updateTimerPosition(); 
             updateTimerDisplay();
+        }
+
+        function updateTimerDisplay() {
+            timerDisplay.innerText = `Time: ${timeLeft}s`;
+        }
+
+        function updateTimerPosition() {
+            let canvasRect = game.canvas.getBoundingClientRect();
+            timerDisplay.style.top = `${canvasRect.top + 10}px`;  // อยู่บนสุดของ Canvas
+            timerDisplay.style.left = `${canvasRect.left + 10}px`; // ชิดซ้ายของ Canvas
         }
 
         function startTimer() {
@@ -99,8 +193,36 @@
             }, 1000);
         }
 
-        function updateTimerDisplay() {
-            timerDisplay.innerText = `Time: ${timeLeft}s`;
+         // ฟังก์ชันนี้ใช้สร้างกล่องคะแนน
+         function createScoreDisplay() {
+            // สร้าง div สำหรับคะแนน
+            scoreDisplay = document.createElement("div");
+            scoreDisplay.style = `position:absolute;
+                                  padding:10px; 
+                                  background-color:rgba(255, 255, 255, 0.7);    /* พื้นหลัง */
+                                  color:black; 
+                                  font-size:20px; 
+                                  font-weight:bold; 
+                                  border: 2px solid #194020;                   /* เส้นขอบ */
+                                  border-radius: 10px;                        /* ขอบโค้งมน */
+                                  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8); /* เงาเรืองแสง */
+                                  z-index: 1000; /* อยู่บนสุด ไม่โดน canvas บัง */
+                                  `;
+            document.body.appendChild(scoreDisplay);
+            updateScorePosition();
+            updateScoreDisplay();  // อัปเดตคะแนนในกล่อง
+        }
+
+        // ฟังก์ชันนี้ใช้สำหรับอัปเดตคะแนนในกล่อง
+        function updateScoreDisplay() {
+            scoreDisplay.innerText = "Score: " + score;
+        }
+
+        function updateScorePosition() {
+            let canvasRect = game.canvas.getBoundingClientRect();
+            scoreDisplay.style.top = `${canvasRect.top + 10}px`;  // อยู่บนสุดของ Canvas
+           // scoreDisplay.style.left = `${canvasRect.right + 10}px`; 
+            scoreDisplay.style.left = `${canvasRect.right - scoreDisplay.offsetWidth - 80}px`;
         }
 
         function createWallBushes() {
@@ -175,32 +297,6 @@
             }
         }
 
-        // ฟังก์ชันนี้ใช้สร้างกล่องคะแนน
-        function createScoreDisplay() {
-            // สร้าง div สำหรับคะแนน
-            scoreDisplay = document.createElement("div");
-            scoreDisplay.style = `position:absolute; 
-                                  top: 60px; 
-                                  right: 280px; 
-                                  padding:10px; 
-                                  background-color:rgba(255, 255, 255, 0.7);    /* พื้นหลัง */
-                                  color:black; 
-                                  font-size:20px; 
-                                  font-weight:bold; 
-                                  border: 2px solid #194020;                   /* เส้นขอบ */
-                                  border-radius: 10px;                        /* ขอบโค้งมน */
-                                  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8); /* เงาเรืองแสง */
-                                  z-index: 1000; /* อยู่บนสุด ไม่โดน canvas บัง */
-                                  `;
-            document.body.appendChild(scoreDisplay);
-            updateScoreDisplay();  // อัปเดตคะแนนในกล่อง
-        }
-
-        // ฟังก์ชันนี้ใช้สำหรับอัปเดตคะแนนในกล่อง
-        function updateScoreDisplay() {
-            scoreDisplay.innerText = "Score: " + score;
-        }
-
         // ฟังก์ชันนี้ใช้เพิ่มคะแนนเมื่อมีการเก็บเบอร์รี่
         function checkCollision() {
             let charLeft = character.x - character.width / 2;
@@ -246,52 +342,6 @@
             }
         }
 
-        function createGameCard(title, buttons) {
-            // ลบการ์ดเก่าถ้ามี
-            let existingCard = document.getElementById("gameCard");
-            if (existingCard) existingCard.remove();
-
-            // สร้างการ์ดใหม่
-            let card = document.createElement("div");
-            card.id = "gameCard";
-            card.style = `
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                width: 300px;
-                padding: 20px;
-                background: white;
-                text-align: center;
-                border-radius: 10px;
-                box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
-                z-index: 1000;
-            `;
-            let titleText = document.createElement("h2");
-            titleText.innerText = title;
-            card.appendChild(titleText);
-
-            // สร้างปุ่มต่าง ๆ
-            buttons.forEach(btnData => {
-                let button = document.createElement("button");
-                button.innerText = btnData.text;
-                button.onclick = btnData.onClick;
-                button.style = `
-                    margin: 10px;
-                    padding: 10px 20px;
-                    border: none;
-                    border-radius: 5px;
-                    cursor: pointer;
-                    font-size: 16px;
-                    background: ${btnData.color};
-                    color: white;
-                `;
-                card.appendChild(button);
-            });
-
-            document.body.appendChild(card);
-        }
-
         function gameOver() {
             clearInterval(timer);
             createGameCard("Time's up!!!", [
@@ -303,10 +353,13 @@
             clearInterval(timer);
             createGameCard("คุณชนะแล้ว!", [
                 { text: "Restart", color: "green", onClick: () => location.reload() },
-                {
-                    text: "Next Stage",
-                    color: "blue",
-                    onClick: () => window.location.href = "Game2CH2.html"
+                //{ text: "Next Stage", color: "blue", onClick: () => alert("Next stage coming soon!") }
+                //{ text: "Next Stage", color: "blue", link: "GameCH3.html" }
+                //{ text: "Next Stage", color: "blue", onClick: () => "GameCH3.html" }
+                { 
+                    text: "Next Stage", 
+                    color: "blue", 
+                    onClick: () => window.location.href = "Game2CH2.html" 
                 }
             ]);
         }
@@ -382,20 +435,20 @@
                 moving = true;
             }
 
-            if (moving) {
-                character.playAnimation(); // กำลังเดินอยู่ เล่นแอนิเมชัน
-            } else {
-                character.setSpeed(0);       // ไม่กดปุ่มอะไร หยุดเดิน
-                character.pauseAnimation();  // หยุดแอนิเมชัน
-            }
-        }
-
-        window.onresize = function () {
-            let newWidth = window.innerWidth;
-            let newHeight = window.innerHeight;
-            game.setSize(newWidth, newHeight);
-            background.setPosition(newWidth / 2, newHeight / 2);
-        };
+                    if (moving) {
+                        character.playAnimation(); // กำลังเดินอยู่ เล่นแอนิเมชัน
+                    } else {
+                        character.setSpeed(0);       // ไม่กดปุ่มอะไร หยุดเดิน
+                        character.pauseAnimation();  // หยุดแอนิเมชัน
+                    }
+                }
+                
+                window.onresize = function () {
+                    let newWidth = window.innerWidth;
+                    let newHeight = window.innerHeight;
+                    game.setSize(newWidth, newHeight);
+                    background.setPosition(newWidth / 2, newHeight / 2);
+                };
     </script>
 </head>
 
