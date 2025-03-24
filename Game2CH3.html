@@ -1,11 +1,13 @@
 <!DOCTYPE HTML>
 <html lang="en-US">
+
 <head>
     <meta charset="UTF-8">
     <title></title>
     <script type="text/javascript" src="simpleGame.js"></script>
     <style>
-        body, html {
+        body,
+        html {
             margin: 0;
             padding: 0;
             overflow: hidden;
@@ -16,6 +18,7 @@
             align-items: center;
             background-color: black;
         }
+
         canvas {
             display: block;
         }
@@ -133,7 +136,7 @@
             enemyV.pauseAnimation();
 
             createWallBushes();// พุ่มไม้
-            createBerryBushes(); 
+            createBerryBushes();
             createTimerDisplay();
             startTimer();
             createScoreDisplay(); // กล่องคะแนน
@@ -214,10 +217,10 @@
             if (!enemy) return;
 
             var target = enemyWaypoints[currentWaypointIndex];
-            
+
             var dx = target.x - enemy.x;
             var dy = target.y - enemy.y;
-            
+
             var distance = Math.sqrt(dx * dx + dy * dy);
 
             if (distance < enemySpeed) {
@@ -238,10 +241,10 @@
             if (!enemyII) return;
 
             var target = enemyIIWaypoints[currentWaypointIndexII];
-            
+
             var dx = target.x - enemyII.x;
             var dy = target.y - enemyII.y;
-            
+
             var distance = Math.sqrt(dx * dx + dy * dy);
 
             if (distance < enemyIISpeed) {
@@ -251,7 +254,7 @@
                 // เคลื่อนที่ทีละนิด
                 enemyII.setPosition(enemyII.x + (dx / distance) * enemyIISpeed, enemyII.y + (dy / distance) * enemyIISpeed);
             }
-        } 
+        }
 
         var enemyIIIWaypoints = [
             { x: 900, y: 390 },
@@ -262,10 +265,10 @@
             if (!enemyIII) return;
 
             var target = enemyIIIWaypoints[currentWaypointIndexIII];
-            
+
             var dx = target.x - enemyIII.x;
             var dy = target.y - enemyIII.y;
-            
+
             var distance = Math.sqrt(dx * dx + dy * dy);
 
             if (distance < enemyIIISpeed) {
@@ -275,7 +278,7 @@
                 // เคลื่อนที่ทีละนิด
                 enemyIII.setPosition(enemyIII.x + (dx / distance) * enemyIIISpeed, enemyIII.y + (dy / distance) * enemyIIISpeed);
             }
-        } 
+        }
 
         var enemyIIIIWaypoints = [
             { x: 340, y: 110 },
@@ -286,10 +289,10 @@
             if (!enemyIIII) return;
 
             var target = enemyIIIIWaypoints[currentWaypointIndexIIII];
-            
+
             var dx = target.x - enemyIIII.x;
             var dy = target.y - enemyIIII.y;
-            
+
             var distance = Math.sqrt(dx * dx + dy * dy);
 
             if (distance < enemyIIIISpeed) {
@@ -300,7 +303,7 @@
                 enemyIIII.setPosition(enemyIIII.x + (dx / distance) * enemyIIIISpeed, enemyIIII.y + (dy / distance) * enemyIIIISpeed);
             }
         }
-        
+
         var enemyVWaypoints = [
             { x: 100, y: 400 }, // จุดเริ่มต้น (ซ้าย)
             { x: 270, y: 400 }  // จุดปลาย (ขวา)
@@ -310,10 +313,10 @@
             if (!enemyV) return;
 
             var target = enemyVWaypoints[currentWaypointIndexV];
-            
+
             var dx = target.x - enemyV.x;
             var dy = target.y - enemyV.y;
-            
+
             var distance = Math.sqrt(dx * dx + dy * dy);
 
             if (distance < enemyVSpeed) {
@@ -329,7 +332,7 @@
         let characterPadding = 1;
 
         // เพิ่ม padding ให้กับศัตรู
-        let enemyPadding = 1; 
+        let enemyPadding = 1;
 
         // ตรวจสอบการชนกับศัตรู
         function checkEnemyCollision() {
@@ -435,47 +438,47 @@
             // ตำแหน่งของพุ่มไม้
             let bushPositions = [
                 // กรอบบน
-                { x: 10, y: 10 }, { x: 30, y: 10 }, { x: 50, y: 10 }, { x: 70, y: 10 }, { x: 90, y: 10 }, { x: 110, y: 10 }, { x: 130, y: 10 }, { x: 150, y: 10 }, { x: 170, y: 10 }, { x: 190, y: 10 }, 
+                { x: 10, y: 10 }, { x: 30, y: 10 }, { x: 50, y: 10 }, { x: 70, y: 10 }, { x: 90, y: 10 }, { x: 110, y: 10 }, { x: 130, y: 10 }, { x: 150, y: 10 }, { x: 170, y: 10 }, { x: 190, y: 10 },
                 { x: 210, y: 10 }, { x: 230, y: 10 }, { x: 250, y: 10 }, { x: 270, y: 10 }, { x: 290, y: 10 }, { x: 310, y: 10 }, { x: 330, y: 10 }, { x: 350, y: 10 }, { x: 370, y: 10 }, { x: 390, y: 10 },
-                { x: 410, y: 10 }, { x: 430, y: 10 }, { x: 450, y: 10 }, { x: 470, y: 10 }, { x: 490, y: 10 }, { x: 510, y: 10 }, { x: 530, y: 10 }, { x: 550, y: 10 }, { x: 570, y: 10 }, { x: 590, y: 10 }, 
-                { x: 610, y: 10 }, { x: 630, y: 10 }, { x: 650, y: 10 }, { x: 670, y: 10 }, { x: 690, y: 10 }, { x: 710, y: 10 }, { x: 730, y: 10 }, { x: 750, y: 10 }, { x: 770, y: 10 }, { x: 790, y: 10 }, 
+                { x: 410, y: 10 }, { x: 430, y: 10 }, { x: 450, y: 10 }, { x: 470, y: 10 }, { x: 490, y: 10 }, { x: 510, y: 10 }, { x: 530, y: 10 }, { x: 550, y: 10 }, { x: 570, y: 10 }, { x: 590, y: 10 },
+                { x: 610, y: 10 }, { x: 630, y: 10 }, { x: 650, y: 10 }, { x: 670, y: 10 }, { x: 690, y: 10 }, { x: 710, y: 10 }, { x: 730, y: 10 }, { x: 750, y: 10 }, { x: 770, y: 10 }, { x: 790, y: 10 },
                 { x: 810, y: 10 }, { x: 830, y: 10 }, { x: 850, y: 10 }, { x: 870, y: 10 }, { x: 890, y: 10 }, { x: 910, y: 10 }, { x: 930, y: 10 }, { x: 950, y: 10 }, { x: 970, y: 10 }, { x: 990, y: 10 },
                 // กรอบซ้าย
-                { x: 10, y: 30 }, { x: 10, y: 50 }, { x: 10, y: 70 }, { x: 10, y: 90 }, { x: 10, y: 110 }, { x: 10, y: 130 }, { x: 10, y: 150 }, { x: 10, y: 170 }, { x: 10, y: 190 }, { x: 10, y: 210 }, 
+                { x: 10, y: 30 }, { x: 10, y: 50 }, { x: 10, y: 70 }, { x: 10, y: 90 }, { x: 10, y: 110 }, { x: 10, y: 130 }, { x: 10, y: 150 }, { x: 10, y: 170 }, { x: 10, y: 190 }, { x: 10, y: 210 },
                 { x: 10, y: 230 }, { x: 10, y: 250 }, { x: 10, y: 270 }, { x: 10, y: 290 }, { x: 10, y: 310 }, { x: 10, y: 330 }, { x: 10, y: 350 }, { x: 10, y: 370 }, { x: 10, y: 390 }, { x: 10, y: 410 },
-                { x: 10, y: 430 }, { x: 10, y: 450 }, { x: 10, y: 470 }, { x: 10, y: 490 }, { x: 10, y: 510 }, { x: 10, y: 530 }, { x: 10, y: 550 }, { x: 10, y: 570 }, { x: 10, y: 590 }, { x: 10, y: 610 }, 
+                { x: 10, y: 430 }, { x: 10, y: 450 }, { x: 10, y: 470 }, { x: 10, y: 490 }, { x: 10, y: 510 }, { x: 10, y: 530 }, { x: 10, y: 550 }, { x: 10, y: 570 }, { x: 10, y: 590 }, { x: 10, y: 610 },
                 // กรอบขวา
-                { x: 990, y: 30 }, { x: 990, y: 50 }, { x: 990, y: 70 }, { x: 990, y: 90 }, { x: 990, y: 110 }, { x: 990, y: 130 }, { x: 990, y: 150 }, { x: 990, y: 170 }, { x: 990, y: 190 }, { x: 990, y: 210 }, 
+                { x: 990, y: 30 }, { x: 990, y: 50 }, { x: 990, y: 70 }, { x: 990, y: 90 }, { x: 990, y: 110 }, { x: 990, y: 130 }, { x: 990, y: 150 }, { x: 990, y: 170 }, { x: 990, y: 190 }, { x: 990, y: 210 },
                 { x: 990, y: 230 }, { x: 990, y: 250 }, { x: 990, y: 270 }, { x: 990, y: 290 }, { x: 990, y: 310 }, { x: 990, y: 330 }, { x: 990, y: 350 }, { x: 990, y: 370 }, { x: 990, y: 390 }, { x: 990, y: 410 },
                 { x: 990, y: 430 }, { x: 990, y: 450 }, { x: 990, y: 470 }, { x: 990, y: 490 }, { x: 990, y: 510 }, { x: 990, y: 530 }, { x: 990, y: 550 }, { x: 990, y: 570 }, { x: 990, y: 590 }, { x: 990, y: 610 },
                 // กรอบล่าง
-                { x: 10, y: 630 }, { x: 30, y: 630 }, { x: 50, y: 630 }, { x: 70, y: 630 }, { x: 90, y: 630 }, { x: 110, y: 630 }, { x: 130, y: 630 }, { x: 150, y: 630 }, { x: 170, y: 630 }, { x: 190, y: 630 }, { x: 210, y: 630 },  
-                { x: 230, y: 630 }, { x: 250, y: 630 }, { x: 270, y: 630 }, { x: 290, y: 630 }, { x: 310, y: 630 }, { x: 330, y: 630 }, { x: 350, y: 630 }, { x: 370, y: 630 }, { x: 390, y: 630 }, { x: 410, y: 630 },  
-                { x: 430, y: 630 }, { x: 450, y: 630 }, { x: 470, y: 630 }, { x: 490, y: 630 }, { x: 510, y: 630 }, { x: 530, y: 630 }, { x: 550, y: 630 }, { x: 570, y: 630 }, { x: 590, y: 630 }, { x: 610, y: 630 },  
-                { x: 630, y: 630 }, { x: 650, y: 630 }, { x: 670, y: 630 }, { x: 690, y: 630 }, { x: 710, y: 630 }, { x: 730, y: 630 }, { x: 750, y: 630 }, { x: 770, y: 630 }, { x: 790, y: 630 }, { x: 810, y: 630 },  
+                { x: 10, y: 630 }, { x: 30, y: 630 }, { x: 50, y: 630 }, { x: 70, y: 630 }, { x: 90, y: 630 }, { x: 110, y: 630 }, { x: 130, y: 630 }, { x: 150, y: 630 }, { x: 170, y: 630 }, { x: 190, y: 630 }, { x: 210, y: 630 },
+                { x: 230, y: 630 }, { x: 250, y: 630 }, { x: 270, y: 630 }, { x: 290, y: 630 }, { x: 310, y: 630 }, { x: 330, y: 630 }, { x: 350, y: 630 }, { x: 370, y: 630 }, { x: 390, y: 630 }, { x: 410, y: 630 },
+                { x: 430, y: 630 }, { x: 450, y: 630 }, { x: 470, y: 630 }, { x: 490, y: 630 }, { x: 510, y: 630 }, { x: 530, y: 630 }, { x: 550, y: 630 }, { x: 570, y: 630 }, { x: 590, y: 630 }, { x: 610, y: 630 },
+                { x: 630, y: 630 }, { x: 650, y: 630 }, { x: 670, y: 630 }, { x: 690, y: 630 }, { x: 710, y: 630 }, { x: 730, y: 630 }, { x: 750, y: 630 }, { x: 770, y: 630 }, { x: 790, y: 630 }, { x: 810, y: 630 },
                 { x: 830, y: 630 }, { x: 850, y: 630 }, { x: 870, y: 630 }, { x: 890, y: 630 }, { x: 910, y: 630 }, { x: 930, y: 630 }, { x: 950, y: 630 }, { x: 970, y: 630 }, { x: 990, y: 630 },
                 // ขีดตั้งซ้าย
-                { x: 70, y: 30 }, { x: 70, y: 50 }, { x: 70, y: 70 }, { x: 70, y: 90 }, { x: 70, y: 110 }, 
-                { x: 70, y: 170 }, { x: 70, y: 190 }, { x: 70, y: 210 }, { x: 70, y: 230 }, { x: 70, y: 250 }, { x: 70, y: 270 },  
-                { x: 70, y: 330 }, { x: 70, y: 350 }, { x: 70, y: 370 }, { x: 70, y: 390 }, { x: 70, y: 410 }, { x: 70, y: 430 }, 
-                { x: 70, y: 490 }, { x: 70, y: 510 }, { x: 70, y: 530 }, { x: 70, y: 550 }, { x: 70, y: 570 }, 
-                
-                { x: 510, y: 90 }, { x: 530, y: 90 }, { x: 550, y: 90 }, { x: 570, y: 90 }, { x: 590, y: 90 }, { x: 610, y: 90 }, { x: 630, y: 90 }, { x: 650, y: 90 }, { x: 670, y: 90 }, { x: 690, y: 90 }, { x: 710, y: 90 }, { x: 730, y: 90 }, { x: 750, y: 90 }, { x: 770, y: 90 }, { x: 790, y: 90 }, { x: 810, y: 90 },  { x: 830, y: 90 }, { x: 850, y: 90 }, { x: 870, y: 90 }, { x: 890, y: 90 }, { x: 910, y: 90 }, 
-                { x: 910, y: 70 }, { x: 910, y: 50 },  { x: 910, y: 30 }, 
+                { x: 70, y: 30 }, { x: 70, y: 50 }, { x: 70, y: 70 }, { x: 70, y: 90 }, { x: 70, y: 110 },
+                { x: 70, y: 170 }, { x: 70, y: 190 }, { x: 70, y: 210 }, { x: 70, y: 230 }, { x: 70, y: 250 }, { x: 70, y: 270 },
+                { x: 70, y: 330 }, { x: 70, y: 350 }, { x: 70, y: 370 }, { x: 70, y: 390 }, { x: 70, y: 410 }, { x: 70, y: 430 },
+                { x: 70, y: 490 }, { x: 70, y: 510 }, { x: 70, y: 530 }, { x: 70, y: 550 }, { x: 70, y: 570 },
+
+                { x: 510, y: 90 }, { x: 530, y: 90 }, { x: 550, y: 90 }, { x: 570, y: 90 }, { x: 590, y: 90 }, { x: 610, y: 90 }, { x: 630, y: 90 }, { x: 650, y: 90 }, { x: 670, y: 90 }, { x: 690, y: 90 }, { x: 710, y: 90 }, { x: 730, y: 90 }, { x: 750, y: 90 }, { x: 770, y: 90 }, { x: 790, y: 90 }, { x: 810, y: 90 }, { x: 830, y: 90 }, { x: 850, y: 90 }, { x: 870, y: 90 }, { x: 890, y: 90 }, { x: 910, y: 90 },
+                { x: 910, y: 70 }, { x: 910, y: 50 }, { x: 910, y: 30 },
 
                 { x: 590, y: 110 }, { x: 590, y: 130 }, { x: 590, y: 150 }, { x: 590, y: 170 }, { x: 590, y: 190 }, { x: 590, y: 210 }, { x: 590, y: 230 }, { x: 590, y: 250 }, { x: 590, y: 270 }, { x: 590, y: 290 }, { x: 590, y: 310 },
-                { x: 610, y: 230 }, { x: 630, y: 230 }, { x: 650, y: 230 }, { x: 670, y: 230 }, { x: 690, y: 230 }, { x: 710, y: 230 }, { x: 730, y: 230 }, { x: 750, y: 230 }, { x: 770, y: 230 }, { x: 790, y: 230 }, { x: 810, y: 230 },  { x: 830, y: 230 },
-                { x: 710, y: 110 }, { x: 710, y: 130 }, { x: 710, y: 150 }, 
+                { x: 610, y: 230 }, { x: 630, y: 230 }, { x: 650, y: 230 }, { x: 670, y: 230 }, { x: 690, y: 230 }, { x: 710, y: 230 }, { x: 730, y: 230 }, { x: 750, y: 230 }, { x: 770, y: 230 }, { x: 790, y: 230 }, { x: 810, y: 230 }, { x: 830, y: 230 },
+                { x: 710, y: 110 }, { x: 710, y: 130 }, { x: 710, y: 150 },
 
-                { x: 790, y: 170 }, { x: 810, y: 170 },  { x: 830, y: 170 }, { x: 850, y: 170 }, { x: 870, y: 170 }, { x: 890, y: 170 }, { x: 910, y: 170 }, { x: 930, y: 170 }, { x: 950, y: 170 }, { x: 970, y: 170 },
+                { x: 790, y: 170 }, { x: 810, y: 170 }, { x: 830, y: 170 }, { x: 850, y: 170 }, { x: 870, y: 170 }, { x: 890, y: 170 }, { x: 910, y: 170 }, { x: 930, y: 170 }, { x: 950, y: 170 }, { x: 970, y: 170 },
                 { x: 670, y: 250 }, { x: 670, y: 270 }, { x: 670, y: 290 }, { x: 670, y: 310 }, { x: 670, y: 330 }, { x: 670, y: 350 }, { x: 670, y: 370 },
 
-                { x: 790, y: 370 }, { x: 810, y: 370 },  { x: 830, y: 370 }, { x: 850, y: 370 }, { x: 870, y: 370 }, { x: 890, y: 370 }, { x: 910, y: 370 }, { x: 930, y: 370 }, { x: 950, y: 370 }, { x: 970, y: 370 },
+                { x: 790, y: 370 }, { x: 810, y: 370 }, { x: 830, y: 370 }, { x: 850, y: 370 }, { x: 870, y: 370 }, { x: 890, y: 370 }, { x: 910, y: 370 }, { x: 930, y: 370 }, { x: 950, y: 370 }, { x: 970, y: 370 },
 
                 { x: 90, y: 110 }, { x: 110, y: 110 }, { x: 130, y: 110 }, { x: 150, y: 110 }, { x: 170, y: 110 }, { x: 190, y: 110 },
-                { x: 190, y: 130 }, { x: 190, y: 150 }, { x: 210, y: 150 }, { x: 230, y: 150 }, 
-                { x: 90, y: 170 }, { x: 110, y: 170 }, { x: 130, y: 170 }, 
-                { x: 90, y: 270 }, { x: 110, y: 270 }, 
+                { x: 190, y: 130 }, { x: 190, y: 150 }, { x: 210, y: 150 }, { x: 230, y: 150 },
+                { x: 90, y: 170 }, { x: 110, y: 170 }, { x: 130, y: 170 },
+                { x: 90, y: 270 }, { x: 110, y: 270 },
                 { x: 170, y: 230 }, { x: 190, y: 230 }, { x: 210, y: 230 },
                 { x: 190, y: 250 }, { x: 190, y: 270 }, { x: 190, y: 290 }, { x: 190, y: 310 }, { x: 190, y: 330 },
                 { x: 90, y: 330 }, { x: 110, y: 330 }, { x: 130, y: 330 }, { x: 150, y: 330 }, { x: 170, y: 330 },
@@ -484,29 +487,29 @@
                 { x: 210, y: 450 }, { x: 210, y: 470 }, { x: 210, y: 490 }, { x: 210, y: 510 },
                 { x: 90, y: 490 }, { x: 110, y: 490 }, { x: 130, y: 490 }, { x: 150, y: 490 },
                 { x: 230, y: 510 }, { x: 230, y: 510 }, { x: 250, y: 510 }, { x: 270, y: 510 }, { x: 290, y: 510 },
-                { x: 290, y: 490 }, { x: 290, y: 470 }, { x: 290, y: 450 }, { x: 290, y: 430 }, { x: 290, y: 410 }, { x: 290, y: 390 }, { x: 290, y: 370 }, { x: 290, y: 350 }, { x: 290, y: 330 }, { x: 290, y: 310 }, 
-                { x: 290, y: 290 }, { x: 290, y: 270 }, { x: 290, y: 250 }, { x: 290, y: 230 }, { x: 290, y: 210 }, { x: 290, y: 190 }, { x: 290, y: 170 }, { x: 290, y: 150 }, 
+                { x: 290, y: 490 }, { x: 290, y: 470 }, { x: 290, y: 450 }, { x: 290, y: 430 }, { x: 290, y: 410 }, { x: 290, y: 390 }, { x: 290, y: 370 }, { x: 290, y: 350 }, { x: 290, y: 330 }, { x: 290, y: 310 },
+                { x: 290, y: 290 }, { x: 290, y: 270 }, { x: 290, y: 250 }, { x: 290, y: 230 }, { x: 290, y: 210 }, { x: 290, y: 190 }, { x: 290, y: 170 }, { x: 290, y: 150 },
 
-                { x: 250, y: 30 }, { x: 250, y: 50 }, { x: 250, y: 70 }, 
+                { x: 250, y: 30 }, { x: 250, y: 50 }, { x: 250, y: 70 },
                 { x: 270, y: 70 }, { x: 290, y: 70 }, { x: 310, y: 70 }, { x: 330, y: 70 }, { x: 350, y: 70 }, { x: 370, y: 70 },
-                { x: 370, y: 90 }, { x: 370, y: 110 }, { x: 370, y: 130 }, { x: 370, y: 150 }, { x: 370, y: 170 }, 
+                { x: 370, y: 90 }, { x: 370, y: 110 }, { x: 370, y: 130 }, { x: 370, y: 150 }, { x: 370, y: 170 },
                 { x: 370, y: 190 }, { x: 390, y: 190 }, { x: 410, y: 190 }, { x: 430, y: 190 }, { x: 450, y: 190 }, { x: 470, y: 190 }, { x: 490, y: 190 },
                 { x: 370, y: 270 }, { x: 390, y: 270 }, { x: 410, y: 270 }, { x: 430, y: 270 }, { x: 450, y: 270 }, { x: 470, y: 270 }, { x: 490, y: 270 },
                 { x: 390, y: 270 }, { x: 390, y: 290 }, { x: 390, y: 310 }, { x: 390, y: 330 }, { x: 390, y: 350 }, { x: 390, y: 370 },
                 { x: 390, y: 550 }, { x: 390, y: 530 }, { x: 390, y: 510 }, { x: 390, y: 490 }, { x: 390, y: 470 }, { x: 390, y: 450 },
 
-                { x: 390, y: 450 }, { x: 410, y: 450 }, { x: 430, y: 450 }, { x: 450, y: 450 }, { x: 470, y: 450 }, { x: 490, y: 450 }, 
-                { x: 490, y: 470 }, { x: 490, y: 490 }, 
-                
+                { x: 390, y: 450 }, { x: 410, y: 450 }, { x: 430, y: 450 }, { x: 450, y: 450 }, { x: 470, y: 450 }, { x: 490, y: 450 },
+                { x: 490, y: 470 }, { x: 490, y: 490 },
+
                 { x: 490, y: 290 }, { x: 490, y: 310 }, { x: 490, y: 330 }, { x: 490, y: 350 },
 
-                { x: 570, y: 450 }, { x: 590, y: 450 }, { x: 610, y: 450 }, { x: 630, y: 450 }, { x: 650, y: 450 }, { x: 670, y: 450 }, { x: 690, y: 450 }, { x: 690, y: 450 }, { x: 710, y: 450 }, { x: 730, y: 450 }, { x: 750, y: 450 }, { x: 770, y: 450 }, { x: 790, y: 450 }, 
-                { x: 630, y: 470 }, { x: 630, y: 490 }, { x: 630, y: 510 }, { x: 630, y: 530 }, { x: 630, y: 550 }, 
+                { x: 570, y: 450 }, { x: 590, y: 450 }, { x: 610, y: 450 }, { x: 630, y: 450 }, { x: 650, y: 450 }, { x: 670, y: 450 }, { x: 690, y: 450 }, { x: 690, y: 450 }, { x: 710, y: 450 }, { x: 730, y: 450 }, { x: 750, y: 450 }, { x: 770, y: 450 }, { x: 790, y: 450 },
+                { x: 630, y: 470 }, { x: 630, y: 490 }, { x: 630, y: 510 }, { x: 630, y: 530 }, { x: 630, y: 550 },
 
-                { x: 90, y: 570 }, { x: 110, y: 570 }, { x: 130, y: 570 }, { x: 150, y: 570 }, { x: 170, y: 570 }, { x: 190, y: 570 }, { x: 210, y: 570 }, { x: 230, y: 570 }, { x: 250, y: 570 }, { x: 270, y: 570 }, { x: 290, y: 570 }, { x: 310, y: 570 }, { x: 330, y: 570 }, { x: 350, y: 570 }, { x: 370, y: 570 }, { x: 390, y: 570 }, { x: 410, y: 570 }, { x: 430, y: 570 }, { x: 450, y: 570 }, { x: 470, y: 570 }, { x: 490, y: 570 }, { x: 510, y: 570 }, { x: 530, y: 570 }, { x: 550, y: 570 }, { x: 570, y: 570 }, { x: 590, y: 570 }, { x: 610, y: 570 }, { x: 630, y: 570 }, { x: 650, y: 570 }, { x: 670, y: 570 }, { x: 690, y: 570 }, { x: 710, y: 570 }, { x: 730, y: 570 }, { x: 750, y: 570 }, { x: 770, y: 570 }, { x: 790, y: 570 }, { x: 810, y: 570 },  { x: 830, y: 570 }, { x: 850, y: 570 }, { x: 870, y: 570 }, { x: 890, y: 570 }, { x: 910, y: 570 }, 
-                { x: 490, y: 590 }, { x: 490, y: 610 }, 
-                 
-                { x: 150, y: 470 }, { x: 150, y: 450 }, 
+                { x: 90, y: 570 }, { x: 110, y: 570 }, { x: 130, y: 570 }, { x: 150, y: 570 }, { x: 170, y: 570 }, { x: 190, y: 570 }, { x: 210, y: 570 }, { x: 230, y: 570 }, { x: 250, y: 570 }, { x: 270, y: 570 }, { x: 290, y: 570 }, { x: 310, y: 570 }, { x: 330, y: 570 }, { x: 350, y: 570 }, { x: 370, y: 570 }, { x: 390, y: 570 }, { x: 410, y: 570 }, { x: 430, y: 570 }, { x: 450, y: 570 }, { x: 470, y: 570 }, { x: 490, y: 570 }, { x: 510, y: 570 }, { x: 530, y: 570 }, { x: 550, y: 570 }, { x: 570, y: 570 }, { x: 590, y: 570 }, { x: 610, y: 570 }, { x: 630, y: 570 }, { x: 650, y: 570 }, { x: 670, y: 570 }, { x: 690, y: 570 }, { x: 710, y: 570 }, { x: 730, y: 570 }, { x: 750, y: 570 }, { x: 770, y: 570 }, { x: 790, y: 570 }, { x: 810, y: 570 }, { x: 830, y: 570 }, { x: 850, y: 570 }, { x: 870, y: 570 }, { x: 890, y: 570 }, { x: 910, y: 570 },
+                { x: 490, y: 590 }, { x: 490, y: 610 },
+
+                { x: 150, y: 470 }, { x: 150, y: 450 },
             ];
 
             // สร้างพุ่มไม้ในตำแหน่งที่กำหนด
@@ -517,51 +520,6 @@
                 wallBushes.push(bush);
             }
         }
-        /*
-        function createWallBushes() {
-            let bushWidth = 45;
-            let bushHeight = 45;
-
-            // กำหนดระยะห่างระหว่างพุ่มไม้
-            let bushSpacing = 45;  // ระยะห่างระหว่างพุ่มไม้
-
-            // คำนวณขนาดของเกม
-            let gameWidth = game.width;
-            let gameHeight = game.height;
-
-           // วางพุ่มไม้ที่ขอบบน (ขยับไปทางขวา)
-            for (let x = bushWidth; x < gameWidth - bushWidth; x += bushSpacing) {
-                let bush = new Sprite(game, "Sprite_Cactus_CH2.png", bushWidth, bushHeight);
-                bush.setSpeed(0);  // หยุดพุ่มไม้ไม่ให้ขยับ
-                bush.setPosition(x, 0);  // วางที่ขอบบน
-                wallBushes.push(bush);  // เพิ่มพุ่มไม้ไปยัง array wallBushes
-            }
-
-            // วางพุ่มไม้ที่ขอบล่าง (ขยับไปทางขวา)
-            for (let x = bushWidth; x < gameWidth - bushWidth; x += bushSpacing) {
-                let bush = new Sprite(game, "Sprite_Cactus_CH2.png", bushWidth, bushHeight);
-                bush.setSpeed(0);
-                bush.setPosition(x, gameHeight - bushHeight);  // วางที่ขอบล่าง
-                wallBushes.push(bush);
-            }
-
-            // วางพุ่มไม้ที่ขอบซ้าย (ขยับไปทางขวา)
-            for (let y = bushHeight; y < gameHeight - bushHeight; y += bushSpacing) {
-                let bush = new Sprite(game, "Sprite_Cactus_CH2.png", bushWidth, bushHeight);
-                bush.setSpeed(0);
-                bush.setPosition(0, y);  // วางที่ขอบซ้าย
-                wallBushes.push(bush);
-            }
-
-            // วางพุ่มไม้ที่ขอบขวา (ขยับไปทางขวา)
-            for (let y = bushHeight; y < gameHeight - bushHeight; y += bushSpacing) {
-                let bush = new Sprite(game, "Sprite_Cactus_CH2.png", bushWidth, bushHeight);
-                bush.setSpeed(0);
-                bush.setPosition(gameWidth - bushWidth, y);  // วางที่ขอบขวา
-                wallBushes.push(bush);
-            }
-        }*/
-
         function createBerryBushes() {
             let bushWidth = 30;
             let bushHeight = 30;
@@ -590,7 +548,7 @@
                 bush.setPosition(pos.x, pos.y);
                 berryBushes.push(bush); // เพิ่มเบอร์รี่ไปยัง array แยกต่างหากจาก wallBushes
             }
-            
+
         }
 
         // ฟังก์ชันนี้ใช้สร้างกล่องคะแนน
@@ -655,7 +613,7 @@
                     score++;  // เพิ่มแต้ม
                     i--;  // เนื่องจากการลบ item จาก array, ต้องลดค่า i ลง
                     updateScoreDisplay();  // อัปเดตคะแนนหลังจากเก็บเบอร์รี่
-                // ✅ ชนะเมื่อเก็บครบ 14 ลูก และเวลาเหลืออยู่
+                    // ✅ ชนะเมื่อเก็บครบ 14 ลูก และเวลาเหลืออยู่
                     if (score === 13 && timeLeft > 0) {
                         gameWin();
                     }
@@ -732,10 +690,10 @@
                 //{ text: "Next Stage", color: "blue", onClick: () => alert("Next stage coming soon!") }
                 //{ text: "Next Stage", color: "blue", link: "GameCH3.html" }
                 //{ text: "Next Stage", color: "blue", onClick: () => "GameCH3.html" }
-                { 
-                    text: "Next Stage", 
-                    color: "blue", 
-                    onClick: () => window.location.href = "Game2CH2.html" 
+                {
+                    text: "Next Stage",
+                    color: "blue",
+                    onClick: () => window.location.href = "Home.html"
                 }
             ]);
         }
@@ -795,53 +753,55 @@
         }
 
         function checkKeys() {
-                    // บันทึกตำแหน่งก่อนการเคลื่อนที่ (ใช้สำหรับตรวจชน)
-                    character.lastX = character.x;
-                    character.lastY = character.y;
+            // บันทึกตำแหน่งก่อนการเคลื่อนที่ (ใช้สำหรับตรวจชน)
+            character.lastX = character.x;
+            character.lastY = character.y;
 
-                    let moving = false; // เช็คว่ากำลังเดินอยู่ไหม
+            let moving = false; // เช็คว่ากำลังเดินอยู่ไหม
 
-                    if (keysDown[K_LEFT]) {
-                        character.setSpeed(10);
-                        character.setMoveAngle(270); // ไปซ้าย
-                        character.setCurrentCycle("left");
-                        moving = true;
-                    } 
-                    if (keysDown[K_RIGHT]) {
-                        character.setSpeed(10);
-                        character.setMoveAngle(90);  // ไปขวา
-                        character.setCurrentCycle("right");
-                        moving = true;
-                    } 
-                    if (keysDown[K_UP]) {
-                        character.setSpeed(10);
-                        character.setMoveAngle(0);   // ขึ้น
-                        character.setCurrentCycle("up");
-                        moving = true;
-                    } 
-                    if (keysDown[K_DOWN]) {
-                        character.setSpeed(10);
-                        character.setMoveAngle(180); // ลง
-                        character.setCurrentCycle("down");
-                        moving = true;
-                    }
+            if (keysDown[K_LEFT]) {
+                character.setSpeed(10);
+                character.setMoveAngle(270); // ไปซ้าย
+                character.setCurrentCycle("left");
+                moving = true;
+            }
+            if (keysDown[K_RIGHT]) {
+                character.setSpeed(10);
+                character.setMoveAngle(90);  // ไปขวา
+                character.setCurrentCycle("right");
+                moving = true;
+            }
+            if (keysDown[K_UP]) {
+                character.setSpeed(10);
+                character.setMoveAngle(0);   // ขึ้น
+                character.setCurrentCycle("up");
+                moving = true;
+            }
+            if (keysDown[K_DOWN]) {
+                character.setSpeed(10);
+                character.setMoveAngle(180); // ลง
+                character.setCurrentCycle("down");
+                moving = true;
+            }
 
-                    if (moving) {
-                        character.playAnimation(); // กำลังเดินอยู่ เล่นแอนิเมชัน
-                    } else {
-                        character.setSpeed(0);       // ไม่กดปุ่มอะไร หยุดเดิน
-                        character.pauseAnimation();  // หยุดแอนิเมชัน
-                    }
-                }
-                
-                window.onresize = function () {
-                    let newWidth = window.innerWidth;
-                    let newHeight = window.innerHeight;
-                    game.setSize(newWidth, newHeight);
-                    background.setPosition(newWidth / 2, newHeight / 2);
-                };
+            if (moving) {
+                character.playAnimation(); // กำลังเดินอยู่ เล่นแอนิเมชัน
+            } else {
+                character.setSpeed(0);       // ไม่กดปุ่มอะไร หยุดเดิน
+                character.pauseAnimation();  // หยุดแอนิเมชัน
+            }
+        }
+
+        window.onresize = function () {
+            let newWidth = window.innerWidth;
+            let newHeight = window.innerHeight;
+            game.setSize(newWidth, newHeight);
+            background.setPosition(newWidth / 2, newHeight / 2);
+        };
     </script>
 </head>
+
 <body onload="init()">
 </body>
+
 </html>
