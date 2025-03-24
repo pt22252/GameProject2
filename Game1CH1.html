@@ -259,7 +259,7 @@
             gameWon = true;  // ตั้งค่าให้เกมชนะแล้ว
             clearInterval(timer);
             setTimeout(() => {
-                createCard("คุณชนะแล้ว!", [
+                createCard("ชนะแล้ว!", [
                     { text: "Restart", color: "red", onClick: restartGame },
                     { text: "Next Stage", color: "blue", onClick: () => window.location.href = "Game1CH2.html" }
                 ]);
