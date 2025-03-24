@@ -38,15 +38,8 @@
         var berrySpeed = 0.2; // ความเร็วในการเคลื่อนไหว
         var gameStarted = false;
 
+
         function init() {
-            /*game = new Scene();
-            game.setSize(window.innerWidth, window.innerHeight);
-
-            // พื้นหลัง
-            background = new Sprite(game, "BG2.png", window.innerWidth, window.innerHeight);
-            background.setSpeed(0, 0);
-            background.setPosition(window.innerWidth / 2, window.innerHeight / 2);*/
-
             game = new Scene();
             let gameWidth = 1000;  // กำหนดขนาดเริ่มต้นของเกม
             let gameHeight = 643;
@@ -78,70 +71,6 @@
 
             game.start();
         }
-
-        /*function showInstructions() {
-            createCard("Chapter 1 \nวิธีการเล่น", [
-                { text: "Ready", color: "green", onClick: startGame }
-            ], "- บังคับ Slime ด้วยปุ่มลูกศร\n- หลีกเลี่ยงพุ่มไม้\n- ไปถึงพุ่มเบอรี่ก่อนหมดเวลา\n- เก็บพุ่มเบอรี่เพื่อชนะ");
-        }
-
-        function createCard(title, buttons, message = "", transparent = false) {
-                    let oldCard = document.getElementById("gameCard");
-                    if (oldCard) oldCard.remove();
-
-                    let card = document.createElement("div");
-                    card.id = "gameCard";
-
-                    // คำนวณตำแหน่งกลางของเกม
-                    let gameWidth = game.width;  // ขนาดของ canvas (game)
-                    let gameHeight = game.height; // ขนาดของ canvas (game)
-
-                    card.style = `
-                            position: absolute;
-                            top: ${gameHeight / 2 - 150}px;   
-                            left: ${gameWidth / 2 - 150}px;   
-                            width: 300px;
-                            padding: 20px;
-                            background: rgba(255, 255, 255, 0.8);
-                            text-align: center;
-                            border-radius: 10px;
-                            box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
-                            z-index: 1000;  
-                        `;
-
-                    let titleText = document.createElement("h2");
-                    titleText.innerText = title;
-                    card.appendChild(titleText);
-
-                    if (message) {
-                        let msgText = document.createElement("p");
-                        msgText.innerText = message;
-                        card.appendChild(msgText);
-                    }
-
-                    buttons.forEach(btnData => {
-                        let button = document.createElement("button");
-                        button.innerText = btnData.text;
-                        button.onclick = () => {
-                            card.remove();
-                            btnData.onClick();
-                        };
-                        button.style = `
-                                margin: 10px;
-                                padding: 10px 20px;
-                                border: none;
-                                border-radius: 5px;
-                                cursor: pointer;
-                                font-size: 16px;
-                                background: ${btnData.color};
-                                color: white;
-                            `;
-                        card.appendChild(button);
-                    });
-
-                    document.body.appendChild(card);
-        }*/
-
         function createTimerDisplay() {
             timerDisplay = document.createElement("div");
             timerDisplay.style = `position:absolute; 
@@ -222,50 +151,6 @@
                 wallBushes.push(bush);
             }
         }
-        /*
-        function createWallBushes() {
-            let bushWidth = 45;
-            let bushHeight = 45;
-
-            // กำหนดระยะห่างระหว่างพุ่มไม้
-            let bushSpacing = 45;  // ระยะห่างระหว่างพุ่มไม้
-
-            // คำนวณขนาดของเกม
-            let gameWidth = game.width;
-            let gameHeight = game.height;
-
-           // วางพุ่มไม้ที่ขอบบน (ขยับไปทางขวา)
-            for (let x = bushWidth; x < gameWidth - bushWidth; x += bushSpacing) {
-                let bush = new Sprite(game, "Sprite_Cactus_CH2.png", bushWidth, bushHeight);
-                bush.setSpeed(0);  // หยุดพุ่มไม้ไม่ให้ขยับ
-                bush.setPosition(x, 0);  // วางที่ขอบบน
-                wallBushes.push(bush);  // เพิ่มพุ่มไม้ไปยัง array wallBushes
-            }
-
-            // วางพุ่มไม้ที่ขอบล่าง (ขยับไปทางขวา)
-            for (let x = bushWidth; x < gameWidth - bushWidth; x += bushSpacing) {
-                let bush = new Sprite(game, "Sprite_Cactus_CH2.png", bushWidth, bushHeight);
-                bush.setSpeed(0);
-                bush.setPosition(x, gameHeight - bushHeight);  // วางที่ขอบล่าง
-                wallBushes.push(bush);
-            }
-
-            // วางพุ่มไม้ที่ขอบซ้าย (ขยับไปทางขวา)
-            for (let y = bushHeight; y < gameHeight - bushHeight; y += bushSpacing) {
-                let bush = new Sprite(game, "Sprite_Cactus_CH2.png", bushWidth, bushHeight);
-                bush.setSpeed(0);
-                bush.setPosition(0, y);  // วางที่ขอบซ้าย
-                wallBushes.push(bush);
-            }
-
-            // วางพุ่มไม้ที่ขอบขวา (ขยับไปทางขวา)
-            for (let y = bushHeight; y < gameHeight - bushHeight; y += bushSpacing) {
-                let bush = new Sprite(game, "Sprite_Cactus_CH2.png", bushWidth, bushHeight);
-                bush.setSpeed(0);
-                bush.setPosition(gameWidth - bushWidth, y);  // วางที่ขอบขวา
-                wallBushes.push(bush);
-            }
-        }*/
 
         function createBerryBushes() {
             let bushWidth = 40;
