@@ -718,6 +718,13 @@
             ]);
         }
 
+        function gameOver2() {
+            game.stop();  // หยุดเกม loop ไม่ให้ update
+            createGameCard("Game Over!!!", [
+                { text: "Restart", color: "red", onClick: () => location.reload() }
+            ]);
+        }
+
         function gameWin() {
             clearInterval(timer);
             createGameCard("คุณชนะแล้ว!", [

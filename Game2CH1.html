@@ -337,6 +337,7 @@
 
             // ตรวจสอบการชนกับเบอร์รี่
             for (let i = 0; i < berryBushes.length; i++) {
+                let berryPadding = 10;
                 let berry = berryBushes[i];
                 let berryLeft = berry.x - berry.width / 2;
                 let berryRight = berry.x + berry.width / 2;
@@ -405,7 +406,7 @@
 
         function gameOver() {
             clearInterval(timer);
-            createGameCard("คุณแพ้แล้ว!", [
+            createGameCard("Time's up!!!", [
                 { text: "Restart", color: "red", onClick: () => location.reload() }
             ]);
         }

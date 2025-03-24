@@ -28,13 +28,19 @@
         var wallBushes = [];
         var berryBush;
         var timer;
-        var timeLeft = 30;
+        var timeLeft = 60;
         var timerDisplay;
         var score = 0; // แต้มเริ่มต้น
         var berryBushes = []; // เก็บพุ่มเบอร์รี่แยกจาก wallBushes
         var berryDirection = 1; // กำหนดทิศทางการเคลื่อนไหว (1 = ขึ้น, -1 = ลง)
         var berrySpeed = 0.2; // ความเร็วในการเคลื่อนไหว
         var gameStarted = false;
+        var currentWaypointIndex = 0;
+        var enemy;
+        var enemySpeed = 6; // ความเร็วการเคลื่อนที่
+        var currentWaypointIndexII = 0;
+        var enemyII;
+        var enemyIISpeed = 10; // ความเร็วการเคลื่อนที่
 
         function init() {
 
@@ -60,6 +66,26 @@
             character.pauseAnimation();
             character.setCurrentCycle("down");
 
+            // monster
+            enemy = new Sprite(game, "Sprite_Monster.png", 100, 100);
+            enemy.loadAnimation(634, 317, 79, 79);
+            enemy.generateAnimationCycles();
+            enemy.setAnimationSpeed(500);
+            enemy.setPosition(640, 60);
+            enemy.setSpeed(0);
+            enemy.playAnimation();
+            enemy.pauseAnimation();
+
+            // monster
+            enemyII = new Sprite(game, "Sprite_Monster.png", 64, 64);
+            enemyII.loadAnimation(634, 317, 79, 79);
+            enemyII.generateAnimationCycles();
+            enemyII.setAnimationSpeed(500);
+            enemyII.setPosition(60, 400);
+            enemyII.setSpeed(0);
+            enemyII.playAnimation();
+            enemyII.pauseAnimation();
+
             createWallBushes();// พุ่มไม้
             createBerryBushes();
             createTimerDisplay();
@@ -68,6 +94,91 @@
             //showInstructions();
 
             game.start();
+        }
+
+        var enemyWaypoints = [
+            { x: 640, y: 60 },
+            { x: 640, y: 160 }
+        ];
+
+        function moveEnemy() {
+            if (!enemy) return;
+
+            var target = enemyWaypoints[currentWaypointIndex];
+            
+            var dx = target.x - enemy.x;
+            var dy = target.y - enemy.y;
+            
+            var distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < enemySpeed) {
+                // ถึงเป้าหมายแล้ว ไปจุดถัดไป
+                currentWaypointIndex = (currentWaypointIndex + 1) % enemyWaypoints.length;
+            } else {
+                // เคลื่อนที่ทีละนิด
+                enemy.setPosition(enemy.x + (dx / distance) * enemySpeed, enemy.y + (dy / distance) * enemySpeed);
+            }
+        }
+
+        var enemyIIWaypoints = [
+            { x: 60, y: 400 }, // จุดเริ่มต้น (ซ้าย)
+            { x: 420, y: 400 }  // จุดปลาย (ขวา)
+        ];
+
+        function moveEnemyII() {
+            if (!enemyII) return;
+
+            var target = enemyIIWaypoints[currentWaypointIndexII];
+            
+            var dx = target.x - enemyII.x;
+            var dy = target.y - enemyII.y;
+            
+            var distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < enemyIISpeed) {
+                // ถึงเป้าหมายแล้ว ไปจุดถัดไป
+                currentWaypointIndexII = (currentWaypointIndexII + 1) % enemyIIWaypoints.length;
+            } else {
+                // เคลื่อนที่ทีละนิด
+                enemyII.setPosition(enemyII.x + (dx / distance) * enemyIISpeed, enemyII.y + (dy / distance) * enemyIISpeed);
+            }
+        }
+
+        // เพิ่ม padding ให้กับตัวละคร
+        let characterPadding = 10;
+
+        // เพิ่ม padding ให้กับศัตรู
+        let enemyPadding = 10; 
+
+        // ตรวจสอบการชนกับศัตรู
+        function checkEnemyCollision() {
+            let charLeft = character.x - character.width / 40 - characterPadding;
+            let charRight = character.x + character.width / 40 + characterPadding;
+            let charTop = character.y - character.height / 40 - characterPadding;
+            let charBottom = character.y + character.height / 40 + characterPadding;
+
+            // เพิ่ม padding ให้กับศัตรู
+            let enemyLeft = enemy.x - enemy.width / 4 - enemyPadding;
+            let enemyRight = enemy.x + enemy.width / 4 + enemyPadding;
+            let enemyTop = enemy.y - enemy.height / 4 - enemyPadding;
+            let enemyBottom = enemy.y + enemy.height / 4 + enemyPadding;
+
+            // ตรวจสอบการชนระหว่างตัวละครกับศัตรูตัวแรก
+            if (charRight > enemyLeft && charLeft < enemyRight && charBottom > enemyTop && charTop < enemyBottom) {
+                console.log("Collision with enemy");
+                gameOver2(); // เรียกฟังก์ชัน gameOver เมื่อชน
+            }
+
+            // ตรวจสอบการชนกับศัตรูตัวที่สอง
+            let enemyIILeft = enemyII.x - enemyII.width / 4 - enemyPadding;
+            let enemyIIRight = enemyII.x + enemyII.width / 4 + enemyPadding;
+            let enemyIITop = enemyII.y - enemyII.height / 4 - enemyPadding;
+            let enemyIIBottom = enemyII.y + enemyII.height / 4 + enemyPadding;
+
+            if (charRight > enemyIILeft && charLeft < enemyIIRight && charBottom > enemyIITop && charTop < enemyIIBottom) {
+                console.log("Collision with enemyII");
+                gameOver2(); // เรียกฟังก์ชัน gameOver เมื่อชน
+            }
         }
 
         function createTimerDisplay() {
@@ -313,7 +424,15 @@
 
         function gameOver() {
             clearInterval(timer);
+            game.stop();  // หยุดเกม loop ไม่ให้ update
             createGameCard("คุณแพ้แล้ว!", [
+                { text: "Restart", color: "red", onClick: () => location.reload() }
+            ]);
+        }
+
+        function gameOver2() {
+            game.stop();  // หยุดเกม loop ไม่ให้ update
+            createGameCard("Game Over!!!", [
                 { text: "Restart", color: "red", onClick: () => location.reload() }
             ]);
         }
@@ -339,6 +458,15 @@
             background.update();
             character.update(); // อัปเดตตัวละคร
             checkCollision();   // ตรวจชนกับพุ่มเบอร์รี่
+            checkEnemyCollision(); // ตรวจสอบชนศัตรู
+
+            // เคลื่อนที่ enemy ตามจุดที่กำหนด
+            moveEnemy();
+            moveEnemyII();
+
+            // อัปเดตและวาดศัตรู
+            enemy.update();
+            enemyII.update();
 
             // อัปเดตพุ่มไม้ทั้งหมด (พุ่มไม้ไม่หาย)
             for (let bush of wallBushes) {
