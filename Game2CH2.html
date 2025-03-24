@@ -18,6 +18,7 @@
             align-items: center;
             background-color: black;
         }
+
         canvas {
             display: block;
         }
@@ -42,6 +43,11 @@
         var currentWaypointIndexII = 0;
         var enemyII;
         var enemyIISpeed = 10; // ความเร็วการเคลื่อนที่
+        var gameAudio;
+        var eatSound = new Audio("eat.mp3");
+        eatSound.volume = 0.6; // ปรับระดับเสียง (0.0 - 1.0)
+        var hitSound = new Audio("hit.mp3");
+        hitSound.volume = 0.6; // ปรับระดับเสียง (0.0 - 1.0)
 
         function init() {
 
@@ -55,6 +61,11 @@
             background = new Sprite(game, "BG3.png", gameWidth, gameHeight);
             background.setSpeed(0, 0);
             background.setPosition(gameWidth / 2, gameHeight / 2);
+
+            gameAudio = new Audio("sound_game.mp3"); // โหลดไฟล์เสียง
+            gameAudio.loop = true; // เล่นซ้ำอัตโนมัติ
+            gameAudio.volume = 1.0; // ปรับระดับเสียง (0.0 - 1.0)
+
 
             // ตัวละคร
             character = new Sprite(game, "Sprite_Slime_CH2.png", 79, 79);
@@ -163,6 +174,7 @@
 
             // ตรวจสอบการชนระหว่างตัวละครกับศัตรูตัวแรก
             if (charRight > enemyLeft && charLeft < enemyRight && charBottom > enemyTop && charTop < enemyBottom) {
+                hitSound.play(); // ✅ เล่นเสียงเมื่อชนพุ่มไม้
                 console.log("Collision with enemy");
                 gameOver2(); // เรียกฟังก์ชัน gameOver เมื่อชน
             }
@@ -174,6 +186,7 @@
             let enemyIIBottom = enemyII.y + enemyII.height / 4 + enemyPadding;
 
             if (charRight > enemyIILeft && charLeft < enemyIIRight && charBottom > enemyIITop && charTop < enemyIIBottom) {
+                hitSound.play(); // ✅ เล่นเสียงเมื่อชนพุ่มไม้
                 console.log("Collision with enemyII");
                 gameOver2(); // เรียกฟังก์ชัน gameOver เมื่อชน
             }
@@ -181,7 +194,7 @@
 
         function startGame() {
             gameStarted = true;
-            //gameAudio.play(); // เริ่มเล่นเสียงเมื่อเกมเริ่ม
+            gameAudio.play(); // เริ่มเล่นเสียงเมื่อเกมเริ่ม
             startTimer();
             game.start();
         }
@@ -213,7 +226,7 @@
             let card = document.createElement("div");
             card.id = "gameCard";
 
-            let canvasRect = game.canvas.getBoundingClientRect(); 
+            let canvasRect = game.canvas.getBoundingClientRect();
 
             let cardWidth = 300;
             let cardHeight = 200;
@@ -263,7 +276,7 @@
             });
 
             document.body.appendChild(card);
-        } 
+        }
 
         function createTimerDisplay() {
             timerDisplay = document.createElement("div");
@@ -280,7 +293,7 @@
                                 box-shadow: 0 0 20px rgba(0, 0, 0, 0.8); 
                                 `;
             document.body.appendChild(timerDisplay);
-            updateTimerPosition(); 
+            updateTimerPosition();
             updateTimerDisplay();
         }
 
@@ -304,8 +317,8 @@
             }, 1000);
         }
 
-         // ฟังก์ชันนี้ใช้สร้างกล่องคะแนน
-         function createScoreDisplay() {
+        // ฟังก์ชันนี้ใช้สร้างกล่องคะแนน
+        function createScoreDisplay() {
             // สร้าง div สำหรับคะแนน
             scoreDisplay = document.createElement("div");
             scoreDisplay.style = `position:absolute;
@@ -440,6 +453,7 @@
                 let bushBottom = bush.y + bush.height / 2 - bushPadding;
 
                 if (charRight > bushLeft && charLeft < bushRight && charBottom > bushTop && charTop < bushBottom) {
+                    hitSound.play(); // ✅ เล่นเสียงเมื่อชนพุ่มไม้
                     character.setPosition(character.lastX, character.lastY);
                     character.setSpeed(0);
                     return;
@@ -456,6 +470,7 @@
 
                 if (charRight > berryLeft && charLeft < berryRight && charBottom > berryTop && charTop < berryBottom) {
                     // ถ้าชนเบอร์รี่, ให้ลบเบอร์รี่จาก array
+                    eatSound.play();  // ✅ เล่นเสียงเมื่อชนพุ่มเบอรี่
                     berryBushes.splice(i, 1);  // ลบเบอร์รี่ออกจาก array
                     score++;  // เพิ่มแต้ม
                     i--;  // เนื่องจากการลบ item จาก array, ต้องลดค่า i ลง
@@ -487,7 +502,8 @@
             clearInterval(timer);
             createGameCard("คุณชนะแล้ว!", [
                 { text: "Restart", color: "green", onClick: () => location.reload() },
-                { text: "Next Stage", color: "blue", onClick: () => window.location.href = "Game2CH3.html"
+                {
+                    text: "Next Stage", color: "blue", onClick: () => window.location.href = "Game2CH3.html"
                 }
             ]);
         }
