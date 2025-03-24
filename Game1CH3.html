@@ -255,7 +255,7 @@
             gameWon = true;  // ตั้งค่าให้เกมชนะแล้ว
             clearInterval(timer);
             setTimeout(() => {
-                createCard("คุณชนะแล้ว!", [
+                createCard("โฮ่ะๆเจ๋งนี่!", [
                     { text: "Restart", color: "red", onClick: restartGame },
                     { text: "Next Stage", color: "blue", onClick: () => window.location.href = "Game1CH4.html" }
                 ]);
@@ -334,30 +334,27 @@
         function checkKeys() {
             if (keysDown[K_LEFT]) {
                 character.setSpeed(10);
-                character.playAnimation();
                 character.setMoveAngle(270);
                 character.setCurrentCycle("left");
+                character.playAnimation();
             } else if (keysDown[K_RIGHT]) {
                 character.setSpeed(10);
-                character.playAnimation();
                 character.setMoveAngle(90);
                 character.setCurrentCycle("right");
+                character.playAnimation();
             } else if (keysDown[K_UP]) {
                 character.setSpeed(10);
-                character.playAnimation();
                 character.setMoveAngle(0);
                 character.setCurrentCycle("up");
+                character.playAnimation();
             } else if (keysDown[K_DOWN]) {
                 character.setSpeed(10);
-                character.playAnimation();
                 character.setMoveAngle(180);
                 character.setCurrentCycle("down");
+                character.playAnimation();
             } else if (keysDown[K_SPACE]) {
                 character.setSpeed(0);
-                character.pauseAnimation();
-                character.setCurrentCycle("down");
-            } else {
-                character.setSpeed(0);
+                character.pauseAnimation();  // หยุดอนิเมชันเมื่อกด Spacebar
             }
         }
 
